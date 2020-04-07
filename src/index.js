@@ -1,14 +1,20 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import './index.css';
-import App from './App';
+import { ApolloProvider } from 'react-apollo-hooks';
+import { BrowserRouter as Router } from 'react-router-dom';
+import Routes from './Routes';
+import './index.scss';
+import client from './graphql';
 import * as serviceWorker from './serviceWorker';
+import '@fortawesome/fontawesome-free/css/all.min.css';
 
 ReactDOM.render(
-  <React.StrictMode>
-    <App />
-  </React.StrictMode>,
-  document.getElementById('root')
+  <ApolloProvider client={client}>
+    <Router>
+      <Routes />
+    </Router>
+  </ApolloProvider>,
+  document.getElementById('wrapper')
 );
 
 // If you want your app to work offline and load faster, you can change
