@@ -2,11 +2,11 @@ import React from 'react';
 import Sidebar from './Sidebar';
 import Head from './Head';
 
-function Layout(){
+function Layout({ title, children }){
     return (
         <>
         <Sidebar />
-        <Head />
+        <Head title={title} children={children} />
         </>
     );
 }

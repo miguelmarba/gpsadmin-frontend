@@ -4,7 +4,9 @@ import Layout from '../common/Layout';
 function Home() {
     return (
     <>
-    <Layout />
+    <Layout title="Home" >
+        <p>Aqui va la página principal</p>
+    </Layout>
     </>
     );
 }

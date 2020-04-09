@@ -1,8 +1,11 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
-// import React, { useState } from 'react';
+import { UncontrolledCollapse, Collapse } from 'reactstrap';
 
 function Sidebar(){
+    const [isOpen, setIsOpen] = useState(false);
+
+    const toggle = () => setIsOpen(!isOpen);
     return (
         <>
             <ul className="navbar-nav bg-gradient-primary sidebar sidebar-dark accordion" id="accordionSidebar">
@@ -29,17 +32,17 @@ function Sidebar(){
                 </div>
                 {/* Nav Item - Pages Collapse Menu */}
                 <li className="nav-item">
-                    <a className="nav-link collapsed" href="#collapseTwo" data-toggle="collapse" data-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
-                    <i className="fas fa-fw fa-cog"></i>
-                    <span>Components</span>
+                    <a className="nav-link collapsed" onClick={toggle} href="#Componentsclear">
+                        <i className="fas fa-fw fa-cog"></i>
+                        <span>Components</span>
                     </a>
-                    <div id="collapseTwo" className="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
-                    <div className="bg-white py-2 collapse-inner rounded">
-                        <h6 className="collapse-header">Custom Components:</h6>
-                        <Link className="collapse-item" to="/">Buttons</Link>
-                        <Link className="collapse-item" to="/">Cards</Link>
-                    </div>
-                    </div>
+                    <Collapse isOpen={isOpen} className="collapse">
+                        <div className="bg-white py-2 collapse-inner rounded">
+                            <h6 className="collapse-header">Custom Components:</h6>
+                            <Link className="collapse-item" to="/">Buttons</Link>
+                            <Link className="collapse-item" to="/">Cards</Link>
+                        </div>
+                    </Collapse>
                 </li>
 
                 {/* Nav Item - Utilities Collapse Menu */}

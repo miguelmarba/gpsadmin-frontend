@@ -1,9 +1,11 @@
-import React from 'react';
+import React, { useState } from 'react';
 import Topbar from './Topbar';
 import Footer from './Footer';
 import PageContent from './PageContent';
 
-function Head(){
+function Head( props ){
+    const [title] = useState(props.title);
+    const [children] = useState(props.children);
     return (
         <>
         <div id="content-wrapper" className="d-flex flex-column">
@@ -13,7 +15,7 @@ function Head(){
                 <Topbar ></Topbar>
             </div>
             {/* Begin Page Content */}
-            <PageContent title="Usuarios" />
+            <PageContent title={title} children={children}/>
             {/* Footer */}
             <Footer ></Footer>
         </div>

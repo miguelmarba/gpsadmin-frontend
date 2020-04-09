@@ -4,6 +4,7 @@ import { Link } from 'react-router-dom';
 
 function PageContent(props){
     const [title] = useState(props.title);
+    const [children] = useState(props.children);
     return (
         <>
         <div className="container-fluid">
@@ -14,6 +15,7 @@ function PageContent(props){
                     <i className="fas fa-download fa-sm text-white-50"></i> Generate Report
                 </Link>
             </div>
+            { children }
         </div>
         </>
     );
