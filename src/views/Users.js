@@ -1,40 +1,36 @@
 import React from 'react';
 import Layout from '../common/Layout';
 
+import { AgGridReact } from 'ag-grid-react';
+import 'ag-grid-community/dist/styles/ag-grid.css';
+import 'ag-grid-community/dist/styles/ag-theme-balham.css';
+
 function Users() {
+    const columnDefs = [{
+        headerName: "Make", field: "make", sortable: true, filter: true
+      }, {
+        headerName: "Model", field: "model", sortable: true, filter: true
+      }, {
+        headerName: "Price", field: "price", sortable: true, filter: true
+      }];
+
+      const rowData = [{
+        make: "Toyota", model: "Celica", price: 35000
+      }, {
+        make: "Ford", model: "Mondeo", price: 32000
+      }, {
+        make: "Porsche", model: "Boxter", price: 72000
+      }];
+
     return (
     <>
     <Layout title="Usuarios" >
-    <table class="table">
-  <thead>
-    <tr>
-      <th scope="col">#</th>
-      <th scope="col">First</th>
-      <th scope="col">Last</th>
-      <th scope="col">Handle</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <th scope="row">1</th>
-      <td>Mark</td>
-      <td>Otto</td>
-      <td>@mdo</td>
-    </tr>
-    <tr>
-      <th scope="row">2</th>
-      <td>Jacob</td>
-      <td>Thornton</td>
-      <td>@fat</td>
-    </tr>
-    <tr>
-      <th scope="row">3</th>
-      <td>Larry</td>
-      <td>the Bird</td>
-      <td>@twitter</td>
-    </tr>
-  </tbody>
-</table>
+        <div className="ag-theme-balham" style={{ height: '500px', width: '600px' }} >
+            <AgGridReact
+                columnDefs={columnDefs}
+                rowData={rowData}>
+            </AgGridReact>
+        </div>
     </Layout>
     </>
     );

@@ -13,9 +13,9 @@ function Head( props ){
             <div id="content">
                 {/* Topbar */}
                 <Topbar ></Topbar>
+                {/* Begin Page Content */}
+                <PageContent title={title} children={children}/>
             </div>
-            {/* Begin Page Content */}
-            <PageContent title={title} children={children}/>
             {/* Footer */}
             <Footer ></Footer>
         </div>
