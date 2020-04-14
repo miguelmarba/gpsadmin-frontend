@@ -37,7 +37,7 @@ function NavBar(){
                     <h6 className="dropdown-header">
                     Alerts Center
                     </h6>
-                    <a className="dropdown-item d-flex align-items-center" href="#">
+                    <a className="dropdown-item d-flex align-items-center" href="#a">
                     <div className="mr-3">
                         <div className="icon-circle bg-primary">
                         <i className="fas fa-file-alt text-white"></i>
@@ -48,7 +48,7 @@ function NavBar(){
                         <span className="font-weight-bold">A new monthly report is ready to download!</span>
                     </div>
                     </a>
-                    <a className="dropdown-item d-flex align-items-center" href="#">
+                    <a className="dropdown-item d-flex align-items-center" href="#b">
                     <div className="mr-3">
                         <div className="icon-circle bg-success">
                         <i className="fas fa-donate text-white"></i>
@@ -59,7 +59,7 @@ function NavBar(){
                         $290.29 has been deposited into your account!
                     </div>
                     </a>
-                    <a className="dropdown-item d-flex align-items-center" href="#">
+                    <a className="dropdown-item d-flex align-items-center" href="#c">
                     <div className="mr-3">
                         <div className="icon-circle bg-warning">
                         <i className="fas fa-exclamation-triangle text-white"></i>
@@ -70,13 +70,13 @@ function NavBar(){
                         Spending Alert: We've noticed unusually high spending for your account.
                     </div>
                     </a>
-                    <a className="dropdown-item text-center small text-gray-500" href="#">Show All Alerts</a>
+                    <a className="dropdown-item text-center small text-gray-500" href="#d">Show All Alerts</a>
                 </div>
                 </li>
 
                 {/*  Nav Item - Messages */}
                 <li className="nav-item dropdown no-arrow mx-1">
-                <a className="nav-link dropdown-toggle" href="#" id="messagesDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                <a className="nav-link dropdown-toggle" href="#d" id="messagesDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                     <i className="fas fa-envelope fa-fw"></i>
                     {/*  Counter - Messages */}
                     <span className="badge badge-danger badge-counter">7</span>
@@ -86,7 +86,7 @@ function NavBar(){
                     <h6 className="dropdown-header">
                     Message Center
                     </h6>
-                    <a className="dropdown-item d-flex align-items-center" href="#">
+                    <a className="dropdown-item d-flex align-items-center" href="#e">
                     <div className="dropdown-list-image mr-3">
                         <img className="rounded-circle" src="https://source.unsplash.com/fn_BT9fwg_E/60x60" alt="" />
                         <div className="status-indicator bg-success"></div>
@@ -96,7 +96,7 @@ function NavBar(){
                         <div className="small text-gray-500">Emily Fowler · 58m</div>
                     </div>
                     </a>
-                    <a className="dropdown-item d-flex align-items-center" href="#">
+                    <a className="dropdown-item d-flex align-items-center" href="#f">
                     <div className="dropdown-list-image mr-3">
                         <img className="rounded-circle" src="https://source.unsplash.com/AU4VPcFN4LE/60x60" alt="" />
                         <div className="status-indicator"></div>
@@ -106,7 +106,7 @@ function NavBar(){
                         <div className="small text-gray-500">Jae Chun · 1d</div>
                     </div>
                     </a>
-                    <a className="dropdown-item d-flex align-items-center" href="#">
+                    <a className="dropdown-item d-flex align-items-center" href="#g">
                     <div className="dropdown-list-image mr-3">
                         <img className="rounded-circle" src="https://source.unsplash.com/CS2uCrpNzJY/60x60" alt="" />
                         <div className="status-indicator bg-warning"></div>
@@ -116,7 +116,7 @@ function NavBar(){
                         <div className="small text-gray-500">Morgan Alvarez · 2d</div>
                     </div>
                     </a>
-                    <a className="dropdown-item d-flex align-items-center" href="#">
+                    <a className="dropdown-item d-flex align-items-center" href="#h">
                     <div className="dropdown-list-image mr-3">
                         <img className="rounded-circle" src="https://source.unsplash.com/Mv9hjnEUHR4/60x60" alt="" />
                         <div className="status-indicator bg-success"></div>
@@ -126,7 +126,7 @@ function NavBar(){
                         <div className="small text-gray-500">Chicken the Dog · 2w</div>
                     </div>
                     </a>
-                    <a className="dropdown-item text-center small text-gray-500" href="#">Read More Messages</a>
+                    <a className="dropdown-item text-center small text-gray-500" href="#i">Read More Messages</a>
                 </div>
                 </li>
 
@@ -134,26 +134,26 @@ function NavBar(){
 
                 {/*  Nav Item - User Information */}
                 <li className="nav-item dropdown no-arrow">
-                <a className="nav-link dropdown-toggle" href="#" id="userDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                <a className="nav-link dropdown-toggle" href="#j" id="userDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                     <span className="mr-2 d-none d-lg-inline text-gray-600 small">Miguel Ángel</span>
-                    <img className="img-profile rounded-circle" src="https://source.unsplash.com/QAB-WJcbgJk/60x60" />
+                    <img className="img-profile rounded-circle" src="https://source.unsplash.com/QAB-WJcbgJk/60x60" alt="Perfil" />
                 </a>
                 {/*  Dropdown - User Information */}
                 <div className="dropdown-menu dropdown-menu-right shadow animated--grow-in" aria-labelledby="userDropdown">
-                    <a className="dropdown-item" href="#">
+                    <a className="dropdown-item" href="#k">
                     <i className="fas fa-user fa-sm fa-fw mr-2 text-gray-400"></i>
                     Profile
                     </a>
-                    <a className="dropdown-item" href="#">
+                    <a className="dropdown-item" href="#l">
                     <i className="fas fa-cogs fa-sm fa-fw mr-2 text-gray-400"></i>
                     Settings
                     </a>
-                    <a className="dropdown-item" href="#">
+                    <a className="dropdown-item" href="#m">
                     <i className="fas fa-list fa-sm fa-fw mr-2 text-gray-400"></i>
                     Activity Log
                     </a>
                     <div className="dropdown-divider"></div>
-                    <a className="dropdown-item" href="#" data-toggle="modal" data-target="#logoutModal">
+                    <a className="dropdown-item" href="#n" data-toggle="modal" data-target="#logoutModal">
                     <i className="fas fa-sign-out-alt fa-sm fa-fw mr-2 text-gray-400"></i>
                     Logout
                     </a>

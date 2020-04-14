@@ -1,46 +1,40 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
-import { useMutation, useQuery } from 'react-apollo-hooks';
+import { useQuery, useMutation } from 'react-apollo-hooks';
 import gql from 'graphql-tag';
-import useForm from '../hooks/useForm';
 import Layout from '../common/Layout';
+import useForm from '../hooks/useForm';
 import Input from '../common/Input';
 
-const CREATE_USER = gql`
-    mutation createUser($data:UserInput!){
-        createNewUser(data:$data){
+const GET_USER = gql`
+    query getUser($id:ID!){
+        getSingleUser(id:$id){
+            nombre
+            apellido_paterno
+            apellido_materno
+            email
+        }
+    }
+`;
+
+const UPDATE_USER = gql`
+    mutation updateUser($id:ID!, $data:UserInputUpdate!){
+        updateOneUser(id:$id, data:$data){
             _id
         }
     }
 `;
 
-function UserCreate({history})  {
-    const [ sendUser ] = useMutation(CREATE_USER);
-    const [cover, setCover] = useState('');
-    const [coverPreview, setCoverPreview] = useState('');
-    
-    const catchCover = event =>{
-        const reader = new FileReader();
-        const file = event.target.files[0];
+function UserUpdate({ match, history })  {
+    const [ updateUser ] = useMutation(UPDATE_USER);
 
-        reader.onloadend = () => {
-            setCover(file);
-            setCoverPreview(reader.result);
-        };
-
-        reader.readAsDataURL(file);
-    };
+    const { id } = match.params
+    const { data, loading } = useQuery(GET_USER, {variables:{id}});
 
     const catchData = async (inputs) => {
-        const { data, errors } = await sendUser({variables:{data:{...inputs}}});
-        console.log("Resultado catchData data");
-        console.log(data);
-        console.log("Resultado catchData errors");
-        console.log(errors);
-        if(errors) {
-            console.log("HAY errores al guardar el usuario");
-            console.log(errors);
-        }
+        console.log("Valores de inputs desde catchData:");
+        console.log(inputs);
+        const { data } = await updateUser({variables:{id:match.params.id, data:{...inputs}}});
         if (data) {
             if (data.errors) console.log(data.errors); 
             history.push('/users');
@@ -51,13 +45,18 @@ function UserCreate({history})  {
         inputs,
         handleInputChange,
         handleSubmit
-    } = useForm(catchData);
+    } = useForm(catchData, data);
+
+    console.log("Valores de inputs:");
+    console.log(inputs);
+
+    if(loading) return <h2>Cargando....</h2>
 
     return (
     <>
     <Layout title="Crear un Nuevo Usuario" >
         <div className="d-sm-flex align-items-center justify-content-between mb-4">
-            <h1 className="h3 mb-0 text-gray-800">Crear Nuevo Usuario</h1>
+            <h1 className="h3 mb-0 text-gray-800">Actualizar Datos Usuario</h1>
         </div>
         <div className="row">
             <div className="col-lg-12 col-md-10 mx-auto">
@@ -84,7 +83,7 @@ function UserCreate({history})  {
                             <Link className="btn btn-secondary btn-user btn-block" to="/users" >Cancelar</Link>
                         </div>
                         <div className="col-sm-6 mb-3 mb-sm-0">
-                            <button type="submit" className="btn btn-success btn-user btn-block">
+                            <button type="submit" id="createUser" className="btn btn-success btn-user btn-block">
                                 Guardar
                             </button>
                         </div>
@@ -95,6 +94,6 @@ function UserCreate({history})  {
     </Layout>
     </>
     );
-}
+};
 
-export default UserCreate;
+export default UserUpdate;

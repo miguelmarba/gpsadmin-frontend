@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
-import { UncontrolledCollapse, Collapse } from 'reactstrap';
+import { Collapse } from 'reactstrap';
 
 function Sidebar(){
     const [isOpen, setIsOpen] = useState(false);

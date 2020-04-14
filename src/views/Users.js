@@ -1,27 +1,44 @@
 import React from 'react';
+import gql from 'graphql-tag';
 import { Link } from 'react-router-dom';
 import Layout from '../common/Layout';
+import { useQuery } from 'react-apollo-hooks';
 
 import { AgGridReact } from 'ag-grid-react';
 import 'ag-grid-community/dist/styles/ag-grid.css';
 import 'ag-grid-community/dist/styles/ag-theme-balham.css';
 
+const ALL_USERS =  gql`
+    query getAllUsers{
+        getUsers{
+            _id
+            nombre
+            apellido_paterno
+            apellido_materno
+            email
+            telefono
+        }
+    }
+`;
+
 function Users() {
+    const {data, loading, error} = useQuery(ALL_USERS);
+    if(loading) return <h2>Cargando...</h2>
+    if(error) return <h2>Hubo un error :(</h2>
+
     const columnDefs = [{
-        headerName: "Make", field: "make", sortable: true, filter: true
+        headerName: "Nombre", field: "nombre", sortable: true, filter: true
       }, {
-        headerName: "Model", field: "model", sortable: true, filter: true
+        headerName: "Apellido Paterno", field: "apellido_paterno", sortable: true, filter: true
       }, {
-        headerName: "Price", field: "price", sortable: true, filter: true
+        headerName: "Apellido Materno", field: "apellido_materno", sortable: true, filter: true
+      }, {
+        headerName: "Correo Electrónico", field: "email", sortable: true, filter: true
+      }, {
+        headerName: "Teléfono", field: "telefono", sortable: true, filter: true
       }];
 
-      const rowData = [{
-        make: "Toyota", model: "Celica", price: 35000
-      }, {
-        make: "Ford", model: "Mondeo", price: 32000
-      }, {
-        make: "Porsche", model: "Boxter", price: 72000
-      }];
+      const rowData = data.getUsers;
 
     return (
     <>
@@ -32,7 +49,7 @@ function Users() {
                     <i className="fas fa-plus fa-sm text-white-50"></i> Crear nuevo usuario
             </Link>
         </div>
-        <div className="ag-theme-balham" style={{ height: '500px', width: '600px' }} >
+        <div className="ag-theme-balham" style={{ height: '500px', width: '900px' }} >
             <AgGridReact
                 columnDefs={columnDefs}
                 rowData={rowData}>
