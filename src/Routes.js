@@ -5,7 +5,7 @@ import Home from './views/Home';
 import Users from './views/Users';
 import UserCreate from './views/UserCreate';
 import UserUpdate from './views/UserUpdate';
-
+import EventoCreate from './views/eventos/EventoCreate';
 
 function Logout(){
     sessionStorage.removeItem('blogToken');
@@ -20,6 +20,7 @@ function Routes(){
             <Route exact path="/users/create" component={ UserCreate } />
             <Route exact path="/users/update/:id" component={ UserUpdate } />
             <Route exact path="/logout" component={Logout} />
+            <Route exact path="/eventos/create" component={ EventoCreate } />
         </>
     );
 }
