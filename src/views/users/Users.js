@@ -1,7 +1,7 @@
 import React from 'react';
 import gql from 'graphql-tag';
 import { Link } from 'react-router-dom';
-import Layout from '../common/Layout';
+import Layout from '../../common/Layout';
 import { useQuery } from 'react-apollo-hooks';
 
 import { AgGridReact } from 'ag-grid-react';

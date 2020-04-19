@@ -2,9 +2,9 @@ import React from 'react';
 import { Route, Redirect } from 'react-router-dom';
 
 import Home from './views/Home';
-import Users from './views/Users';
-import UserCreate from './views/UserCreate';
-import UserUpdate from './views/UserUpdate';
+import Users from './views/users/Users';
+import UserCreate from './views/users/UserCreate';
+import UserUpdate from './views/users/UserUpdate';
 import EventoCreate from './views/eventos/EventoCreate';
 import Clientes from './views/clientes/Clientes';
 import ClienteCreate from './views/clientes/ClienteCreate';

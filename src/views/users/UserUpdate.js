@@ -2,9 +2,8 @@ import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { useQuery, useMutation } from 'react-apollo-hooks';
 import gql from 'graphql-tag';
-import Layout from '../common/Layout';
-import useForm from '../hooks/useForm';
-import Input from '../common/Input';
+import Layout from '../../common/Layout';
+import useForm from '../../hooks/useForm';
 
 const GET_USER = gql`
     query getUser($id:ID!){

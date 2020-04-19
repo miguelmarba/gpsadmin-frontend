@@ -2,9 +2,8 @@ import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { useMutation, useQuery } from 'react-apollo-hooks';
 import gql from 'graphql-tag';
-import useForm from '../hooks/useForm';
-import Layout from '../common/Layout';
-import Input from '../common/Input';
+import useForm from '../../hooks/useForm';
+import Layout from '../../common/Layout';
 
 const CREATE_USER = gql`
     mutation createUser($data:UserInput!){
