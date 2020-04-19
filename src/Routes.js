@@ -9,6 +9,9 @@ import EventoCreate from './views/eventos/EventoCreate';
 import Clientes from './views/clientes/Clientes';
 import ClienteCreate from './views/clientes/ClienteCreate';
 import ClienteUpdate from './views/clientes/ClienteUpdate';
+import LineasTransporte from './views/lineas_transporte/LineasTransporte';
+import LineasTransporteCreate from './views/lineas_transporte/LineasTransporteCreate';
+import LineasTransporteUpdate from './views/lineas_transporte/LineasTransporteUpdate';
 
 function Logout(){
     sessionStorage.removeItem('blogToken');
@@ -27,6 +30,9 @@ function Routes(){
             <Route exact path="/clientes" component={ Clientes } />
             <Route exact path="/clientes/create" component={ ClienteCreate } />
             <Route exact path="/clientes/update/:id" component={ ClienteUpdate } />
+            <Route exact path="/lineastrasporte" component={ LineasTransporte } />
+            <Route exact path="/lineastrasporte/create" component={ LineasTransporteCreate } />
+            <Route exact path="/lineastrasporte/update/:id" component={ LineasTransporteUpdate } />
         </>
     );
 }
