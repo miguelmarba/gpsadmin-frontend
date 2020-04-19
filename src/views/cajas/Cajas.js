@@ -7,6 +7,7 @@ import { useQuery } from 'react-apollo-hooks';
 import { AgGridReact } from 'ag-grid-react';
 import 'ag-grid-community/dist/styles/ag-grid.css';
 import 'ag-grid-community/dist/styles/ag-theme-balham.css';
+
 const ALL_CAJAS =  gql`
     query getAllCajas{
       getCajas{
@@ -33,7 +34,7 @@ function Cajas({ history }) {
       {
         headerName: 'Editar',
         field: 'editar',
-        width: 50,
+        width: 100,
         cellRenderer: (params) => {
             var link = document.createElement('a');
             var imageElement = document.createElement("i");
@@ -50,7 +51,7 @@ function Cajas({ history }) {
       {
         headerName: 'Eliminar',
         field: 'eliminar',
-        width: 50,
+        width: 100,
         cellRenderer: (params) => {
             var link = document.createElement('a');
             var imageElement = document.createElement("i");

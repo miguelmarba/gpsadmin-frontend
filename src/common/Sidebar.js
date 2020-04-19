@@ -12,9 +12,9 @@ function Sidebar(){
                 {/* Sidebar - Brand */}
                 <Link className="sidebar-brand d-flex align-items-center justify-content-center" to="/">
                     <div className="sidebar-brand-icon rotate-n-15">
-                    <i className="fas fa-laugh-wink"></i>
+                    <i className="fas fa-truck-moving"></i>
                     </div>
-                    <div className="sidebar-brand-text mx-3">GPS Admin <sup>2</sup></div>
+                    <div className="sidebar-brand-text mx-3">GPS Admin <sup>^</sup></div>
                 </Link>
                 {/* Divider */}
                 <hr className="sidebar-divider my-0"></hr>
@@ -22,7 +22,7 @@ function Sidebar(){
                 <li className="nav-item active">
                     <Link className="nav-link" to="/">
                     <i className="fas fa-fw fa-tachometer-alt"></i>
-                    <span>Dashboard</span></Link>
+                    <span>Inicio</span></Link>
                 </li>
                 {/* Divider */}
                 <hr className="sidebar-divider"></hr>
@@ -39,7 +39,11 @@ function Sidebar(){
                     <Collapse isOpen={isOpen} className="collapse">
                         <div className="bg-white py-2 collapse-inner rounded">
                             <h6 className="collapse-header">Custom Components:</h6>
-                            <Link className="collapse-item" to="/">Buttons</Link>
+                            <Link className="collapse-item" to="/clientes">Clientes</Link>
+                            <Link className="collapse-item" to="/lineastrasporte">Lineas de Transporte</Link>
+                            <Link className="collapse-item" to="/operadores">Operadores</Link>
+                            <Link className="collapse-item" to="/Cajas">Cajas</Link>
+                            <Link className="collapse-item" to="/users">Usuarios</Link>
                             <Link className="collapse-item" to="/">Cards</Link>
                         </div>
                     </Collapse>
