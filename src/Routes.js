@@ -12,10 +12,12 @@ import ClienteUpdate from './views/clientes/ClienteUpdate';
 import LineasTransporte from './views/lineas_transporte/LineasTransporte';
 import LineasTransporteCreate from './views/lineas_transporte/LineasTransporteCreate';
 import LineasTransporteUpdate from './views/lineas_transporte/LineasTransporteUpdate';
-
 import Operadores from './views/operadores/Operadores';
 import OperadorCreate from './views/operadores/OperadorCreate';
 import OperadorUpdate from './views/operadores/OperadorUpdate';
+import Cajas from './views/cajas/Cajas';
+import CajaCreate from './views/cajas/CajaCreate';
+import CajaUpdate from './views/cajas/CajaUpdate';
 
 function Logout(){
     sessionStorage.removeItem('blogToken');
@@ -40,6 +42,9 @@ function Routes(){
             <Route exact path="/operadores" component={ Operadores } />
             <Route exact path="/operadores/create" component={ OperadorCreate } />
             <Route exact path="/operadores/update/:id" component={ OperadorUpdate } />
+            <Route exact path="/cajas" component={ Cajas } />
+            <Route exact path="/cajas/create" component={ CajaCreate } />
+            <Route exact path="/cajas/update/:id" component={ CajaUpdate } />
         </>
     );
 }
