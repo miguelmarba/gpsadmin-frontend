@@ -44,7 +44,7 @@ function Sidebar(){
                             <Link className="collapse-item" to="/operadores">Operadores</Link>
                             <Link className="collapse-item" to="/Cajas">Cajas</Link>
                             <Link className="collapse-item" to="/users">Usuarios</Link>
-                            <Link className="collapse-item" to="/">Cards</Link>
+                            <Link className="collapse-item" to="/camiones">Camiones</Link>
                         </div>
                     </Collapse>
                 </li>

@@ -18,6 +18,9 @@ import OperadorUpdate from './views/operadores/OperadorUpdate';
 import Cajas from './views/cajas/Cajas';
 import CajaCreate from './views/cajas/CajaCreate';
 import CajaUpdate from './views/cajas/CajaUpdate';
+import Camiones from './views/camiones/Camiones';
+import CamionCreate from './views/camiones/CamionCreate';
+import CamionUpdate from './views/camiones/CamionUpdate';
 
 function Logout(){
     sessionStorage.removeItem('blogToken');
@@ -45,6 +48,9 @@ function Routes(){
             <Route exact path="/cajas" component={ Cajas } />
             <Route exact path="/cajas/create" component={ CajaCreate } />
             <Route exact path="/cajas/update/:id" component={ CajaUpdate } />
+            <Route exact path="/camiones" component={ Camiones } />
+            <Route exact path="/camiones/create" component={ CamionCreate } />
+            <Route exact path="/camiones/update/:id" component={ CamionUpdate } />
         </>
     );
 }
