@@ -13,6 +13,10 @@ import LineasTransporte from './views/lineas_transporte/LineasTransporte';
 import LineasTransporteCreate from './views/lineas_transporte/LineasTransporteCreate';
 import LineasTransporteUpdate from './views/lineas_transporte/LineasTransporteUpdate';
 
+import Operadores from './views/operadores/Operadores';
+import OperadorCreate from './views/operadores/OperadorCreate';
+import OperadorUpdate from './views/operadores/OperadorUpdate';
+
 function Logout(){
     sessionStorage.removeItem('blogToken');
     return <Redirect to="/login" />
@@ -33,6 +37,9 @@ function Routes(){
             <Route exact path="/lineastrasporte" component={ LineasTransporte } />
             <Route exact path="/lineastrasporte/create" component={ LineasTransporteCreate } />
             <Route exact path="/lineastrasporte/update/:id" component={ LineasTransporteUpdate } />
+            <Route exact path="/operadores" component={ Operadores } />
+            <Route exact path="/operadores/create" component={ OperadorCreate } />
+            <Route exact path="/operadores/update/:id" component={ OperadorUpdate } />
         </>
     );
 }
