@@ -24,6 +24,9 @@ import CamionUpdate from './views/camiones/CamionUpdate';
 import StatusRuta from './views/status_ruta/StatusRuta';
 import StatusRutaCreate from './views/status_ruta/StatusRutaCreate';
 import StatusRutaUpdate from './views/status_ruta/StatusRutaUpdate';
+import Ubicaciones from './views/ubicaciones/Ubicaciones';
+import UbicacionCreate from './views/ubicaciones/UbicacionCreate';
+import UbicacionUpdate from './views/ubicaciones/UbicacionUpdate';
 
 function Logout(){
     sessionStorage.removeItem('blogToken');
@@ -57,6 +60,9 @@ function Routes(){
             <Route exact path="/statusruta" component={ StatusRuta } />
             <Route exact path="/statusruta/create" component={ StatusRutaCreate } />
             <Route exact path="/statusruta/update/:id" component={ StatusRutaUpdate } />
+            <Route exact path="/ubicaciones" component={ Ubicaciones } />
+            <Route exact path="/ubicaciones/create" component={ UbicacionCreate } />
+            <Route exact path="/ubicaciones/update/:id" component={ UbicacionUpdate } />
         </>
     );
 }
