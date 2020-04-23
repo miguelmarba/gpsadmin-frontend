@@ -75,9 +75,6 @@ function UbicacionCreate({history})  {
                             <input type="text" onChange={handleInputChange}  value={inputs.pais} className="form-control form-control-user" name="pais" placeholder="Pais" required={false} />
                         </div>
                         <div className="form-group">
-                            <input type="text" onChange={handleInputChange}  value={inputs.calle} className="form-control form-control-user" name="calle" placeholder="Calle" required={false} />
-                        </div>
-                        <div className="form-group">
                             <input type="text" onChange={handleInputChange}  value={inputs.georeferenciax} className="form-control form-control-user" name="georeferenciax" placeholder="Georeferencia X" required={false} />
                         </div>
                         <div className="form-group">
