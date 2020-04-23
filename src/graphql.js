@@ -3,7 +3,7 @@ import { createHttpLink } from 'apollo-link-http';
 import { setContext } from 'apollo-link-context';
 import { InMemoryCache } from 'apollo-cache-inmemory';
 
-const API_URL = 'http://localhost:4002/';
+const API_URL = 'http://localhost:4001/';
 
 const httpLink = createHttpLink({ uri: API_URL });
 

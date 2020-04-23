@@ -32,10 +32,6 @@ function UserCreate({history})  {
 
     const catchData = async (inputs) => {
         const { data, errors } = await sendUser({variables:{data:{...inputs}}});
-        console.log("Resultado catchData data");
-        console.log(data);
-        console.log("Resultado catchData errors");
-        console.log(errors);
         if(errors) {
             console.log("HAY errores al guardar el usuario");
             console.log(errors);

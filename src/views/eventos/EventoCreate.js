@@ -25,6 +25,24 @@ const ALL_USERS =  gql`
     }
 `;
 
+const ALL_CLIENTES =  gql`
+    query getAllClientes($nombre:String!){
+        getSearchCliente(nombre:$nombre){
+            _id
+            nombre
+        }
+    }
+`;
+
+const GET_LINEAS_TRANSPORTE =  gql`
+    query getAllLineaTransporte($nombre:String!){
+        getSearchLineaTransporte(nombre:$nombre){
+            _id
+            nombre
+        }
+    }
+`;
+
 const CREATE_USER = gql`
     mutation createUser($data:UserInput!){
         createNewUser(data:$data){
@@ -46,12 +64,78 @@ const typeheadstyle2 = {
 
 function EventoCreate({history})  {
     const [ getUsers ] = useMutation(ALL_USERS);
+    const [ getClientes ] = useMutation(ALL_CLIENTES);
+    const [ getLineasTransporte ] = useMutation(GET_LINEAS_TRANSPORTE);
     const [ sendUser ] = useMutation(CREATE_USER);
+    const [optionsCliente, setOptionsCliente] = useState([]);
     const [optionsOrigen, setOptionsOrigen] = useState([]);
     const [optionsDestino, setOptionsDestino] = useState([]);
+    const [optionsLineasTransporte, setOptionsLineasTransporte] = useState([]);
+    const [selectedCliente, setSelectedCliente] = useState([]);
     const [selectedOrigen, setSelectedOrigen] = useState([]);
     const [selectedDestino, setSelectedDestino] = useState([]);
+    const [selectedLineasTransporte, setSelectedLineasTransporte] = useState([]);
     const [startDate, setStartDate] = useState(new Date());
+
+    const onHandleSearchClientes = async (query) => {
+        if(query.length >= 3){
+            setOptionsCliente([]);
+            try {
+                const { data, errors } = await getClientes({variables:{nombre:query}});
+                if (data) {
+                    // LLenamos options
+                    if(Array.isArray(data.getSearchCliente)){
+                        const searchResults = data.getSearchCliente.map((i) => ({
+                            id : i._id,
+                            nombre : i.nombre
+                        }));
+                        setOptionsCliente(searchResults);
+                    } else {
+                        const searchResult = [{
+                            id : data.getSearchCliente._id,
+                            nombre : data.getSearchCliente.nombre
+                        }];
+                        setOptionsCliente(searchResult);
+                    }
+                }
+                if (errors) {
+                    setOptionsCliente([]);
+                }
+            } catch (e) {
+                setOptionsCliente([]);
+            }
+        }
+    };
+
+    const onHandleSearchLineasTransporte = async (query) => {
+        if(query.length >= 3){
+            setOptionsCliente([]);
+            try {
+                const { data, errors } = await getLineasTransporte({variables:{nombre:query}});
+                if (data) {
+                    // LLenamos options
+                    if(Array.isArray(data.getSearchLineaTransporte)){
+                        const searchResults = data.getSearchLineaTransporte.map((i) => ({
+                            id : i._id,
+                            nombre : i.nombre
+                        }));
+                        setOptionsLineasTransporte(searchResults);
+                    } else {
+                        const searchResult = [{
+                            id : data.getSearchLineaTransporte._id,
+                            nombre : data.getSearchLineaTransporte.nombre
+                        }];
+                        setOptionsLineasTransporte(searchResult);
+                    }
+                }
+                if (errors) {
+                    setOptionsLineasTransporte([]);
+                }
+            } catch (e) {
+                setOptionsLineasTransporte([]);
+            }
+        }
+    };
 
     const onHandleSearchOrigen = async (query) => {
         if(query.length >= 5){
@@ -133,15 +217,15 @@ function EventoCreate({history})  {
                             <Typeahead
                                     filterBy={(option, props) => {return true;}}
                                     id="cliente"
-                                    labelKey="apellido_paterno"
+                                    labelKey="nombre"
                                     multiple={multiple}
-                                    options={optionsOrigen}
+                                    options={optionsCliente}
                                     placeholder="Selecciona el cliente..."
-                                    selected={selectedOrigen}
+                                    selected={selectedCliente}
                                     //className="form-control form-control-user"
                                     searchText="Buscando clientes..."
-                                    onInputChange={onHandleSearchOrigen}
-                                    onChange={(value)=>setSelectedOrigen(value)}
+                                    onInputChange={onHandleSearchClientes}
+                                    onChange={(value)=>setSelectedCliente(value)}
                                     inputClassName="notwork"
                                     />
                         </div>
@@ -195,15 +279,15 @@ function EventoCreate({history})  {
                             <Typeahead //style={typeheadstyle}
                                     filterBy={(option, props) => {return true;}}
                                     id="linea_transporte"
-                                    labelKey="apellido_paterno"
+                                    labelKey="nombre"
                                     multiple={multiple}
-                                    options={optionsOrigen}
+                                    options={optionsLineasTransporte}
                                     placeholder="Selecciona la linea de transporte..."
-                                    selected={selectedOrigen}
+                                    selected={selectedLineasTransporte}
                                     //className="form-control form-control-user"
                                     searchText="Buscando lineas de transportes..."
-                                    onInputChange={onHandleSearchOrigen}
-                                    onChange={(value)=>setSelectedOrigen(value)}
+                                    onInputChange={onHandleSearchLineasTransporte}
+                                    onChange={(value)=>setSelectedLineasTransporte(value)}
                                     />
                         </div>
                         <div className="form-group">
