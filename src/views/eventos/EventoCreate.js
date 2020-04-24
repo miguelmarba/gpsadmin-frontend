@@ -51,6 +51,15 @@ const CREATE_USER = gql`
     }
 `;
 
+const GET_UBICACION_ORIGEN =  gql`
+    query searchUbicacionOrigen($nombre:String!){
+        getSearchUbicacion(nombre:$nombre){
+            _id
+            nombre
+        }
+    }
+`;
+
 const typeheadstyle = {
     "font-size": '0.8rem',
     "border-radius": '10rem',
@@ -66,6 +75,7 @@ function EventoCreate({history})  {
     const [ getUsers ] = useMutation(ALL_USERS);
     const [ getClientes ] = useMutation(ALL_CLIENTES);
     const [ getLineasTransporte ] = useMutation(GET_LINEAS_TRANSPORTE);
+    const [ getUbicacionOrigen ] = useMutation(GET_UBICACION_ORIGEN);
     const [ sendUser ] = useMutation(CREATE_USER);
     const [optionsCliente, setOptionsCliente] = useState([]);
     const [optionsOrigen, setOptionsOrigen] = useState([]);
@@ -140,18 +150,14 @@ function EventoCreate({history})  {
     const onHandleSearchOrigen = async (query) => {
         if(query.length >= 5){
             setOptionsOrigen([]);
-            const { data } = await getUsers({variables:{query}});
-            console.log("Resultado onHandleSearch:");
-            console.log(data);
+            const { data } = await getUbicacionOrigen({variables:{nombre:query}});
             if (data) {
                 if (data.errors) console.log(data.errors); 
                 // LLenamos options
-                if(data.getUsers){
-                    const searchResults = data.getUsers.map((i) => ({
+                if(data.getSearchUbicacion){
+                    const searchResults = data.getSearchUbicacion.map((i) => ({
                         id : i._id,
                         nombre : i.nombre,
-                        apellido_paterno : i.apellido_paterno,
-                        apellido_materno : i.apellido_materno
                     }));
                     setOptionsOrigen(searchResults);
                 }
@@ -234,7 +240,7 @@ function EventoCreate({history})  {
                                     <Typeahead
                                     filterBy={(option, props) => {return true;}}
                                     id="orig"
-                                    labelKey="apellido_paterno"
+                                    labelKey="nombre"
                                     multiple={multiple}
                                     options={optionsOrigen}
                                     placeholder="Selecciona el origen..."
