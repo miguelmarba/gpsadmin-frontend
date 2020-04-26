@@ -27,6 +27,9 @@ import StatusRutaUpdate from './views/status_ruta/StatusRutaUpdate';
 import Ubicaciones from './views/ubicaciones/Ubicaciones';
 import UbicacionCreate from './views/ubicaciones/UbicacionCreate';
 import UbicacionUpdate from './views/ubicaciones/UbicacionUpdate';
+import EquiposGps from './views/equipos_gps/EquiposGps';
+import EquipoGpsCreate from './views/equipos_gps/EquipoGpsCreate';
+import EquipoGpsUpdate from './views/equipos_gps/EquipoGpsUpdate';
 
 function Logout(){
     sessionStorage.removeItem('blogToken');
@@ -63,6 +66,9 @@ function Routes(){
             <Route exact path="/ubicaciones" component={ Ubicaciones } />
             <Route exact path="/ubicaciones/create" component={ UbicacionCreate } />
             <Route exact path="/ubicaciones/update/:id" component={ UbicacionUpdate } />
+            <Route exact path="/equiposgps" component={ EquiposGps } />
+            <Route exact path="/equiposgps/create" component={ EquipoGpsCreate } />
+            <Route exact path="/equiposgps/update/:id" component={ EquipoGpsUpdate } />
         </>
     );
 }
