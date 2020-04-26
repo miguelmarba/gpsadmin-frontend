@@ -6,7 +6,7 @@ import Layout from '../../common/Layout';
 import useForm from '../../hooks/useForm';
 import { Typeahead } from 'react-bootstrap-typeahead';
 import DatePicker from 'react-datepicker';
-import moment from 'moment';
+import TimePicker from 'react-time-picker';
 
 import 'react-bootstrap-typeahead/css/Typeahead.css';
 import 'react-datepicker/dist/react-datepicker.css';
@@ -60,6 +60,44 @@ const GET_UBICACION_ORIGEN =  gql`
     }
 `;
 
+const GET_OPERADORES =  gql`
+    query searchOperador($nombre:String!){
+        getSearchOperador(nombre:$nombre){
+            _id
+            nombre
+            apellido_paterno
+            apellido_materno
+        }
+    }
+`;
+
+const GET_CAMIONES =  gql`
+    query searchCamion($descripcion:String!){
+        getSearchCamion(descripcion:$descripcion){
+            _id
+            descripcion
+        }
+    }
+`;
+
+const GET_CAJAS =  gql`
+    query searchCaja($descripcion:String!){
+        getSearchCaja(descripcion:$descripcion){
+            _id
+            descripcion
+        }
+    }
+`;
+
+const GET_EQUIPOS_GPS =  gql`
+    query searchEquipoGps($descripcion:String!){
+        getSearchEquipoGps(descripcion:$descripcion){
+            _id
+            descripcion
+        }
+    }
+`;
+
 const typeheadstyle = {
     "font-size": '0.8rem',
     "border-radius": '10rem',
@@ -71,21 +109,38 @@ const typeheadstyle2 = {
     border: '0 !important'
 }
 
+const typeheadstyle3 = {
+    border: '0 !important'
+}
+
 function EventoCreate({history})  {
     const [ getUsers ] = useMutation(ALL_USERS);
     const [ getClientes ] = useMutation(ALL_CLIENTES);
     const [ getLineasTransporte ] = useMutation(GET_LINEAS_TRANSPORTE);
     const [ getUbicacionOrigen ] = useMutation(GET_UBICACION_ORIGEN);
+    const [ getOperador ] = useMutation(GET_OPERADORES);
+    const [ getCamion ] = useMutation(GET_CAMIONES);
+    const [ getCaja ] = useMutation(GET_CAJAS);
+    const [ getEquipoGps ] = useMutation(GET_EQUIPOS_GPS);
     const [ sendUser ] = useMutation(CREATE_USER);
     const [optionsCliente, setOptionsCliente] = useState([]);
     const [optionsOrigen, setOptionsOrigen] = useState([]);
     const [optionsDestino, setOptionsDestino] = useState([]);
     const [optionsLineasTransporte, setOptionsLineasTransporte] = useState([]);
+    const [optionsOperador, setOptionsOperador] = useState([]);
+    const [optionsCamion, setOptionsCamion] = useState([]);
+    const [optionsCaja, setOptionsCaja] = useState([]);
+    const [optionsEquipoGps, setOptionsEquipoGps] = useState([]);
     const [selectedCliente, setSelectedCliente] = useState([]);
     const [selectedOrigen, setSelectedOrigen] = useState([]);
     const [selectedDestino, setSelectedDestino] = useState([]);
     const [selectedLineasTransporte, setSelectedLineasTransporte] = useState([]);
+    const [selectedOperador, setSelectedOperador] = useState([]);
+    const [selectedCamion, setSelectedCamion] = useState([]);
+    const [selectedCaja, setSelectedCaja] = useState([]);
+    const [selectedEquipoGps, setSelectedEquipoGps] = useState([]);
     const [startDate, setStartDate] = useState(new Date());
+    const [time, setTime] = useState('06:00');
 
     const onHandleSearchClientes = async (query) => {
         if(query.length >= 3){
@@ -187,6 +242,88 @@ function EventoCreate({history})  {
         }
     };
 
+    const onHandleSearchOperador = async (query) => {
+        if(query.length >= 5){
+            setOptionsOperador([]);
+            const { data, errors } = await getOperador({variables:{nombre:query}});
+            console.log("Resultado onHandleSearchOperador:");
+            console.log(data);
+            if (data) { 
+                // LLenamos options
+                if(data.getSearchOperador){
+                    const searchResults = data.getSearchOperador.map((i) => ({
+                        id : i._id,
+                        nombre : i.nombre,
+                        apellido_paterno : i.apellido_paterno,
+                        apellido_materno : i.apellido_materno
+                    }));
+                    setOptionsOperador(searchResults);
+                }
+            }
+            if (errors) console.log(data.errors); 
+        }
+    };
+
+    const onHandleSearchCamion = async (query) => {
+        if(query.length >= 5){
+            setOptionsCamion([]);
+            const { data, errors } = await getCamion({variables:{descripcion:query}});
+            console.log("Resultado onHandleSearchOperador:");
+            console.log(data);
+            if (data) { 
+                // LLenamos options
+                if(data.getSearchCamion){
+                    const searchResults = data.getSearchCamion.map((i) => ({
+                        id : i._id,
+                        descripcion : i.descripcion
+                    }));
+                    setOptionsCamion(searchResults);
+                }
+            }
+            if (errors) console.log(data.errors); 
+        }
+    };
+
+    const onHandleSearchCaja = async (query) => {
+        if(query.length >= 5){
+            setOptionsCaja([]);
+            const { data, errors } = await getCaja({variables:{descripcion:query}});
+            console.log("Resultado onHandleSearchOperador:");
+            console.log(data);
+            if (data) { 
+                // LLenamos options
+                if(data.getSearchCaja){
+                    const searchResults = data.getSearchCaja.map((i) => ({
+                        id : i._id,
+                        descripcion : i.descripcion
+                    }));
+                    setOptionsCaja(searchResults);
+                }
+            }
+            if (errors) console.log(data.errors); 
+        }
+    };
+
+    const onHandleSearchEquipoGps = async (query) => {
+        if(query.length >= 5){
+            setOptionsEquipoGps([]);
+            const { data, errors } = await getEquipoGps({variables:{descripcion:query}});
+            console.log("Resultado onHandleSearchOperador:");
+            console.log(data);
+            if (data) { 
+                // LLenamos options
+                if(data.getSearchEquipoGps){
+                    const searchResults = data.getSearchEquipoGps.map((i) => ({
+                        id : i._id,
+                        descripcion : i.descripcion
+                    }));
+                    setOptionsEquipoGps(searchResults);
+                }
+            }
+            if (errors) console.log(data.errors); 
+        }
+    };
+
     const handleChangeStartDate = (date) =>{
         setStartDate(date);
     };
@@ -268,17 +405,35 @@ function EventoCreate({history})  {
                             </div>
                         </div>
                         <div className="form-group row">
-                            <div className="col-sm-6 mb-3 mb-sm-0">
+                            <div className="col-sm-6">
                             <DatePicker
                                 className={"form-control form-control-user"}
                                 selected={startDate}
                                 onChange={handleChangeStartDate}
                                 name="fecha_salida"
-                                dateFormat="d/MM/yyyy"
+                                flaceholderText="Fecha de salida"
+                                showTimeSelect
+                                timeFormat="HH:mm"
+                                timeIntervals={15}
+                                timeCaption="Hora"
+                                dateFormat="d/MM/yyyy h:mm"
+                                minDate={new Date()}
                                 />
                             </div>
                             <div className="col-sm-6">
-                                <input type="text" onChange={handleInputChange} value={inputs.destino} className="form-control form-control-user" name="destino" placeholder="Destino" />
+                            <DatePicker
+                                className={"form-control form-control-user"}
+                                selected={startDate}
+                                onChange={handleChangeStartDate}
+                                name="fecha_cita"
+                                flaceholderText="Fecha de cita"
+                                showTimeSelect
+                                timeFormat="HH:mm"
+                                timeIntervals={15}
+                                timeCaption="Hora"
+                                dateFormat="d/MM/yyyy h:mm"
+                                minDate={new Date()}
+                                />
                             </div>
                         </div>
                         <div className="form-group">
@@ -297,16 +452,68 @@ function EventoCreate({history})  {
                                     />
                         </div>
                         <div className="form-group">
-                            <input type="text" onChange={handleInputChange}  value={inputs.telefono} className="form-control form-control-user" name="operador" placeholder="Operador" required={true} />
+                            <Typeahead
+                                    filterBy={(option, props) => {return true;}}
+                                    id="operador"
+                                    labelKey="nombre"
+                                    multiple={multiple}
+                                    options={optionsOperador}
+                                    placeholder="Selecciona el operador..."
+                                    selected={selectedOperador}
+                                    //className="form-control form-control-user"
+                                    searchText="Buscando operadores..."
+                                    onInputChange={onHandleSearchOperador}
+                                    onChange={(value)=>setSelectedOperador(value)}
+                                    inputClassName="notwork"
+                                    />
                         </div>
                         <div className="form-group">
-                            <input type="text" onChange={handleInputChange}  value={inputs.telefono} className="form-control form-control-user" name="camion" placeholder="Camión" required={true} />
+                            <Typeahead
+                                    filterBy={(option, props) => {return true;}}
+                                    id="camion"
+                                    labelKey="descripcion"
+                                    multiple={multiple}
+                                    options={optionsCamion}
+                                    placeholder="Selecciona el camion..."
+                                    selected={selectedCamion}
+                                    //className="form-control form-control-user"
+                                    searchText="Buscando camiones..."
+                                    onInputChange={onHandleSearchCamion}
+                                    onChange={(value)=>setSelectedCamion(value)}
+                                    inputClassName="notwork"
+                                    />
                         </div>
                         <div className="form-group">
-                            <input type="text" onChange={handleInputChange}  value={inputs.telefono} className="form-control form-control-user" name="caja" placeholder="Caja" required={true} />
+                            <Typeahead
+                                    filterBy={(option, props) => {return true;}}
+                                    id="caja"
+                                    labelKey="descripcion"
+                                    multiple={multiple}
+                                    options={optionsCaja}
+                                    placeholder="Selecciona el caja..."
+                                    selected={selectedCaja}
+                                    //className="form-control form-control-user"
+                                    searchText="Buscando cajas..."
+                                    onInputChange={onHandleSearchCaja}
+                                    onChange={(value)=>setSelectedCaja(value)}
+                                    inputClassName="notwork"
+                                    />
                         </div>
                         <div className="form-group">
-                            <input type="text" onChange={handleInputChange}  value={inputs.telefono} className="form-control form-control-user" name="gps" placeholder="GPS" required={true} />
+                        <Typeahead
+                                    filterBy={(option, props) => {return true;}}
+                                    id="gps"
+                                    labelKey="descripcion"
+                                    multiple={multiple}
+                                    options={optionsEquipoGps}
+                                    placeholder="Selecciona el equipo Gps..."
+                                    selected={selectedEquipoGps}
+                                    //className="form-control form-control-user"
+                                    searchText="Buscando equipo Gps..."
+                                    onInputChange={onHandleSearchEquipoGps}
+                                    onChange={(value)=>setSelectedEquipoGps(value)}
+                                    inputClassName="notwork"
+                                    />
                         </div>
                         <div className="form-group row">
                             <div className="col-sm-6 mb-3 mb-sm-0">
