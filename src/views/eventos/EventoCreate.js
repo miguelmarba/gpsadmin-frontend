@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom';
 import { useMutation, useQuery } from 'react-apollo-hooks';
 import gql from 'graphql-tag';
 import Layout from '../../common/Layout';
-import useForm from '../../hooks/useForm';
+import useForm from '../../hooks/useFormRuta';
 import { Typeahead } from 'react-bootstrap-typeahead';
 import DatePicker from 'react-datepicker';
 import TimePicker from 'react-time-picker';
@@ -46,6 +46,14 @@ const GET_LINEAS_TRANSPORTE =  gql`
 const CREATE_USER = gql`
     mutation createUser($data:UserInput!){
         createNewUser(data:$data){
+            _id
+        }
+    }
+`;
+
+const CREATE_RUTA = gql`
+    mutation createRuta($data:RutaInput!){
+        createNewRuta(data:$data){
             _id
         }
     }
@@ -123,6 +131,7 @@ function EventoCreate({history})  {
     const [ getCaja ] = useMutation(GET_CAJAS);
     const [ getEquipoGps ] = useMutation(GET_EQUIPOS_GPS);
     const [ sendUser ] = useMutation(CREATE_USER);
+    const [ sendRuta ] = useMutation(CREATE_RUTA);
     const [optionsCliente, setOptionsCliente] = useState([]);
     const [optionsOrigen, setOptionsOrigen] = useState([]);
     const [optionsDestino, setOptionsDestino] = useState([]);
@@ -223,18 +232,16 @@ function EventoCreate({history})  {
     const onHandleSearchDestino = async (query) => {
         if(query.length >= 5){
             setOptionsDestino([]);
-            const { data } = await getUsers({variables:{query}});
+            const { data } = await getUbicacionOrigen({variables:{nombre:query}});
             console.log("Resultado onHandleSearch:");
             console.log(data);
             if (data) {
                 if (data.errors) console.log(data.errors); 
                 // LLenamos options
-                if(data.getUsers){
-                    const searchResults = data.getUsers.map((i) => ({
+                if(data.getSearchUbicacion){
+                    const searchResults = data.getSearchUbicacion.map((i) => ({
                         id : i._id,
-                        nombre : i.nombre,
-                        apellido_paterno : i.apellido_paterno,
-                        apellido_materno : i.apellido_materno
+                        nombre : i.nombre
                     }));
                     setOptionsDestino(searchResults);
                 }
@@ -324,19 +331,62 @@ function EventoCreate({history})  {
         }
     };
 
+    const onHandleTypeahead = (name, value) => {
+        console.log("===Resultado onHandleTypeahead");
+        console.log(name);
+        console.log(value);
+        switch (name) {
+            case 'cliente':
+                setSelectedCliente(value);
+                handleInputSelected('cliente', value[0].id);
+                break;
+            case 'origen':
+                handleInputSelected('origen', value[0].id)
+                setSelectedOrigen(value);
+                break;
+            case 'destino':
+                handleInputSelected('destino', value[0].id)
+                setSelectedDestino(value);
+                break;
+            case 'lineatransporte':
+                handleInputSelected('lineatransporte', value[0].id)
+                setSelectedLineasTransporte(value);
+                break;
+            case 'operador':
+                handleInputSelected('operador', value[0].id)
+                setSelectedOperador(value);
+                break;
+            case 'camion':
+                handleInputSelected('camion', value[0].id)
+                setSelectedCamion(value);
+                break;
+            case 'caja':
+                handleInputSelected('caja', value[0].id)
+                setSelectedCaja(value);
+                break;
+            case 'equipogps':
+                handleInputSelected('equipogps', value[0].id)
+                setSelectedEquipoGps(value);
+                break;
+        
+            default:
+                break;
+        }
+    };
+
     const handleChangeStartDate = (date) =>{
         setStartDate(date);
     };
 
     const catchData = async (inputs) => {
-        const { data, errors } = await sendUser({variables:{data:{...inputs}}});
+        const { data, errors } = await sendRuta({variables:{data:{...inputs}}});
         if(errors) {
             console.log("HAY errores al guardar el usuario");
             console.log(errors);
         }
         if (data) {
             if (data.errors) console.log(data.errors); 
-            history.push('/users');
+            history.push('/');
         }
     };
     const multiple = false;
@@ -344,8 +394,12 @@ function EventoCreate({history})  {
     const {
         inputs,
         handleInputChange,
-        handleSubmit
+        handleSubmit,
+        handleInputSelected
     } = useForm(catchData);
+
+    console.log("===Resultado inputs");
+    console.log(inputs);
 
     return (
         <>
@@ -368,7 +422,7 @@ function EventoCreate({history})  {
                                     //className="form-control form-control-user"
                                     searchText="Buscando clientes..."
                                     onInputChange={onHandleSearchClientes}
-                                    onChange={(value)=>setSelectedCliente(value)}
+                                    onChange={(value)=>onHandleTypeahead('cliente', value)}
                                     inputClassName="notwork"
                                     />
                         </div>
@@ -376,7 +430,7 @@ function EventoCreate({history})  {
                             <div className="col-sm-6 mb-3 mb-sm-0">
                                     <Typeahead
                                     filterBy={(option, props) => {return true;}}
-                                    id="orig"
+                                    id="origen"
                                     labelKey="nombre"
                                     multiple={multiple}
                                     options={optionsOrigen}
@@ -385,14 +439,14 @@ function EventoCreate({history})  {
                                     //className="form-control form-control-user"
                                     searchText="Buscando origen..."
                                     onInputChange={onHandleSearchOrigen}
-                                    onChange={(value)=>setSelectedOrigen(value)}
+                                    onChange={(value)=>onHandleTypeahead('origen', value)}
                                     />
                             </div>
                             <div className="col-sm-6">
                                 <Typeahead 
                                     filterBy={(option, props) => {return true;}}
-                                    id="destin"
-                                    labelKey="apellido_materno"
+                                    id="destino"
+                                    labelKey="nombre"
                                     multiple={multiple}
                                     options={optionsDestino}
                                     placeholder="Selecciona el destino..."
@@ -400,7 +454,7 @@ function EventoCreate({history})  {
                                     //className={"form-control form-control-user"}
                                     searchText="Buscando destino..."
                                     onInputChange={onHandleSearchDestino}
-                                    onChange={(value)=>setSelectedDestino(value)}
+                                    onChange={(value)=>onHandleTypeahead('destino', value)}
                                     />
                             </div>
                         </div>
