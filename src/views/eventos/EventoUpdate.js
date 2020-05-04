@@ -6,11 +6,62 @@ import Layout from '../../common/Layout';
 import useForm from '../../hooks/useFormRuta';
 import { Typeahead } from 'react-bootstrap-typeahead';
 import DatePicker from 'react-datepicker';
-import TimePicker from 'react-time-picker';
 
 import 'react-bootstrap-typeahead/css/Typeahead.css';
 import 'react-datepicker/dist/react-datepicker.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
+
+const GET_RUTA = gql`
+    query getRuta($id:ID!){
+        getSingleRuta(id:$id){
+            _id
+            fecha_salida
+            fecha_cita
+            cliente{
+                _id
+                nombre
+            }
+            origen{
+                _id
+                nombre
+            }
+            destino{
+                _id
+                nombre
+            }
+            linea_transporte{
+                _id
+                nombre
+            }
+            operador{
+                _id
+                nombre
+                apellido_paterno
+                apellido_materno
+            }
+            camion{
+                _id
+                descripcion
+            }
+            caja{
+                _id
+                descripcion
+            }
+            equipo_gps{
+                _id
+                descripcion
+            }
+        }
+    }
+`;
+
+const UPDATE_RUTA = gql`
+    mutation updateRuta($id:ID!, $data:RutaInputUpdate!){
+        updateOneRuta(id:$id, data:$data){
+            _id
+        }
+    }
+`;
 
 const ALL_USERS =  gql`
     query getAllUsers{
@@ -121,7 +172,7 @@ const typeheadstyle3 = {
     border: '0 !important'
 }
 
-function EventoCreate({history})  {
+function EventoUpdate({match, history})  {
     const [ getUsers ] = useMutation(ALL_USERS);
     const [ getClientes ] = useMutation(ALL_CLIENTES);
     const [ getLineasTransporte ] = useMutation(GET_LINEAS_TRANSPORTE);
@@ -132,7 +183,7 @@ function EventoCreate({history})  {
     const [ getEquipoGps ] = useMutation(GET_EQUIPOS_GPS);
     const [ sendUser ] = useMutation(CREATE_USER);
     const [ sendRuta ] = useMutation(CREATE_RUTA);
-    const [optionsCliente, setOptionsCliente] = useState([]);
+    const [optionsCliente, setOptionsCliente] = useState([{id:"5e9bc189912d97481ba86c39", nombre:"MIKE MARRTINEZ BAUTISTA"}]);
     const [optionsOrigen, setOptionsOrigen] = useState([]);
     const [optionsDestino, setOptionsDestino] = useState([]);
     const [optionsLineasTransporte, setOptionsLineasTransporte] = useState([]);
@@ -140,7 +191,7 @@ function EventoCreate({history})  {
     const [optionsCamion, setOptionsCamion] = useState([]);
     const [optionsCaja, setOptionsCaja] = useState([]);
     const [optionsEquipoGps, setOptionsEquipoGps] = useState([]);
-    const [selectedCliente, setSelectedCliente] = useState([]);
+    const [selectedCliente, setSelectedCliente] = useState([{id:"5e9bc189912d97481ba86c39", nombre:"MIKE MARRTINEZ BAUTISTA"}]);
     const [selectedOrigen, setSelectedOrigen] = useState([]);
     const [selectedDestino, setSelectedDestino] = useState([]);
     const [selectedLineasTransporte, setSelectedLineasTransporte] = useState([]);
@@ -188,19 +239,11 @@ function EventoCreate({history})  {
                 const { data, errors } = await getLineasTransporte({variables:{nombre:query}});
                 if (data) {
                     // LLenamos options
-                    if(Array.isArray(data.getSearchLineaTransporte)){
-                        const searchResults = data.getSearchLineaTransporte.map((i) => ({
-                            id : i._id,
-                            nombre : i.nombre
-                        }));
-                        setOptionsLineasTransporte(searchResults);
-                    } else {
-                        const searchResult = [{
-                            id : data.getSearchLineaTransporte._id,
-                            nombre : data.getSearchLineaTransporte.nombre
-                        }];
-                        setOptionsLineasTransporte(searchResult);
-                    }
+                    const searchResults = data.getSearchLineaTransporte.map((i) => ({
+                        id : i._id,
+                        nombre : i.nombre
+                    }));
+                    handleInputOptions('linea_transporte', searchResults);
                 }
                 if (errors) {
                     setOptionsLineasTransporte([]);
@@ -213,7 +256,7 @@ function EventoCreate({history})  {
 
     const onHandleSearchOrigen = async (query) => {
         if(query.length >= 5){
-            setOptionsOrigen([]);
+            handleInputOptions('origen', []);
             const { data } = await getUbicacionOrigen({variables:{nombre:query}});
             if (data) {
                 if (data.errors) console.log(data.errors); 
@@ -223,7 +266,7 @@ function EventoCreate({history})  {
                         id : i._id,
                         nombre : i.nombre,
                     }));
-                    setOptionsOrigen(searchResults);
+                    handleInputOptions('origen', searchResults);
                 }
             }
         }
@@ -231,10 +274,8 @@ function EventoCreate({history})  {
 
     const onHandleSearchDestino = async (query) => {
         if(query.length >= 5){
-            setOptionsDestino([]);
+            handleInputOptions('destino', []);
             const { data } = await getUbicacionOrigen({variables:{nombre:query}});
-            console.log("Resultado onHandleSearch:");
-            console.log(data);
             if (data) {
                 if (data.errors) console.log(data.errors); 
                 // LLenamos options
@@ -243,7 +284,7 @@ function EventoCreate({history})  {
                         id : i._id,
                         nombre : i.nombre
                     }));
-                    setOptionsDestino(searchResults);
+                    handleInputOptions('destino', searchResults);
                 }
             }
         }
@@ -251,10 +292,8 @@ function EventoCreate({history})  {
 
     const onHandleSearchOperador = async (query) => {
         if(query.length >= 5){
-            setOptionsOperador([]);
+            handleInputOptions('operador', []);
             const { data, errors } = await getOperador({variables:{nombre:query}});
-            console.log("Resultado onHandleSearchOperador:");
-            console.log(data);
             if (data) { 
                 // LLenamos options
                 if(data.getSearchOperador){
@@ -264,7 +303,7 @@ function EventoCreate({history})  {
                         apellido_paterno : i.apellido_paterno,
                         apellido_materno : i.apellido_materno
                     }));
-                    setOptionsOperador(searchResults);
+                    handleInputOptions('operador', searchResults);
                 }
             }
             if (errors) console.log(data.errors); 
@@ -273,10 +312,8 @@ function EventoCreate({history})  {
 
     const onHandleSearchCamion = async (query) => {
         if(query.length >= 5){
-            setOptionsCamion([]);
+            handleInputOptions('camion', []);
             const { data, errors } = await getCamion({variables:{descripcion:query}});
-            console.log("Resultado onHandleSearchOperador:");
-            console.log(data);
             if (data) { 
                 // LLenamos options
                 if(data.getSearchCamion){
@@ -284,7 +321,7 @@ function EventoCreate({history})  {
                         id : i._id,
                         descripcion : i.descripcion
                     }));
-                    setOptionsCamion(searchResults);
+                    handleInputOptions('camion', searchResults);
                 }
             }
             if (errors) console.log(data.errors); 
@@ -293,10 +330,8 @@ function EventoCreate({history})  {
 
     const onHandleSearchCaja = async (query) => {
         if(query.length >= 5){
-            setOptionsCaja([]);
+            handleInputOptions('caja', []);
             const { data, errors } = await getCaja({variables:{descripcion:query}});
-            console.log("Resultado onHandleSearchOperador:");
-            console.log(data);
             if (data) { 
                 // LLenamos options
                 if(data.getSearchCaja){
@@ -304,7 +339,7 @@ function EventoCreate({history})  {
                         id : i._id,
                         descripcion : i.descripcion
                     }));
-                    setOptionsCaja(searchResults);
+                    handleInputOptions('caja', searchResults);
                 }
             }
             if (errors) console.log(data.errors); 
@@ -313,10 +348,8 @@ function EventoCreate({history})  {
 
     const onHandleSearchEquipoGps = async (query) => {
         if(query.length >= 5){
-            setOptionsEquipoGps([]);
+            handleInputOptions('equipo_gps', []);
             const { data, errors } = await getEquipoGps({variables:{descripcion:query}});
-            console.log("Resultado onHandleSearchOperador:");
-            console.log(data);
             if (data) { 
                 // LLenamos options
                 if(data.getSearchEquipoGps){
@@ -324,7 +357,7 @@ function EventoCreate({history})  {
                         id : i._id,
                         descripcion : i.descripcion
                     }));
-                    setOptionsEquipoGps(searchResults);
+                    handleInputOptions('equipo_gps', searchResults);
                 }
             }
             if (errors) console.log(data.errors); 
@@ -332,41 +365,30 @@ function EventoCreate({history})  {
     };
 
     const onHandleTypeahead = (name, value) => {
-        console.log("===Resultado onHandleTypeahead");
-        console.log(name);
-        console.log(value);
         switch (name) {
             case 'cliente':
                 setSelectedCliente(value);
-                handleInputSelected('cliente', value[0].id);
                 break;
             case 'origen':
-                handleInputSelected('origen', value[0].id)
-                setSelectedOrigen(value);
+                handleInputSelected('origen', value);
                 break;
             case 'destino':
-                handleInputSelected('destino', value[0].id)
-                setSelectedDestino(value);
+                handleInputSelected('destino', value);
                 break;
-            case 'lineatransporte':
-                handleInputSelected('lineatransporte', value[0].id)
-                setSelectedLineasTransporte(value);
+            case 'linea_transporte':
+                handleInputSelected('linea_transporte', value);
                 break;
             case 'operador':
-                handleInputSelected('operador', value[0].id)
-                setSelectedOperador(value);
+                handleInputSelected('operador', value);
                 break;
             case 'camion':
-                handleInputSelected('camion', value[0].id)
-                setSelectedCamion(value);
+                handleInputSelected('camion', value);
                 break;
             case 'caja':
-                handleInputSelected('caja', value[0].id)
-                setSelectedCaja(value);
+                handleInputSelected('caja', value);
                 break;
-            case 'equipogps':
-                handleInputSelected('equipogps', value[0].id)
-                setSelectedEquipoGps(value);
+            case 'equipo_gps':
+                handleInputSelected('equipo_gps', value);
                 break;
         
             default:
@@ -374,16 +396,21 @@ function EventoCreate({history})  {
         }
     };
 
-    const handleChangeStartDate = (date) =>{
-        setStartDate(date);
+    const handleInputFechaSalida = (date) =>{
+        handleInputChange('fecha_salida', date);
     };
 
+    const handleChangeFechaCita = (date) =>{
+        handleInputChange('fecha_cita', date);
+    };
+
+    const [ updateRuta ] = useMutation(UPDATE_RUTA);
+
+    const { id } = match.params
+    const { data, loading } = useQuery(GET_RUTA, {variables:{id}});
+
     const catchData = async (inputs) => {
-        const { data, errors } = await sendRuta({variables:{data:{...inputs}}});
-        if(errors) {
-            console.log("HAY errores al guardar el usuario");
-            console.log(errors);
-        }
+        const { data } = await updateRuta({variables:{id:match.params.id, data:{...inputs}}});
         if (data) {
             if (data.errors) console.log(data.errors); 
             history.push('/');
@@ -394,16 +421,18 @@ function EventoCreate({history})  {
     const {
         inputs,
         handleInputChange,
+        handleInputOptions,
         handleSubmit,
         handleInputSelected,
-        options
-    } = useForm(catchData);
+        options,
+        selected
+    } = useForm(catchData, data);
 
     return (
         <>
         <Layout title="Crear un Nuevo Usuario" >
             <div className="d-sm-flex align-items-center justify-content-between mb-4">
-                <h1 className="h3 mb-0 text-gray-800">Crear Nuevo Evento</h1>
+                <h1 className="h3 mb-0 text-gray-800">Actualizar Datos Evento</h1>
             </div>
             <div className="row">
                 <div className="col-lg-12 col-md-10 mx-auto">
@@ -416,7 +445,7 @@ function EventoCreate({history})  {
                                     multiple={multiple}
                                     options={options.cliente}
                                     placeholder="Selecciona el cliente..."
-                                    selected={selectedCliente}
+                                    selected={selected.cliente}
                                     //className="form-control form-control-user"
                                     searchText="Buscando clientes..."
                                     onInputChange={onHandleSearchClientes}
@@ -433,7 +462,7 @@ function EventoCreate({history})  {
                                     multiple={multiple}
                                     options={options.origen}
                                     placeholder="Selecciona el origen..."
-                                    selected={selectedOrigen}
+                                    selected={selected.origen}
                                     //className="form-control form-control-user"
                                     searchText="Buscando origen..."
                                     onInputChange={onHandleSearchOrigen}
@@ -446,9 +475,9 @@ function EventoCreate({history})  {
                                     id="destino"
                                     labelKey="nombre"
                                     multiple={multiple}
-                                    options={optionsDestino}
+                                    options={options.destino}
                                     placeholder="Selecciona el destino..."
-                                    selected={selectedDestino}
+                                    selected={selected.destino}
                                     //className={"form-control form-control-user"}
                                     searchText="Buscando destino..."
                                     onInputChange={onHandleSearchDestino}
@@ -460,8 +489,8 @@ function EventoCreate({history})  {
                             <div className="col-sm-6">
                             <DatePicker
                                 className={"form-control form-control-user"}
-                                selected={startDate}
-                                onChange={handleChangeStartDate}
+                                selected={inputs.fecha_salida}
+                                onChange={handleInputFechaSalida}
                                 name="fecha_salida"
                                 flaceholderText="Fecha de salida"
                                 showTimeSelect
@@ -475,8 +504,8 @@ function EventoCreate({history})  {
                             <div className="col-sm-6">
                             <DatePicker
                                 className={"form-control form-control-user"}
-                                selected={startDate}
-                                onChange={handleChangeStartDate}
+                                selected={inputs.fecha_cita}
+                                onChange={handleChangeFechaCita}
                                 name="fecha_cita"
                                 flaceholderText="Fecha de cita"
                                 showTimeSelect
@@ -494,13 +523,13 @@ function EventoCreate({history})  {
                                     id="linea_transporte"
                                     labelKey="nombre"
                                     multiple={multiple}
-                                    options={optionsLineasTransporte}
+                                    options={options.linea_transporte}
                                     placeholder="Selecciona la linea de transporte..."
-                                    selected={selectedLineasTransporte}
+                                    selected={selected.linea_transporte}
                                     //className="form-control form-control-user"
                                     searchText="Buscando lineas de transportes..."
                                     onInputChange={onHandleSearchLineasTransporte}
-                                    onChange={(value)=>setSelectedLineasTransporte(value)}
+                                    onChange={(value)=>onHandleTypeahead('linea_transporte', value)}
                                     />
                         </div>
                         <div className="form-group">
@@ -509,13 +538,13 @@ function EventoCreate({history})  {
                                     id="operador"
                                     labelKey="nombre"
                                     multiple={multiple}
-                                    options={optionsOperador}
+                                    options={options.operador}
                                     placeholder="Selecciona el operador..."
-                                    selected={selectedOperador}
+                                    selected={selected.operador}
                                     //className="form-control form-control-user"
                                     searchText="Buscando operadores..."
                                     onInputChange={onHandleSearchOperador}
-                                    onChange={(value)=>setSelectedOperador(value)}
+                                    onChange={(value)=>onHandleTypeahead('operador', value)}
                                     inputClassName="notwork"
                                     />
                         </div>
@@ -525,13 +554,13 @@ function EventoCreate({history})  {
                                     id="camion"
                                     labelKey="descripcion"
                                     multiple={multiple}
-                                    options={optionsCamion}
+                                    options={options.camion}
                                     placeholder="Selecciona el camion..."
-                                    selected={selectedCamion}
+                                    selected={selected.camion}
                                     //className="form-control form-control-user"
                                     searchText="Buscando camiones..."
                                     onInputChange={onHandleSearchCamion}
-                                    onChange={(value)=>setSelectedCamion(value)}
+                                    onChange={(value)=>onHandleTypeahead('camion', value)}
                                     inputClassName="notwork"
                                     />
                         </div>
@@ -541,13 +570,13 @@ function EventoCreate({history})  {
                                     id="caja"
                                     labelKey="descripcion"
                                     multiple={multiple}
-                                    options={optionsCaja}
+                                    options={options.caja}
                                     placeholder="Selecciona el caja..."
-                                    selected={selectedCaja}
+                                    selected={selected.caja}
                                     //className="form-control form-control-user"
                                     searchText="Buscando cajas..."
                                     onInputChange={onHandleSearchCaja}
-                                    onChange={(value)=>setSelectedCaja(value)}
+                                    onChange={(value)=>onHandleTypeahead('caja', value)}
                                     inputClassName="notwork"
                                     />
                         </div>
@@ -557,19 +586,19 @@ function EventoCreate({history})  {
                                     id="gps"
                                     labelKey="descripcion"
                                     multiple={multiple}
-                                    options={optionsEquipoGps}
+                                    options={options.equipo_gps}
                                     placeholder="Selecciona el equipo Gps..."
-                                    selected={selectedEquipoGps}
+                                    selected={selected.equipo_gps}
                                     //className="form-control form-control-user"
                                     searchText="Buscando equipo Gps..."
                                     onInputChange={onHandleSearchEquipoGps}
-                                    onChange={(value)=>setSelectedEquipoGps(value)}
+                                    onChange={(value)=>onHandleTypeahead('equipo_gps', value)}
                                     inputClassName="notwork"
                                     />
                         </div>
                         <div className="form-group row">
                             <div className="col-sm-6 mb-3 mb-sm-0">
-                                <Link className="btn btn-secondary btn-user btn-block" to="/users" >Cancelar</Link>
+                                <Link className="btn btn-secondary btn-user btn-block" to="/" >Cancelar</Link>
                             </div>
                             <div className="col-sm-6 mb-3 mb-sm-0">
                                 <button type="submit" className="btn btn-success btn-user btn-block">
@@ -585,4 +614,4 @@ function EventoCreate({history})  {
     );
 }
 
-export default EventoCreate;
+export default EventoUpdate;
