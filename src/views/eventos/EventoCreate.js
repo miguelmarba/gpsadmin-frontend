@@ -153,7 +153,7 @@ function EventoCreate({history})  {
 
     const onHandleSearchClientes = async (query) => {
         if(query.length >= 3){
-            setOptionsCliente([]);
+            handleInputOptions('cliente', []);
             try {
                 const { data, errors } = await getClientes({variables:{nombre:query}});
                 if (data) {
@@ -163,13 +163,13 @@ function EventoCreate({history})  {
                             id : i._id,
                             nombre : i.nombre
                         }));
-                        setOptionsCliente(searchResults);
+                        handleInputOptions('cliente', searchResults);
                     } else {
                         const searchResult = [{
                             id : data.getSearchCliente._id,
                             nombre : data.getSearchCliente.nombre
                         }];
-                        setOptionsCliente(searchResult);
+                        handleInputOptions('cliente', searchResult);
                     }
                 }
                 if (errors) {
@@ -178,12 +178,14 @@ function EventoCreate({history})  {
             } catch (e) {
                 setOptionsCliente([]);
             }
+        } else {
+            handleInputOptions('cliente', []);
         }
     };
 
     const onHandleSearchLineasTransporte = async (query) => {
         if(query.length >= 3){
-            setOptionsCliente([]);
+            handleInputOptions('linea_transporte', []);
             try {
                 const { data, errors } = await getLineasTransporte({variables:{nombre:query}});
                 if (data) {
@@ -193,13 +195,13 @@ function EventoCreate({history})  {
                             id : i._id,
                             nombre : i.nombre
                         }));
-                        setOptionsLineasTransporte(searchResults);
+                        handleInputOptions('linea_transporte', searchResults);
                     } else {
                         const searchResult = [{
                             id : data.getSearchLineaTransporte._id,
                             nombre : data.getSearchLineaTransporte.nombre
                         }];
-                        setOptionsLineasTransporte(searchResult);
+                        handleInputOptions('linea_transporte', searchResult);
                     }
                 }
                 if (errors) {
@@ -208,12 +210,14 @@ function EventoCreate({history})  {
             } catch (e) {
                 setOptionsLineasTransporte([]);
             }
+        } else {
+            handleInputOptions('linea_transporte', []);
         }
     };
 
     const onHandleSearchOrigen = async (query) => {
         if(query.length >= 5){
-            setOptionsOrigen([]);
+            handleInputOptions('origen', []);
             const { data } = await getUbicacionOrigen({variables:{nombre:query}});
             if (data) {
                 if (data.errors) console.log(data.errors); 
@@ -223,18 +227,18 @@ function EventoCreate({history})  {
                         id : i._id,
                         nombre : i.nombre,
                     }));
-                    setOptionsOrigen(searchResults);
+                    handleInputOptions('origen', searchResults);
                 }
             }
+        } else {
+            handleInputOptions('origen', []);
         }
     };
 
     const onHandleSearchDestino = async (query) => {
         if(query.length >= 5){
-            setOptionsDestino([]);
+            handleInputOptions('destino', []);
             const { data } = await getUbicacionOrigen({variables:{nombre:query}});
-            console.log("Resultado onHandleSearch:");
-            console.log(data);
             if (data) {
                 if (data.errors) console.log(data.errors); 
                 // LLenamos options
@@ -243,18 +247,18 @@ function EventoCreate({history})  {
                         id : i._id,
                         nombre : i.nombre
                     }));
-                    setOptionsDestino(searchResults);
+                    handleInputOptions('destino', searchResults);
                 }
             }
+        } else {
+            handleInputOptions('destino', []);
         }
     };
 
     const onHandleSearchOperador = async (query) => {
         if(query.length >= 5){
-            setOptionsOperador([]);
+            handleInputOptions('operador', []);
             const { data, errors } = await getOperador({variables:{nombre:query}});
-            console.log("Resultado onHandleSearchOperador:");
-            console.log(data);
             if (data) { 
                 // LLenamos options
                 if(data.getSearchOperador){
@@ -264,19 +268,19 @@ function EventoCreate({history})  {
                         apellido_paterno : i.apellido_paterno,
                         apellido_materno : i.apellido_materno
                     }));
-                    setOptionsOperador(searchResults);
+                    handleInputOptions('operador', searchResults);
                 }
             }
             if (errors) console.log(data.errors); 
+        } else {
+            handleInputOptions('operador', []);
         }
     };
 
     const onHandleSearchCamion = async (query) => {
-        if(query.length >= 5){
-            setOptionsCamion([]);
+        if(query.length >= 4){
+            handleInputOptions('camion', []);
             const { data, errors } = await getCamion({variables:{descripcion:query}});
-            console.log("Resultado onHandleSearchOperador:");
-            console.log(data);
             if (data) { 
                 // LLenamos options
                 if(data.getSearchCamion){
@@ -284,19 +288,19 @@ function EventoCreate({history})  {
                         id : i._id,
                         descripcion : i.descripcion
                     }));
-                    setOptionsCamion(searchResults);
+                    handleInputOptions('camion', searchResults);
                 }
             }
             if (errors) console.log(data.errors); 
+        } else {
+            handleInputOptions('camion', []);
         }
     };
 
     const onHandleSearchCaja = async (query) => {
-        if(query.length >= 5){
-            setOptionsCaja([]);
+        if(query.length >= 4){
+            handleInputOptions('caja', []);
             const { data, errors } = await getCaja({variables:{descripcion:query}});
-            console.log("Resultado onHandleSearchOperador:");
-            console.log(data);
             if (data) { 
                 // LLenamos options
                 if(data.getSearchCaja){
@@ -304,19 +308,19 @@ function EventoCreate({history})  {
                         id : i._id,
                         descripcion : i.descripcion
                     }));
-                    setOptionsCaja(searchResults);
+                    handleInputOptions('caja', searchResults);
                 }
             }
             if (errors) console.log(data.errors); 
+        } else {
+            handleInputOptions('caja', []);
         }
     };
 
     const onHandleSearchEquipoGps = async (query) => {
         if(query.length >= 5){
-            setOptionsEquipoGps([]);
+            handleInputOptions('equipo_gps', []);
             const { data, errors } = await getEquipoGps({variables:{descripcion:query}});
-            console.log("Resultado onHandleSearchOperador:");
-            console.log(data);
             if (data) { 
                 // LLenamos options
                 if(data.getSearchEquipoGps){
@@ -324,49 +328,40 @@ function EventoCreate({history})  {
                         id : i._id,
                         descripcion : i.descripcion
                     }));
-                    setOptionsEquipoGps(searchResults);
+                    handleInputOptions('equipo_gps', searchResults);
                 }
             }
             if (errors) console.log(data.errors); 
+        } else {
+            handleInputOptions('equipo_gps', []);
         }
     };
 
     const onHandleTypeahead = (name, value) => {
-        console.log("===Resultado onHandleTypeahead");
-        console.log(name);
-        console.log(value);
         switch (name) {
             case 'cliente':
-                setSelectedCliente(value);
-                handleInputSelected('cliente', value[0].id);
+                handleInputSelected('cliente', value);
                 break;
             case 'origen':
-                handleInputSelected('origen', value[0].id)
-                setSelectedOrigen(value);
+                handleInputSelected('origen', value);
                 break;
             case 'destino':
-                handleInputSelected('destino', value[0].id)
-                setSelectedDestino(value);
+                handleInputSelected('destino', value);
                 break;
-            case 'lineatransporte':
-                handleInputSelected('lineatransporte', value[0].id)
-                setSelectedLineasTransporte(value);
+            case 'linea_transporte':
+                handleInputSelected('linea_transporte', value);
                 break;
             case 'operador':
-                handleInputSelected('operador', value[0].id)
-                setSelectedOperador(value);
+                handleInputSelected('operador', value);
                 break;
             case 'camion':
-                handleInputSelected('camion', value[0].id)
-                setSelectedCamion(value);
+                handleInputSelected('camion', value);
                 break;
             case 'caja':
-                handleInputSelected('caja', value[0].id)
-                setSelectedCaja(value);
+                handleInputSelected('caja', value);
                 break;
-            case 'equipogps':
-                handleInputSelected('equipogps', value[0].id)
-                setSelectedEquipoGps(value);
+            case 'equipo_gps':
+                handleInputSelected('equipo_gps', value);
                 break;
         
             default:
@@ -374,8 +369,12 @@ function EventoCreate({history})  {
         }
     };
 
-    const handleChangeStartDate = (date) =>{
-        setStartDate(date);
+    const handleInputFechaSalida = (date) =>{
+        handleInputChange('fecha_salida', date);
+    };
+
+    const handleChangeFechaCita = (date) =>{
+        handleInputChange('fecha_cita', date);
     };
 
     const catchData = async (inputs) => {
@@ -394,10 +393,15 @@ function EventoCreate({history})  {
     const {
         inputs,
         handleInputChange,
+        handleInputOptions,
         handleSubmit,
         handleInputSelected,
-        options
+        options,
+        selected
     } = useForm(catchData);
+
+    console.log("==Options:");
+    console.log(options);
 
     return (
         <>
@@ -416,7 +420,7 @@ function EventoCreate({history})  {
                                     multiple={multiple}
                                     options={options.cliente}
                                     placeholder="Selecciona el cliente..."
-                                    selected={selectedCliente}
+                                    selected={selected.cliente}
                                     //className="form-control form-control-user"
                                     searchText="Buscando clientes..."
                                     onInputChange={onHandleSearchClientes}
@@ -426,14 +430,14 @@ function EventoCreate({history})  {
                         </div>
                         <div className="form-group row">
                             <div className="col-sm-6 mb-3 mb-sm-0">
-                                    <Typeahead
+                                <Typeahead
                                     filterBy={(option, props) => {return true;}}
                                     id="origen"
                                     labelKey="nombre"
                                     multiple={multiple}
                                     options={options.origen}
                                     placeholder="Selecciona el origen..."
-                                    selected={selectedOrigen}
+                                    selected={selected.origen}
                                     //className="form-control form-control-user"
                                     searchText="Buscando origen..."
                                     onInputChange={onHandleSearchOrigen}
@@ -446,9 +450,9 @@ function EventoCreate({history})  {
                                     id="destino"
                                     labelKey="nombre"
                                     multiple={multiple}
-                                    options={optionsDestino}
+                                    options={options.destino}
                                     placeholder="Selecciona el destino..."
-                                    selected={selectedDestino}
+                                    selected={selected.destino}
                                     //className={"form-control form-control-user"}
                                     searchText="Buscando destino..."
                                     onInputChange={onHandleSearchDestino}
@@ -460,8 +464,8 @@ function EventoCreate({history})  {
                             <div className="col-sm-6">
                             <DatePicker
                                 className={"form-control form-control-user"}
-                                selected={startDate}
-                                onChange={handleChangeStartDate}
+                                selected={inputs.fecha_salida?inputs.fecha_salida:new Date()}
+                                onChange={handleInputFechaSalida}
                                 name="fecha_salida"
                                 flaceholderText="Fecha de salida"
                                 showTimeSelect
@@ -475,8 +479,8 @@ function EventoCreate({history})  {
                             <div className="col-sm-6">
                             <DatePicker
                                 className={"form-control form-control-user"}
-                                selected={startDate}
-                                onChange={handleChangeStartDate}
+                                selected={inputs.fecha_cita?inputs.fecha_cita:new Date()}
+                                onChange={handleChangeFechaCita}
                                 name="fecha_cita"
                                 flaceholderText="Fecha de cita"
                                 showTimeSelect
@@ -494,13 +498,13 @@ function EventoCreate({history})  {
                                     id="linea_transporte"
                                     labelKey="nombre"
                                     multiple={multiple}
-                                    options={optionsLineasTransporte}
+                                    options={options.linea_transporte}
                                     placeholder="Selecciona la linea de transporte..."
-                                    selected={selectedLineasTransporte}
+                                    selected={selected.linea_transporte}
                                     //className="form-control form-control-user"
                                     searchText="Buscando lineas de transportes..."
                                     onInputChange={onHandleSearchLineasTransporte}
-                                    onChange={(value)=>setSelectedLineasTransporte(value)}
+                                    onChange={(value)=>onHandleTypeahead('linea_transporte', value)}
                                     />
                         </div>
                         <div className="form-group">
@@ -509,13 +513,13 @@ function EventoCreate({history})  {
                                     id="operador"
                                     labelKey="nombre"
                                     multiple={multiple}
-                                    options={optionsOperador}
+                                    options={options.operador}
                                     placeholder="Selecciona el operador..."
-                                    selected={selectedOperador}
+                                    selected={selected.operador}
                                     //className="form-control form-control-user"
                                     searchText="Buscando operadores..."
                                     onInputChange={onHandleSearchOperador}
-                                    onChange={(value)=>setSelectedOperador(value)}
+                                    onChange={(value)=>onHandleTypeahead('operador', value)}
                                     inputClassName="notwork"
                                     />
                         </div>
@@ -525,13 +529,13 @@ function EventoCreate({history})  {
                                     id="camion"
                                     labelKey="descripcion"
                                     multiple={multiple}
-                                    options={optionsCamion}
+                                    options={options.camion}
                                     placeholder="Selecciona el camion..."
-                                    selected={selectedCamion}
+                                    selected={selected.camion}
                                     //className="form-control form-control-user"
                                     searchText="Buscando camiones..."
                                     onInputChange={onHandleSearchCamion}
-                                    onChange={(value)=>setSelectedCamion(value)}
+                                    onChange={(value)=>onHandleTypeahead('camion', value)}
                                     inputClassName="notwork"
                                     />
                         </div>
@@ -541,13 +545,13 @@ function EventoCreate({history})  {
                                     id="caja"
                                     labelKey="descripcion"
                                     multiple={multiple}
-                                    options={optionsCaja}
+                                    options={options.caja}
                                     placeholder="Selecciona el caja..."
-                                    selected={selectedCaja}
+                                    selected={selected.caja}
                                     //className="form-control form-control-user"
                                     searchText="Buscando cajas..."
                                     onInputChange={onHandleSearchCaja}
-                                    onChange={(value)=>setSelectedCaja(value)}
+                                    onChange={(value)=>onHandleTypeahead('caja', value)}
                                     inputClassName="notwork"
                                     />
                         </div>
@@ -557,13 +561,13 @@ function EventoCreate({history})  {
                                     id="gps"
                                     labelKey="descripcion"
                                     multiple={multiple}
-                                    options={optionsEquipoGps}
+                                    options={options.equipo_gps}
                                     placeholder="Selecciona el equipo Gps..."
-                                    selected={selectedEquipoGps}
+                                    selected={selected.equipo_gps}
                                     //className="form-control form-control-user"
                                     searchText="Buscando equipo Gps..."
                                     onInputChange={onHandleSearchEquipoGps}
-                                    onChange={(value)=>setSelectedEquipoGps(value)}
+                                    onChange={(value)=>onHandleTypeahead('equipo_gps', value)}
                                     inputClassName="notwork"
                                     />
                         </div>

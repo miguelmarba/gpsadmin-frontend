@@ -234,7 +234,7 @@ function EventoUpdate({match, history})  {
 
     const onHandleSearchLineasTransporte = async (query) => {
         if(query.length >= 3){
-            setOptionsCliente([]);
+            handleInputOptions([]);
             try {
                 const { data, errors } = await getLineasTransporte({variables:{nombre:query}});
                 if (data) {
@@ -325,6 +325,8 @@ function EventoUpdate({match, history})  {
                 }
             }
             if (errors) console.log(data.errors); 
+        } else {
+            handleInputOptions('camion', []);
         }
     };
 
@@ -367,7 +369,7 @@ function EventoUpdate({match, history})  {
     const onHandleTypeahead = (name, value) => {
         switch (name) {
             case 'cliente':
-                setSelectedCliente(value);
+                handleInputSelected('cliente', value);
                 break;
             case 'origen':
                 handleInputSelected('origen', value);

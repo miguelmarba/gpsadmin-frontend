@@ -3,7 +3,7 @@ import { useState, useEffect } from 'react';
 function useForm(callback, current={}){
     const [inputs, setInputs] = useState(current);
     const [options, setOptions] = useState({cliente:[], origen:[], destino:[], linea_transporte:[], operador:[], camion:[], caja:[], equipo_gps:[]});
-    const [selected, setSelected] = useState({cliente:[], origen:[], destino:[], linea_transporte:[], operador:[], camion:[], caja:[], equipo_gps:[]});
+    const [selected, setSelected] = useState({cliente:[], origen:[], destino:[], linea_transporte:[], operador:[], camion:[], caja:[], equipo_gps:[], fecha_salida:new Date(), fecha_cita:new Date()});
 
     useEffect(() => {
         if(current.getSingleRuta){
@@ -98,7 +98,11 @@ function useForm(callback, current={}){
     };
 
     const handleInputSelected = (name, value) => {
-        setInputs(fields => ({...fields, [name]: value[0].id}));
+        if(value.length > 0){
+            setInputs(fields => ({...fields, [name]: value[0].id}));
+        } else {
+            setInputs(fields => ({...fields, [name]: 0}));
+        }
         setSelected(fields => ({...fields, [name]: value}));
     };
 
