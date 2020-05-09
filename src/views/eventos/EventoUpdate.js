@@ -63,19 +63,6 @@ const UPDATE_RUTA = gql`
     }
 `;
 
-const ALL_USERS =  gql`
-    query getAllUsers{
-        getUsers{
-            _id
-            nombre
-            apellido_paterno
-            apellido_materno
-            email
-            telefono
-        }
-    }
-`;
-
 const ALL_CLIENTES =  gql`
     query getAllClientes($nombre:String!){
         getSearchCliente(nombre:$nombre){
@@ -90,22 +77,6 @@ const GET_LINEAS_TRANSPORTE =  gql`
         getSearchLineaTransporte(nombre:$nombre){
             _id
             nombre
-        }
-    }
-`;
-
-const CREATE_USER = gql`
-    mutation createUser($data:UserInput!){
-        createNewUser(data:$data){
-            _id
-        }
-    }
-`;
-
-const CREATE_RUTA = gql`
-    mutation createRuta($data:RutaInput!){
-        createNewRuta(data:$data){
-            _id
         }
     }
 `;
@@ -157,23 +128,7 @@ const GET_EQUIPOS_GPS =  gql`
     }
 `;
 
-const typeheadstyle = {
-    "font-size": '0.8rem',
-    "border-radius": '10rem',
-    padding: '1.5rem 1rem',
-}
-
-const typeheadstyle2 = {
-    padding: '0 0',
-    border: '0 !important'
-}
-
-const typeheadstyle3 = {
-    border: '0 !important'
-}
-
 function EventoUpdate({match, history})  {
-    const [ getUsers ] = useMutation(ALL_USERS);
     const [ getClientes ] = useMutation(ALL_CLIENTES);
     const [ getLineasTransporte ] = useMutation(GET_LINEAS_TRANSPORTE);
     const [ getUbicacionOrigen ] = useMutation(GET_UBICACION_ORIGEN);
@@ -181,75 +136,39 @@ function EventoUpdate({match, history})  {
     const [ getCamion ] = useMutation(GET_CAMIONES);
     const [ getCaja ] = useMutation(GET_CAJAS);
     const [ getEquipoGps ] = useMutation(GET_EQUIPOS_GPS);
-    const [ sendUser ] = useMutation(CREATE_USER);
-    const [ sendRuta ] = useMutation(CREATE_RUTA);
-    const [optionsCliente, setOptionsCliente] = useState([{id:"5e9bc189912d97481ba86c39", nombre:"MIKE MARRTINEZ BAUTISTA"}]);
-    const [optionsOrigen, setOptionsOrigen] = useState([]);
-    const [optionsDestino, setOptionsDestino] = useState([]);
-    const [optionsLineasTransporte, setOptionsLineasTransporte] = useState([]);
-    const [optionsOperador, setOptionsOperador] = useState([]);
-    const [optionsCamion, setOptionsCamion] = useState([]);
-    const [optionsCaja, setOptionsCaja] = useState([]);
-    const [optionsEquipoGps, setOptionsEquipoGps] = useState([]);
-    const [selectedCliente, setSelectedCliente] = useState([{id:"5e9bc189912d97481ba86c39", nombre:"MIKE MARRTINEZ BAUTISTA"}]);
-    const [selectedOrigen, setSelectedOrigen] = useState([]);
-    const [selectedDestino, setSelectedDestino] = useState([]);
-    const [selectedLineasTransporte, setSelectedLineasTransporte] = useState([]);
-    const [selectedOperador, setSelectedOperador] = useState([]);
-    const [selectedCamion, setSelectedCamion] = useState([]);
-    const [selectedCaja, setSelectedCaja] = useState([]);
-    const [selectedEquipoGps, setSelectedEquipoGps] = useState([]);
-    const [startDate, setStartDate] = useState(new Date());
-    const [time, setTime] = useState('06:00');
 
     const onHandleSearchClientes = async (query) => {
-        if(query.length >= 3){
-            setOptionsCliente([]);
-            try {
-                const { data, errors } = await getClientes({variables:{nombre:query}});
-                if (data) {
-                    // LLenamos options
-                    if(Array.isArray(data.getSearchCliente)){
-                        const searchResults = data.getSearchCliente.map((i) => ({
-                            id : i._id,
-                            nombre : i.nombre
-                        }));
-                        setOptionsCliente(searchResults);
-                    } else {
-                        const searchResult = [{
-                            id : data.getSearchCliente._id,
-                            nombre : data.getSearchCliente.nombre
-                        }];
-                        setOptionsCliente(searchResult);
-                    }
+        if(query.length >= 5){
+            handleInputOptions('cliente', []);
+            const { data } = await getClientes({variables:{nombre:query}});
+            if (data) {
+                if (data.errors) console.log(data.errors); 
+                // LLenamos options
+                if(data.getSearchCliente){
+                    const searchResults = data.getSearchCliente.map((i) => ({
+                        id : i._id,
+                        nombre : i.nombre,
+                    }));
+                    handleInputOptions('cliente', searchResults);
                 }
-                if (errors) {
-                    setOptionsCliente([]);
-                }
-            } catch (e) {
-                setOptionsCliente([]);
             }
         }
     };
 
     const onHandleSearchLineasTransporte = async (query) => {
-        if(query.length >= 3){
-            handleInputOptions([]);
-            try {
-                const { data, errors } = await getLineasTransporte({variables:{nombre:query}});
-                if (data) {
-                    // LLenamos options
+        if(query.length >= 5){
+            handleInputOptions('linea_transporte', []);
+            const { data } = await getLineasTransporte({variables:{nombre:query}});
+            if (data) {
+                if (data.errors) console.log(data.errors); 
+                // LLenamos options
+                if(data.getSearchLineaTransporte){
                     const searchResults = data.getSearchLineaTransporte.map((i) => ({
                         id : i._id,
-                        nombre : i.nombre
+                        nombre : i.nombre,
                     }));
                     handleInputOptions('linea_transporte', searchResults);
                 }
-                if (errors) {
-                    setOptionsLineasTransporte([]);
-                }
-            } catch (e) {
-                setOptionsLineasTransporte([]);
             }
         }
     };

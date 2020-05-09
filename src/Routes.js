@@ -31,6 +31,7 @@ import EquiposGps from './views/equipos_gps/EquiposGps';
 import EquipoGpsCreate from './views/equipos_gps/EquipoGpsCreate';
 import EquipoGpsUpdate from './views/equipos_gps/EquipoGpsUpdate';
 import EventoUpdate from './views/eventos/EventoUpdate';
+import Rutas from './views/eventos/Eventos';
 
 function Logout(){
     sessionStorage.removeItem('blogToken');
@@ -71,6 +72,7 @@ function Routes(){
             <Route exact path="/equiposgps/create" component={ EquipoGpsCreate } />
             <Route exact path="/equiposgps/update/:id" component={ EquipoGpsUpdate } />
             <Route exact path="/eventos/update/:id" component={ EventoUpdate } />
+            <Route exact path="/eventos" component={ Rutas } />
         </>
     );
 }

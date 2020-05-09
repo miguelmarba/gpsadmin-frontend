@@ -42,7 +42,8 @@ function Sidebar(){
                             <Link className="collapse-item" to="/clientes">Clientes</Link>
                             <Link className="collapse-item" to="/lineastrasporte">Lineas de Transporte</Link>
                             <Link className="collapse-item" to="/operadores">Operadores</Link>
-                            <Link className="collapse-item" to="/Cajas">Cajas</Link>
+                            <Link className="collapse-item" to="/equiposgps">Equpos Gps</Link>
+                            <Link className="collapse-item" to="/cajas">Cajas</Link>
                             <Link className="collapse-item" to="/camiones">Camiones</Link>
                             <Link className="collapse-item" to="/statusruta">Status Ruta</Link>
                             <Link className="collapse-item" to="/ubicaciones">Ubicaciones</Link>
