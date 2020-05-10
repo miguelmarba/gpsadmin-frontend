@@ -75,12 +75,17 @@ function ClienteCreate({history})  {
                             <input type="text" onChange={handleInputChange}  value={inputs.direccion} className="form-control form-control-user" name="direccion" placeholder="Dirección" required={false} />
                         </div>
                         <div className="form-group row">
-                            <div className="col-sm-6 mb-3 mb-sm-0">
+                            <div className="col-sm-4 mb-2 mb-sm-0">
                                 <Link className="btn btn-secondary btn-user btn-block" to="/clientes" >Cancelar</Link>
                             </div>
-                            <div className="col-sm-6 mb-3 mb-sm-0">
+                            <div className="col-sm-4 mb-2 mb-sm-0">
                                 <button type="submit" className="btn btn-success btn-user btn-block">
                                     Guardar
+                                </button>
+                            </div>
+                            <div className="col-sm-4 mb-2 mb-sm-0">
+                                <button type="submit" className="btn btn-success btn-user btn-block">
+                                    Guardar y Nuevo
                                 </button>
                             </div>
                         </div>

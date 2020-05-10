@@ -2,6 +2,7 @@ import React from 'react';
 import { Route, Redirect } from 'react-router-dom';
 
 import Home from './views/Home';
+import Login from './views/Login';
 import Users from './views/users/Users';
 import UserCreate from './views/users/UserCreate';
 import UserUpdate from './views/users/UserUpdate';
@@ -34,7 +35,7 @@ import EventoUpdate from './views/eventos/EventoUpdate';
 import Rutas from './views/eventos/Eventos';
 
 function Logout(){
-    sessionStorage.removeItem('blogToken');
+    sessionStorage.removeItem('idToken');
     return <Redirect to="/login" />
 }
 
@@ -42,6 +43,7 @@ function Routes(){
     return (
         <>
             <Route exact path="/" component={ Home } />
+            <Route exact path="/login" component={ Login } />
             <Route exact path="/users" component={ Users } />
             <Route exact path="/users/create" component={ UserCreate } />
             <Route exact path="/users/update/:id" component={ UserUpdate } />

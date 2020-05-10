@@ -4,6 +4,7 @@ import { useMutation, useQuery } from 'react-apollo-hooks';
 import gql from 'graphql-tag';
 import useForm from '../../hooks/useForm';
 import Layout from '../../common/Layout';
+import authHOC from '../../utils/authHOC';
 
 const CREATE_USER = gql`
     mutation createUser($data:UserInput!){
@@ -92,4 +93,4 @@ function UserCreate({history})  {
     );
 }
 
-export default UserCreate;
+export default authHOC(UserCreate);
