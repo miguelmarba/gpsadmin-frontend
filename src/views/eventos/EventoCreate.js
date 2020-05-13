@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { useMutation, useQuery } from 'react-apollo-hooks';
 import gql from 'graphql-tag';
@@ -10,6 +10,15 @@ import DatePicker from 'react-datepicker';
 import 'react-bootstrap-typeahead/css/Typeahead.css';
 import 'react-datepicker/dist/react-datepicker.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
+
+const ALL_STATUS_RUTA =  gql`
+    query getAllStatusRuta{
+        getStatusRuta{
+            _id
+            nombre
+        }
+    }
+`;
 
 const ALL_CLIENTES =  gql`
     query getAllClientes($nombre:String!){
@@ -85,6 +94,7 @@ const GET_EQUIPOS_GPS =  gql`
 `;
 
 function EventoCreate({history})  {
+    const { loading, error, data } = useQuery(ALL_STATUS_RUTA);
     const [ getClientes ] = useMutation(ALL_CLIENTES);
     const [ getLineasTransporte ] = useMutation(GET_LINEAS_TRANSPORTE);
     const [ getUbicacionOrigen ] = useMutation(GET_UBICACION_ORIGEN);
@@ -93,6 +103,7 @@ function EventoCreate({history})  {
     const [ getCaja ] = useMutation(GET_CAJAS);
     const [ getEquipoGps ] = useMutation(GET_EQUIPOS_GPS);
     const [ sendRuta ] = useMutation(CREATE_RUTA);
+    const [ frmDisabled, setFrmDisable] = useState(true);
 
     const onHandleSearchClientes = async (query) => {
         if(query.length >= 5){
@@ -259,6 +270,7 @@ function EventoCreate({history})  {
     const onHandleTypeahead = (name, value) => {
         switch (name) {
             case 'cliente':
+                setFrmDisable(false);
                 handleInputSelected('cliente', value);
                 break;
             case 'origen':
@@ -288,6 +300,11 @@ function EventoCreate({history})  {
         }
     };
 
+    const onHandleChangeSelect = (event) => {
+        const {name, value} = event.target;
+        handleInputChange(name, value);
+    }
+
     const handleInputFechaSalida = (date) =>{
         handleInputChange('fecha_salida', date);
     };
@@ -297,16 +314,19 @@ function EventoCreate({history})  {
     };
 
     const catchData = async (inputs) => {
-        const { data, errors } = await sendRuta({variables:{data:{...inputs}}});
-        if(errors) {
-            console.log("HAY errores al guardar el usuario");
-            console.log(errors);
-        }
-        if (data) {
-            if (data.errors) console.log(data.errors); 
-            history.push('/');
+        if(Object.entries(inputs).length > 0) {
+            const { data, errors } = await sendRuta({variables:{data:{...inputs}}});
+            if(errors) {
+                console.log("HAY errores al guardar el usuario");
+                console.log(errors);
+            }
+            if (data) {
+                if (data.errors) console.log(data.errors); 
+                history.push('/');
+            }
         }
     };
+
     const multiple = false;
 
     const {
@@ -319,8 +339,8 @@ function EventoCreate({history})  {
         selected
     } = useForm(catchData);
 
-    console.log("==Options:");
-    console.log(options);
+    if (loading) return null;
+    if (error) return `Error! ${error}`;
 
     return (
         <>
@@ -340,11 +360,12 @@ function EventoCreate({history})  {
                                     options={options.cliente}
                                     placeholder="Selecciona el cliente..."
                                     selected={selected.cliente}
-                                    //className="form-control form-control-user"
+                                    className="border-left-danger"
                                     searchText="Buscando clientes..."
                                     onInputChange={onHandleSearchClientes}
                                     onChange={(value)=>onHandleTypeahead('cliente', value)}
                                     inputClassName="notwork"
+                                    required={true}
                                     />
                         </div>
                         <div className="form-group row">
@@ -381,6 +402,7 @@ function EventoCreate({history})  {
                         </div>
                         <div className="form-group row">
                             <div className="col-sm-6">
+                            <label className="mb-1 small" style={{padding: '0 5px'}}>Fecha salida</label>
                             <DatePicker
                                 className={"form-control form-control-user"}
                                 selected={inputs.fecha_salida?inputs.fecha_salida:new Date()}
@@ -396,6 +418,7 @@ function EventoCreate({history})  {
                                 />
                             </div>
                             <div className="col-sm-6">
+                            <label className="mb-1 small" style={{padding: '0 5px'}}>Fecha cita</label>
                             <DatePicker
                                 className={"form-control form-control-user"}
                                 selected={inputs.fecha_cita?inputs.fecha_cita:new Date()}
@@ -411,7 +434,8 @@ function EventoCreate({history})  {
                                 />
                             </div>
                         </div>
-                        <div className="form-group">
+                        <div className="form-group row">
+                            <div className="col-sm-6">
                             <Typeahead //style={typeheadstyle}
                                     filterBy={(option, props) => {return true;}}
                                     id="linea_transporte"
@@ -425,8 +449,22 @@ function EventoCreate({history})  {
                                     onInputChange={onHandleSearchLineasTransporte}
                                     onChange={(value)=>onHandleTypeahead('linea_transporte', value)}
                                     />
+                            </div>
+                            <div className="col-sm-6">
+                                <div className="form-group">
+                                    <p className="form-control form-control-user">
+                                    <select name="status_ruta" className="form-group selectBox" onChange={onHandleChangeSelect} value={inputs.status_ruta}>
+                                        <option value="">-Selecciona status de la ruta-</option>
+                                        { data.getStatusRuta.map((status) => (
+                                        <option key={status._id} value={status._id}>{status.nombre}</option>
+                                        )) }
+                                    </select>
+                                    </p>
+                                </div>
+                            </div>
                         </div>
-                        <div className="form-group">
+                        <div className="form-group row">
+                            <div className="col-sm-6">
                             <Typeahead
                                     filterBy={(option, props) => {return true;}}
                                     id="operador"
@@ -441,8 +479,21 @@ function EventoCreate({history})  {
                                     onChange={(value)=>onHandleTypeahead('operador', value)}
                                     inputClassName="notwork"
                                     />
+                            </div>
+                            <div className="col-sm-6">
+                                <div className="form-group">
+                                    <p className="form-control form-control-user">
+                                        <select name="tipo_servicio" className="form-group selectBox" onChange={onHandleChangeSelect} value={inputs.tipo_servicio}>
+                                            <option value="">-Selecciona el tipo de servicio-</option>
+                                            <option value="EXPRESS">Express</option>
+                                            <option value="NORMAL" >Normal</option>
+                                        </select>
+                                    </p>
+                                </div>
+                            </div>
                         </div>
-                        <div className="form-group">
+                        <div className="form-group row">
+                            <div className="col-sm-6">
                             <Typeahead
                                     filterBy={(option, props) => {return true;}}
                                     id="camion"
@@ -457,8 +508,21 @@ function EventoCreate({history})  {
                                     onChange={(value)=>onHandleTypeahead('camion', value)}
                                     inputClassName="notwork"
                                     />
+                            </div>
+                            <div className="col-sm-6">
+                                <div className="form-group">
+                                    <p className="form-control form-control-user">
+                                        <select name="tipo_monitoreo" className="form-group selectBox" onChange={onHandleChangeSelect} value={inputs.tipo_monitoreo}>
+                                            <option value="">-Selecciona el tipo de monitoreo-</option>
+                                            <option value="CUSTODIA">Custodia</option>
+                                            <option value="DEDICADO" >Dedicado</option>
+                                        </select>
+                                    </p>
+                                </div>
+                            </div>
                         </div>
-                        <div className="form-group">
+                        <div className="form-group row">
+                            <div className="col-sm-6">
                             <Typeahead
                                     filterBy={(option, props) => {return true;}}
                                     id="caja"
@@ -473,6 +537,10 @@ function EventoCreate({history})  {
                                     onChange={(value)=>onHandleTypeahead('caja', value)}
                                     inputClassName="notwork"
                                     />
+                            </div>
+                            <div className="col-sm-6">
+                                <input type="text" onChange={onHandleChangeSelect}  value={inputs.folio} className="form-control form-control-user" name="folio" placeholder="Folio" required={false} />
+                            </div>
                         </div>
                         <div className="form-group">
                         <Typeahead
@@ -491,11 +559,11 @@ function EventoCreate({history})  {
                                     />
                         </div>
                         <div className="form-group row">
-                            <div className="col-sm-6 mb-3 mb-sm-0">
-                                <Link className="btn btn-secondary btn-user btn-block" to="/users" >Cancelar</Link>
+                            <div className="col-sm-4 mb-2 mb-sm-0">
+                                <Link className="btn btn-secondary btn-user btn-block" to="/" >Cancelar</Link>
                             </div>
-                            <div className="col-sm-6 mb-3 mb-sm-0">
-                                <button type="submit" className="btn btn-success btn-user btn-block">
+                            <div className="col-sm-4 mb-2 mb-sm-0">
+                                <button type="submit" name="guardar" disabled={frmDisabled}  className="btn btn-success btn-user btn-block">
                                     Guardar
                                 </button>
                             </div>

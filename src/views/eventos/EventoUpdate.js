@@ -17,6 +17,10 @@ const GET_RUTA = gql`
             _id
             fecha_salida
             fecha_cita
+            folio
+            fecha_llegada
+            tipo_servicio
+            tipo_monitoreo
             cliente{
                 _id
                 nombre
@@ -50,6 +54,10 @@ const GET_RUTA = gql`
             equipo_gps{
                 _id
                 descripcion
+            },
+            status_ruta{
+                _id
+                nombre
             }
         }
     }
@@ -59,6 +67,15 @@ const UPDATE_RUTA = gql`
     mutation updateRuta($id:ID!, $data:RutaInputUpdate!){
         updateOneRuta(id:$id, data:$data){
             _id
+        }
+    }
+`;
+
+const ALL_STATUS_RUTA =  gql`
+    query getAllStatusRuta{
+        getStatusRuta{
+            _id
+            nombre
         }
     }
 `;
@@ -325,6 +342,16 @@ function EventoUpdate({match, history})  {
         handleInputChange('fecha_cita', date);
     };
 
+    const onHandleChangeSelect = (event) => {
+        const {name, value} = event.target;
+        handleInputChange(name, value);
+    }
+
+    let { data: statusRuta, loading: loadingStatusRuta } = useQuery(ALL_STATUS_RUTA);
+    if(!statusRuta){
+        statusRuta = { getStatusRuta: [] };
+    }
+
     const [ updateRuta ] = useMutation(UPDATE_RUTA);
 
     const { id } = match.params
@@ -348,6 +375,8 @@ function EventoUpdate({match, history})  {
         options,
         selected
     } = useForm(catchData, data);
+    console.log("Resultado inputs");
+    console.log(inputs);
 
     return (
         <>
@@ -438,7 +467,8 @@ function EventoUpdate({match, history})  {
                                 />
                             </div>
                         </div>
-                        <div className="form-group">
+                        <div className="form-group row">
+                            <div className="col-sm-6">
                             <Typeahead //style={typeheadstyle}
                                     filterBy={(option, props) => {return true;}}
                                     id="linea_transporte"
@@ -452,8 +482,22 @@ function EventoUpdate({match, history})  {
                                     onInputChange={onHandleSearchLineasTransporte}
                                     onChange={(value)=>onHandleTypeahead('linea_transporte', value)}
                                     />
+                            </div>
+                            <div className="col-sm-6">
+                                <div className="form-group">
+                                    <p className="form-control form-control-user">
+                                    <select name="status_ruta" className="form-group selectBox" onChange={onHandleChangeSelect} value={inputs.status_ruta}>
+                                        <option value="0">-Selecciona status de la ruta-</option>
+                                        { statusRuta.getStatusRuta.map((status) => (
+                                        <option key={status._id} value={status._id}>{status.nombre}</option>
+                                        )) }
+                                    </select>
+                                    </p>
+                                </div>
+                            </div>
                         </div>
-                        <div className="form-group">
+                        <div className="form-group row">
+                            <div className="col-sm-6">
                             <Typeahead
                                     filterBy={(option, props) => {return true;}}
                                     id="operador"
@@ -468,8 +512,21 @@ function EventoUpdate({match, history})  {
                                     onChange={(value)=>onHandleTypeahead('operador', value)}
                                     inputClassName="notwork"
                                     />
+                            </div>
+                            <div className="col-sm-6">
+                                <div className="form-group">
+                                    <p className="form-control form-control-user">
+                                        <select name="tipo_servicio" className="form-group selectBox" onChange={onHandleChangeSelect} value={inputs.tipo_servicio}>
+                                            <option value="0">-Selecciona el tipo de servicio-</option>
+                                            <option value="EXPRESS">Express</option>
+                                            <option value="NORMAL" >Normal</option>
+                                        </select>
+                                    </p>
+                                </div>
+                            </div>
                         </div>
-                        <div className="form-group">
+                        <div className="form-group row">
+                            <div className="col-sm-6">
                             <Typeahead
                                     filterBy={(option, props) => {return true;}}
                                     id="camion"
@@ -484,8 +541,21 @@ function EventoUpdate({match, history})  {
                                     onChange={(value)=>onHandleTypeahead('camion', value)}
                                     inputClassName="notwork"
                                     />
+                            </div>
+                            <div className="col-sm-6">
+                                <div className="form-group">
+                                    <p className="form-control form-control-user">
+                                        <select name="tipo_monitoreo" className="form-group selectBox" onChange={onHandleChangeSelect} value={inputs.tipo_monitoreo}>
+                                            <option value="0">-Selecciona el tipo de monitoreo-</option>
+                                            <option value="CUSTODIA">Custodia</option>
+                                            <option value="DEDICADO" >Dedicado</option>
+                                        </select>
+                                    </p>
+                                </div>
+                            </div>
                         </div>
-                        <div className="form-group">
+                        <div className="form-group row">
+                            <div className="col-sm-6">
                             <Typeahead
                                     filterBy={(option, props) => {return true;}}
                                     id="caja"
@@ -500,9 +570,14 @@ function EventoUpdate({match, history})  {
                                     onChange={(value)=>onHandleTypeahead('caja', value)}
                                     inputClassName="notwork"
                                     />
+                            </div>
+                            <div className="col-sm-6">
+                            <input type="text" onChange={handleInputChange}  value={inputs.folio} className="form-control form-control-user" name="folio" placeholder="Folio" required={false} />
+                            </div>
                         </div>
-                        <div className="form-group">
-                        <Typeahead
+                        <div className="form-group row">
+                            <div className="col-sm-6">
+                            <Typeahead
                                     filterBy={(option, props) => {return true;}}
                                     id="gps"
                                     labelKey="descripcion"
@@ -516,6 +591,23 @@ function EventoUpdate({match, history})  {
                                     onChange={(value)=>onHandleTypeahead('equipo_gps', value)}
                                     inputClassName="notwork"
                                     />
+                            </div>
+                            <div className="col-sm-6">
+                                <label className="mb-1 small" style={{padding: '0 5px'}}>Fecha llegada</label>
+                                <DatePicker
+                                    className={"form-control form-control-user"}
+                                    selected={inputs.fecha_llegada?inputs.fecha_llegada:new Date()}
+                                    onChange={handleInputFechaSalida}
+                                    name="fecha_llegada"
+                                    flaceholderText="Fecha de llegada"
+                                    showTimeSelect
+                                    timeFormat="HH:mm"
+                                    timeIntervals={15}
+                                    timeCaption="Hora"
+                                    dateFormat="d/MM/yyyy h:mm"
+                                    minDate={new Date()}
+                                    />
+                            </div>
                         </div>
                         <div className="form-group row">
                             <div className="col-sm-6 mb-3 mb-sm-0">

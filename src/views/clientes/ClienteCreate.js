@@ -3,10 +3,7 @@ import { Link } from 'react-router-dom';
 import { useMutation, useQuery } from 'react-apollo-hooks';
 import gql from 'graphql-tag';
 import Layout from '../../common/Layout';
-import useForm from '../../hooks/useForm';
-import { Typeahead } from 'react-bootstrap-typeahead';
-import DatePicker from 'react-datepicker';
-import moment from 'moment';
+import useForm from '../../hooks/useFormCliente';
 
 import 'react-bootstrap-typeahead/css/Typeahead.css';
 import 'react-datepicker/dist/react-datepicker.css';
@@ -79,12 +76,12 @@ function ClienteCreate({history})  {
                                 <Link className="btn btn-secondary btn-user btn-block" to="/clientes" >Cancelar</Link>
                             </div>
                             <div className="col-sm-4 mb-2 mb-sm-0">
-                                <button type="submit" className="btn btn-success btn-user btn-block">
+                                <button type="submit" name="guardar" className="btn btn-success btn-user btn-block">
                                     Guardar
                                 </button>
                             </div>
                             <div className="col-sm-4 mb-2 mb-sm-0">
-                                <button type="submit" className="btn btn-success btn-user btn-block">
+                                <button type="submit" name="guardar_nuevo" className="btn btn-success btn-user btn-block">
                                     Guardar y Nuevo
                                 </button>
                             </div>

@@ -73,6 +73,14 @@ function useForm(callback, current={}){
                 setSelected(fields => ({...fields, [name]: [current.getSingleRuta.equipo_gps]}));
                 setInputs(fields => ({...fields, [name]: current.getSingleRuta.equipo_gps._id}));
             }
+            if(current.getSingleRuta.status_ruta){
+                handleInputSelected('status_ruta', current.getSingleRuta.status_ruta._id);
+                delete current.getSingleRuta.status_ruta.__typename;
+                const name = 'status_ruta';
+                setOptions(fields => ({...fields, [name]: [current.getSingleRuta.status_ruta]}));
+                setSelected(fields => ({...fields, [name]: [current.getSingleRuta.status_ruta]}));
+                setInputs(fields => ({...fields, [name]: current.getSingleRuta.status_ruta._id}));
+            }
             if(!current.getSingleRuta.fecha_salida){
                 inputs.fecha_salida = new Date();
             } else {
@@ -84,6 +92,14 @@ function useForm(callback, current={}){
             } else {
                 const d = new Date(current.getSingleRuta.fecha_cita);
                 inputs.fecha_cita = d;
+            }
+            if(current.getSingleRuta.tipo_servicio){
+                const name = 'tipo_servicio';
+                setInputs(fields => ({...fields, [name]: current.getSingleRuta.tipo_servicio}));
+            }
+            if(current.getSingleRuta.tipo_monitoreo){
+                const name = 'tipo_monitoreo';
+                setInputs(fields => ({...fields, [name]: current.getSingleRuta.tipo_monitoreo}));
             }
         }
     },[current]);
