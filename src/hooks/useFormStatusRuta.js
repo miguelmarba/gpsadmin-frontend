@@ -21,10 +21,16 @@ function useForm(callback, current={}){
         callback(inputs);
     };
 
+    const handleChangeSketchPicker = (value) => {
+        const name = 'color';
+        setInputs(fields => ({...fields, [name]: value.hex}));
+    }
+
     return {
         inputs,
         handleInputChange,
-        handleSubmit
+        handleSubmit,
+        handleChangeSketchPicker
     }
 };
 

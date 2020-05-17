@@ -1,9 +1,10 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { Link } from 'react-router-dom';
-import { useMutation, useQuery } from 'react-apollo-hooks';
+import { useMutation } from 'react-apollo-hooks';
 import gql from 'graphql-tag';
 import Layout from '../../common/Layout';
-import useForm from '../../hooks/useFormCaja';
+import useForm from '../../hooks/useFormStatusRuta';
+import { SketchPicker} from 'react-color';
 
 import 'react-bootstrap-typeahead/css/Typeahead.css';
 import 'react-datepicker/dist/react-datepicker.css';
@@ -18,7 +19,7 @@ const CREATE_STATUS_RUTA = gql`
 `;
 
 function CajaCreate({history})  {
-    const [ sendStatusRuta ] = useMutation(CREATE_STATUS_RUTA);;
+    const [ sendStatusRuta ] = useMutation(CREATE_STATUS_RUTA);
 
     const catchData = async (inputs) => {
         const { data, errors } = await sendStatusRuta({variables:{data:{...inputs}}});
@@ -35,7 +36,8 @@ function CajaCreate({history})  {
     const {
         inputs,
         handleInputChange,
-        handleSubmit
+        handleSubmit,
+        handleChangeSketchPicker
     } = useForm(catchData);
 
     return (
@@ -48,10 +50,16 @@ function CajaCreate({history})  {
                 <div className="col-lg-12 col-md-10 mx-auto">
                     <form className="user" onSubmit={handleSubmit}>
                         <div className="form-group">
-                            <input type="text" onChange={handleInputChange}  value={inputs.nombre} className="form-control form-control-user" name="nombre" placeholder="Nombre" required={true} />
+                            <input type="text" onChange={handleInputChange}  value={inputs.nombre?inputs.nombre:''} className="form-control form-control-user" name="nombre" placeholder="Nombre" required={true} />
                         </div>
                         <div className="form-group">
-                            <input type="text" onChange={handleInputChange}  value={inputs.descripcion} className="form-control form-control-user" name="descripcion" placeholder="Descripción" required={true} />
+                            <input type="text" onChange={handleInputChange}  value={inputs.descripcion?inputs.descripcion:''} className="form-control form-control-user" name="descripcion" placeholder="Descripción" required={true} />
+                        </div>
+                        <div className="form-group">
+                            <SketchPicker
+                                color={ inputs.color?inputs.color:'#fff' }
+                                onChangeComplete={ handleChangeSketchPicker }
+                            />
                         </div>
                         <div className="form-group row">
                             <div className="col-sm-6 mb-3 mb-sm-0">

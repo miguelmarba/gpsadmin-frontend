@@ -14,6 +14,7 @@ const ALL_STATUS_RUTA =  gql`
             _id
             nombre
             descripcion
+            color
         }
     }
 `;
@@ -27,6 +28,18 @@ function Cajas({ history }) {
         headerName: "Nombre", field: "nombre", sortable: true, filter: true
       }, {
         headerName: "Descripción", field: "descripcion", sortable: true, filter: true, width: 600
+      },
+      {
+        headerName: 'Color',
+        field: 'color',
+        width: 100,
+        cellRenderer: (params) => {
+            var parraf = document.createElement('p');
+            parraf.innerText = '' + params.data.color?params.data.color:'';
+            parraf.style.color = '#000';
+            parraf.style.background = '' + params.data.color?params.data.color:'';
+            return parraf;
+          }
       },
       {
         headerName: 'Editar',

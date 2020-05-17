@@ -1,16 +1,17 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { Link } from 'react-router-dom';
 import { useQuery, useMutation } from 'react-apollo-hooks';
 import gql from 'graphql-tag';
 import Layout from '../../common/Layout';
 import useForm from '../../hooks/useFormStatusRuta';
-import Input from '../../common/Input';
+import { SketchPicker} from 'react-color';
 
 const GET_STATUS_RUTA = gql`
     query getStatusRuta($id:ID!){
         getSingleStatusRuta(id:$id){
             nombre
             descripcion
+            color
         }
     }
 `;
@@ -40,8 +41,11 @@ function StatusRutaUpdate({ match, history })  {
     const {
         inputs,
         handleInputChange,
-        handleSubmit
+        handleSubmit,
+        handleChangeSketchPicker
     } = useForm(catchData, data);
+    console.log("Resultado inputs");
+    console.log(inputs);
 
     if(loading) return <h2>Cargando....</h2>
 
@@ -55,11 +59,17 @@ function StatusRutaUpdate({ match, history })  {
             <div className="col-lg-12 col-md-10 mx-auto">
                 <form className="user" onSubmit={handleSubmit}>
                     <div className="form-group">
-                        <input type="text" onChange={handleInputChange}  value={inputs.nombre} className="form-control form-control-user" name="nombre" placeholder="Nombre" required={true} />
+                        <input type="text" onChange={handleInputChange}  value={inputs.nombre?inputs.nombre:''} className="form-control form-control-user" name="nombre" placeholder="Nombre" required={true} />
                     </div>
                     <div className="form-group">
-                        <input type="text" onChange={handleInputChange}  value={inputs.descripcion} className="form-control form-control-user" name="descripcion" placeholder="Descripción" required={true} />
+                        <input type="text" onChange={handleInputChange}  value={inputs.descripcion?inputs.descripcion:''} className="form-control form-control-user" name="descripcion" placeholder="Descripción" required={true} />
                     </div>
+                    <div className="form-group">
+                        <SketchPicker
+                            color={ inputs.color?inputs.color:'#fff' }
+                            onChangeComplete={ handleChangeSketchPicker }
+                            />
+                        </div>
                     <div className="form-group row">
                         <div className="col-sm-6 mb-3 mb-sm-0">
                             <Link className="btn btn-secondary btn-user btn-block" to="/statusruta" >Cancelar</Link>
