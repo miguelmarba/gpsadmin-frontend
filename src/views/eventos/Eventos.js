@@ -56,12 +56,16 @@ function Eventos({ history }) {
               {
                 data.getRutas.map((ruta) => (
                 <tr key={ruta._id}>
-                  <td>{ruta.cliente.nombre}</td>
-                  <td>{ruta.origen.nombre}</td>
-                  <td>{ruta.destino.nombre}</td>
+                  <td>{ruta.cliente?ruta.cliente.nombre:''}</td>
+                  <td>{ruta.origen?ruta.origen.nombre:''}</td>
+                  <td>{ruta.destino?ruta.destino.nombre:''}</td>
                   <td>{moment(ruta.fecha_salida).format('DD MMMM YYYY h:mm')}</td>
                   <td>{moment(ruta.fecha_cita).format('DD MMMM YYYY h:mm')}</td>
-                  <td>ver</td>
+                  <td>
+                  <Link to={"/eventos/detail/" + ruta._id} className="d-none d-sm-inline-block btn btn-sm btn-info shadow-sm">
+                    <i className="fas fa-edit fa-sm text-white-50"></i> Ver
+                  </Link>
+                  </td>
                 </tr>
               ))
               }

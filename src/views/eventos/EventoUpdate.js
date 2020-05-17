@@ -375,8 +375,6 @@ function EventoUpdate({match, history})  {
         options,
         selected
     } = useForm(catchData, data);
-    console.log("Resultado inputs");
-    console.log(inputs);
 
     return (
         <>

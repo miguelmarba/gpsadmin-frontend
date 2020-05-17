@@ -1,6 +1,8 @@
 import React from 'react';
+import authenticate from '../utils/authenticate';
 
 function NavBar(){
+    const {isAuthenticated, payload} = authenticate();
     return (
         <>
             <ul className="navbar-nav ml-auto">
@@ -135,7 +137,7 @@ function NavBar(){
                 {/*  Nav Item - User Information */}
                 <li className="nav-item dropdown no-arrow">
                 <a className="nav-link dropdown-toggle" href="#j" id="userDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                    <span className="mr-2 d-none d-lg-inline text-gray-600 small">Miguel Ángel</span>
+                <span className="mr-2 d-none d-lg-inline text-gray-600 small">{ isAuthenticated ? payload.nombre: 'Iniciar Sesión'}</span>
                     <img className="img-profile rounded-circle" src="https://source.unsplash.com/QAB-WJcbgJk/60x60" alt="Perfil" />
                 </a>
                 {/*  Dropdown - User Information */}

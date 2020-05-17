@@ -33,6 +33,7 @@ import EquipoGpsCreate from './views/equipos_gps/EquipoGpsCreate';
 import EquipoGpsUpdate from './views/equipos_gps/EquipoGpsUpdate';
 import EventoUpdate from './views/eventos/EventoUpdate';
 import Rutas from './views/eventos/Eventos';
+import RutasDetail from './views/eventos/EventoDetail';
 
 function Logout(){
     sessionStorage.removeItem('idToken');
@@ -75,6 +76,7 @@ function Routes(){
             <Route exact path="/equiposgps/update/:id" component={ EquipoGpsUpdate } />
             <Route exact path="/eventos/update/:id" component={ EventoUpdate } />
             <Route exact path="/eventos" component={ Rutas } />
+            <Route exact path="/eventos/detail/:id" component={ RutasDetail } />
         </>
     );
 }

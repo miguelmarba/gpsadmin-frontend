@@ -8,7 +8,7 @@ const API_URL = 'http://localhost:4001/';
 const httpLink = createHttpLink({ uri: API_URL });
 
 const authLink = setContext((_, {headers}) => {
-    const token = localStorage.getItem('blogItem');
+    const token = sessionStorage.getItem('idToken');
     const context = {
         headers: {
             ...headers,
