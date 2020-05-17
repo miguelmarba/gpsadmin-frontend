@@ -361,7 +361,7 @@ function EventoUpdate({match, history})  {
         const { data } = await updateRuta({variables:{id:match.params.id, data:{...inputs}}});
         if (data) {
             if (data.errors) console.log(data.errors); 
-            history.push('/');
+            history.push('/eventos/detail/' + id);
         }
     };
     const multiple = false;
@@ -609,7 +609,7 @@ function EventoUpdate({match, history})  {
                         </div>
                         <div className="form-group row">
                             <div className="col-sm-6 mb-3 mb-sm-0">
-                                <Link className="btn btn-secondary btn-user btn-block" to="/" >Cancelar</Link>
+                                <Link className="btn btn-secondary btn-user btn-block" to={"/eventos/detail/" + id} >Cancelar</Link>
                             </div>
                             <div className="col-sm-6 mb-3 mb-sm-0">
                                 <button type="submit" className="btn btn-success btn-user btn-block">

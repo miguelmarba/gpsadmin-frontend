@@ -24,6 +24,9 @@ const ALL_RUTAS =  gql`
         destino{
           nombre
         }
+        status_ruta{
+          color
+        }
       }
     }
 `;
@@ -55,7 +58,7 @@ function Eventos({ history }) {
             <tbody>
               {
                 data.getRutas.map((ruta) => (
-                <tr key={ruta._id}>
+                <tr key={ruta._id} style={{background: ruta.status_ruta?ruta.status_ruta.color?ruta.status_ruta.color:'':''}}>
                   <td>{ruta.cliente?ruta.cliente.nombre:''}</td>
                   <td>{ruta.origen?ruta.origen.nombre:''}</td>
                   <td>{ruta.destino?ruta.destino.nombre:''}</td>

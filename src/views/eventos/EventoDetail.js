@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { Link } from 'react-router-dom';
 import { useQuery } from 'react-apollo-hooks';
 import gql from 'graphql-tag';
@@ -56,6 +56,7 @@ const GET_RUTA = gql`
             status_ruta{
                 _id
                 nombre
+                color
             },
             user{
                 _id
@@ -84,9 +85,7 @@ function EventoDetail({ match, history }) {
                             <thead>
                                 <tr>
                                     <th>
-                                        <button type="button" className="btn btn-secondary btn-user btn-block">
-                                            Modificar
-                                        </button>
+                                        <Link className="btn btn-secondary btn-user btn-block" to={"/eventos/update/" + data.getSingleRuta._id} >Modificar</Link>
                                     </th>
                                     <td>
                                         <button type="button" className="btn btn-secondary btn-user btn-block">
@@ -122,7 +121,10 @@ function EventoDetail({ match, history }) {
                                     <th>Destino</th>
                                     <td>{data.getSingleRuta.destino?data.getSingleRuta.destino.nombre:''}</td>
                                     <th>Status</th>
-                                    <td>{data.getSingleRuta.status_ruta?data.getSingleRuta.status_ruta.nombre:''}</td>
+                                    <td><p style={{background: data.getSingleRuta.status_ruta?data.getSingleRuta.status_ruta.color?data.getSingleRuta.status_ruta.color:'':''}}>
+                                        {data.getSingleRuta.status_ruta?data.getSingleRuta.status_ruta.nombre:''}
+                                        </p>
+                                    </td>
                                 </tr>
                                 <tr>
                                     <th>Línea de Transporte</th>
