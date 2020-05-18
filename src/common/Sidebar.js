@@ -4,8 +4,10 @@ import { Collapse } from 'reactstrap';
 
 function Sidebar(){
     const [isOpen, setIsOpen] = useState(false);
+    const [isOpenRep, setIsOpenRep] = useState(false);
 
     const toggle = () => setIsOpen(!isOpen);
+    const toggleRep = () => setIsOpenRep(!isOpenRep);
     return (
         <>
             <ul className="navbar-nav bg-gradient-primary sidebar sidebar-dark accordion" id="accordionSidebar">
@@ -54,19 +56,19 @@ function Sidebar(){
 
                 {/* Nav Item - Utilities Collapse Menu */}
                 <li className="nav-item">
-                    <a className="nav-link collapsed" href="#collapseUtilities" data-toggle="collapse" data-target="#collapseUtilities" aria-expanded="true" aria-controls="collapseUtilities">
+                    <a className="nav-link collapsed" onClick={toggleRep} href="#collapseUtilities">
                         <i className="fas fa-fw fa-wrench"></i>
                         <span>Informes</span>
                     </a>
-                    <div id="collapseUtilities" className="collapse" aria-labelledby="headingUtilities" data-parent="#accordionSidebar">
+                    <Collapse isOpen={isOpenRep} className="collapse">
                         <div className="bg-white py-2 collapse-inner rounded">
                             <h6 className="collapse-header">Custom Utilities:</h6>
-                            <Link className="collapse-item" to="/">Rutas en proceso</Link>
+                            <Link className="collapse-item" to="/eventos">Rutas en proceso</Link>
                             <Link className="collapse-item" to="/">Rutas mas recientes</Link>
                             <Link className="collapse-item" to="/">Rutas cerradas</Link>
                             <Link className="collapse-item" to="/">Incidencias</Link>
                         </div>
-                    </div>
+                    </Collapse>
                 </li>
 
                 {/* Divider */}

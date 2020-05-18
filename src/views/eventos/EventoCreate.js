@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { useMutation, useQuery } from 'react-apollo-hooks';
 import gql from 'graphql-tag';
