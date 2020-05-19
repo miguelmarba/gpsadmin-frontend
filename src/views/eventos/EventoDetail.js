@@ -6,6 +6,11 @@ import Layout from '../../common/Layout';
 import moment from 'moment';
 import ClientePreview from '../../components/ClientePreview';
 import UbicacionPreview from '../../components/UbicacionPreview';
+import LineaTransportePreview from '../../components/LineaTransportePreview';
+import OperadorPreview from '../../components/OperadorPreview';
+import CamionPreview from '../../components/CamionPreview';
+import CajaPreview from '../../components/CajaPreview';
+import EquipoGpsPreview from '../../components/EquipoGpsPreview';
 
 import 'react-bootstrap-typeahead/css/Typeahead.css';
 import 'react-datepicker/dist/react-datepicker.css';
@@ -46,28 +51,54 @@ const GET_RUTA = gql`
             destino{
                 _id
                 nombre
+                cp
+                calle
+                numero_exterior
+                numero_interior
+                estado
+                municipio
+                pais
             }
             linea_transporte{
                 _id
                 nombre
+                contacto
+                email
+                telefono
+                celular
+                cp
+                direccion
             }
             operador{
                 _id
                 nombre
                 apellido_paterno
                 apellido_materno
+                email
+                telefono
+                celular
             }
             camion{
                 _id
                 descripcion
+                placas
+                modelo
+                color
+                cuenta_espejo
+                tipo_unidad
             }
             caja{
                 _id
                 descripcion
+                placas
+                placas_americanas
             }
             equipo_gps{
                 _id
                 descripcion
+                marca
+                modelo
+                identificador
             },
             status_ruta{
                 _id
@@ -87,6 +118,11 @@ function EventoDetail({ match, history }) {
     const [showPreviewCliente, setShowPreviewCliente] = useState(false);
     const [showPreviewOrigen, setShowPreviewOrigen] = useState(false);
     const [showPreviewDestino, setShowPreviewDestino] = useState(false);
+    const [showPreviewLineaTransporte, setShowPreviewLineaTransporte] = useState(false);
+    const [showPreviewOperador, setShowPreviewOperador] = useState(false);
+    const [showPreviewCamion, setShowPreviewCamion] = useState(false);
+    const [showPreviewCaja, setShowPreviewCaja] = useState(false);
+    const [showPreviewEquipoGps, setShowPreviewEquipoGps] = useState(false);
     const { id } = match.params
     const { data, loading, error } = useQuery(GET_RUTA, {variables:{id}});
     if(loading) return <h2>Cargando...</h2>
@@ -123,6 +159,61 @@ function EventoDetail({ match, history }) {
     const onHandleClickBackDestino = () => {
         setShowDetail(true);
         setShowPreviewDestino(false);
+    }
+
+    const onHandleClickLineaTransportePreview = (e) => {
+        e.preventDefault();
+        setShowDetail(false);
+        setShowPreviewLineaTransporte(true);
+    }
+
+    const onHandleClickBackLineaTransporte = () => {
+        setShowDetail(true);
+        setShowPreviewLineaTransporte(false);
+    }
+
+    const onHandleClickOperadorPreview = (e) => {
+        e.preventDefault();
+        setShowDetail(false);
+        setShowPreviewOperador(true);
+    }
+
+    const onHandleClickBackOperador = () => {
+        setShowDetail(true);
+        setShowPreviewOperador(false);
+    }
+
+    const onHandleClickCamionPreview = (e) => {
+        e.preventDefault();
+        setShowDetail(false);
+        setShowPreviewCamion(true);
+    }
+
+    const onHandleClickBackCamion = () => {
+        setShowDetail(true);
+        setShowPreviewCamion(false);
+    }
+
+    const onHandleClickCajaPreview = (e) => {
+        e.preventDefault();
+        setShowDetail(false);
+        setShowPreviewCaja(true);
+    }
+
+    const onHandleClickBackCaja = () => {
+        setShowDetail(true);
+        setShowPreviewCaja(false);
+    }
+
+    const onHandleClickEquipoGpsPreview = (e) => {
+        e.preventDefault();
+        setShowDetail(false);
+        setShowPreviewEquipoGps(true);
+    }
+
+    const onHandleClickBackEquipoGps = () => {
+        setShowDetail(true);
+        setShowPreviewEquipoGps(false);
     }
 
     return (
@@ -194,31 +285,51 @@ function EventoDetail({ match, history }) {
                                 </tr>
                                 <tr>
                                     <th>Línea de Transporte</th>
-                                    <td>{data.getSingleRuta.linea_transporte?data.getSingleRuta.linea_transporte.nombre:''}</td>
+                                    <td>
+                                        <a onClick={onHandleClickLineaTransportePreview} href="#onHandleClickLineaTransportePreview">
+                                            {data.getSingleRuta.linea_transporte?data.getSingleRuta.linea_transporte.nombre:''}
+                                        </a>
+                                    </td>
                                     <th>Tipo de Servicio</th>
                                     <td>{data.getSingleRuta.tipo_servicio?data.getSingleRuta.tipo_servicio:''}</td>
                                 </tr>
                                 <tr>
                                     <th>Operador</th>
-                                    <td>{data.getSingleRuta.operador?data.getSingleRuta.operador.nombre:''}</td>
+                                    <td>
+                                        <a onClick={onHandleClickOperadorPreview} href="#onHandleClickOperadorPreview">
+                                            {data.getSingleRuta.operador?data.getSingleRuta.operador.nombre:''}
+                                        </a>
+                                    </td>
                                     <th>Tipo de Monitoreo</th>
                                     <td>{data.getSingleRuta.tipo_monitoreo?data.getSingleRuta.tipo_monitoreo:''}</td>
                                 </tr>
                                 <tr>
-                                    <th>Operador</th>
-                                    <td>{data.getSingleRuta.camion?data.getSingleRuta.camion.nombre:''}</td>
+                                    <th>Camión</th>
+                                    <td>
+                                        <a onClick={onHandleClickCamionPreview} href="#onHandleClickCamionPreview">
+                                            {data.getSingleRuta.operador?data.getSingleRuta.camion.descripcion:''}
+                                        </a>
+                                    </td>
                                     <th>Fecha llegada</th>
                                     <td>{data.getSingleRuta.fecha_llegada?data.getSingleRuta.fecha_llegada:''}</td>
                                 </tr>
                                 <tr>
                                     <th>Caja</th>
-                                    <td>{data.getSingleRuta.caja?data.getSingleRuta.caja.nombre:''}</td>
+                                    <td>
+                                        <a onClick={onHandleClickCajaPreview} href="#onHandleClickCamionPreview">
+                                            {data.getSingleRuta.caja?data.getSingleRuta.caja.descripcion:''}
+                                        </a>
+                                    </td>
                                     <th>Folio</th>
                                     <td>{data.getSingleRuta.folio?data.getSingleRuta.folio:''}</td>
                                 </tr>
                                 <tr>
                                     <th>Equipo GPS</th>
-                                    <td>{data.getSingleRuta.equipo_gps?data.getSingleRuta.equipo_gps.nombre:''}</td>
+                                    <td>
+                                        <a onClick={onHandleClickEquipoGpsPreview} href="#onHandleClickEquipoGpsPreview">
+                                            {data.getSingleRuta.equipo_gps?data.getSingleRuta.equipo_gps.descripcion:''}
+                                        </a>
+                                    </td>
                                     <th>Creado por:</th>
                                     <td>{data.getSingleRuta.user?data.getSingleRuta.user.nombre:''}</td>
                                 </tr>
@@ -228,6 +339,7 @@ function EventoDetail({ match, history }) {
                     </div>
                 </div>
             </div>
+            { data.getSingleRuta.cliente ? (
             <div className={"row" + (showPreviewCliente?"":" d-none")} >
                 <div className="col-lg-12 col-md-10 mx-auto">
                     <ClientePreview cliente={data.getSingleRuta.cliente} />
@@ -242,6 +354,8 @@ function EventoDetail({ match, history }) {
                     </div>
                 </div>
             </div>
+            ) : (null)}
+            { data.getSingleRuta.origen ? (
             <div className={"row" + (showPreviewOrigen?"":" d-none")} >
                 <div className="col-lg-12 col-md-10 mx-auto">
                     <UbicacionPreview ubicacion={data.getSingleRuta.origen} nombre="Origen" />
@@ -256,6 +370,8 @@ function EventoDetail({ match, history }) {
                     </div>
                 </div>
             </div>
+            ) : (null)}
+            { data.getSingleRuta.destino ? (
             <div className={"row" + (showPreviewDestino?"":" d-none")} >
                 <div className="col-lg-12 col-md-10 mx-auto">
                     <UbicacionPreview ubicacion={data.getSingleRuta.destino} nombre="Destino" />
@@ -270,6 +386,87 @@ function EventoDetail({ match, history }) {
                     </div>
                 </div>
             </div>
+            ) : (null)}
+            { data.getSingleRuta.linea_transporte ? (
+            <div className={"row" + (showPreviewLineaTransporte?"":" d-none")} >
+                <div className="col-lg-12 col-md-10 mx-auto">
+                    <LineaTransportePreview linea={data.getSingleRuta.linea_transporte} nombre="Línea de Transporte" />
+                    <div className="row pt-2">
+                        <div className="col-lg-12 col-md-6 mx-auto">
+                            <div className="form-group row">
+                                <div className="col-sm-12 mb-6 mb-sm-0">
+                                    <button className="btn btn-secondary btn-user" onClick={onHandleClickBackLineaTransporte} >Regresar</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            ) : (null)}
+            { data.getSingleRuta.operador ? (
+            <div className={"row" + (showPreviewOperador?"":" d-none")} >
+                <div className="col-lg-12 col-md-10 mx-auto">
+                    <OperadorPreview operador={data.getSingleRuta.operador} nombre="Operador" />
+                    <div className="row pt-2">
+                        <div className="col-lg-12 col-md-6 mx-auto">
+                            <div className="form-group row">
+                                <div className="col-sm-12 mb-6 mb-sm-0">
+                                    <button className="btn btn-secondary btn-user" onClick={onHandleClickBackOperador} >Regresar</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            ) : (null)}
+            { data.getSingleRuta.camion ? (
+            <div className={"row" + (showPreviewCamion?"":" d-none")} >
+                <div className="col-lg-12 col-md-10 mx-auto">
+                    <CamionPreview camion={data.getSingleRuta.camion} nombre="Camión" />
+                    <div className="row pt-2">
+                        <div className="col-lg-12 col-md-6 mx-auto">
+                            <div className="form-group row">
+                                <div className="col-sm-12 mb-6 mb-sm-0">
+                                    <button className="btn btn-secondary btn-user" onClick={onHandleClickBackCamion} >Regresar</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            ) : (null)}
+            { data.getSingleRuta.caja ? (
+            <div className={"row" + (showPreviewCaja?"":" d-none")} >
+                <div className="col-lg-12 col-md-10 mx-auto">
+                    <CajaPreview caja={data.getSingleRuta.caja} nombre="Caja" />
+                    <div className="row pt-2">
+                        <div className="col-lg-12 col-md-6 mx-auto">
+                            <div className="form-group row">
+                                <div className="col-sm-12 mb-6 mb-sm-0">
+                                    <button className="btn btn-secondary btn-user" onClick={onHandleClickBackCaja} >Regresar</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            ) : (null)}
+            { data.getSingleRuta.equipo_gps ? (
+            <div className={"row" + (showPreviewEquipoGps?"":" d-none")} >
+                <div className="col-lg-12 col-md-10 mx-auto">
+                    <EquipoGpsPreview equipo_gps={data.getSingleRuta.equipo_gps} nombre="Equipo Gps" />
+                    <div className="row pt-2">
+                        <div className="col-lg-12 col-md-6 mx-auto">
+                            <div className="form-group row">
+                                <div className="col-sm-12 mb-6 mb-sm-0">
+                                    <button className="btn btn-secondary btn-user" onClick={onHandleClickBackEquipoGps} >Regresar</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            ) : (null)}
         </Layout>
         </>
     );
