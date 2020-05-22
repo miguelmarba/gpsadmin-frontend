@@ -4,6 +4,7 @@ import { useQuery } from 'react-apollo-hooks';
 import gql from 'graphql-tag';
 import Layout from '../../common/Layout';
 import moment from 'moment';
+import TrackingPreview from '../../components/TrackingPreview';
 import ClientePreview from '../../components/ClientePreview';
 import UbicacionPreview from '../../components/UbicacionPreview';
 import LineaTransportePreview from '../../components/LineaTransportePreview';
@@ -108,6 +109,10 @@ const GET_RUTA = gql`
             user{
                 _id
                 nombre
+            },
+            tracking{
+                _id
+                comentarios
             }
         }
     }
@@ -115,6 +120,7 @@ const GET_RUTA = gql`
 
 function EventoDetail({ match, history }) {
     const [showDetail, setShowDetail] = useState(true);
+    const [showPreviewTracking, setShowPreviewTracking] = useState(false);
     const [showPreviewCliente, setShowPreviewCliente] = useState(false);
     const [showPreviewOrigen, setShowPreviewOrigen] = useState(false);
     const [showPreviewDestino, setShowPreviewDestino] = useState(false);
@@ -127,6 +133,17 @@ function EventoDetail({ match, history }) {
     const { data, loading, error } = useQuery(GET_RUTA, {variables:{id}});
     if(loading) return <h2>Cargando...</h2>
     if(error) return <h2>Hubo un error :(</h2>
+
+    const onHandleClickTracking = (e) => {
+        e.preventDefault();
+        setShowDetail(false);
+        setShowPreviewTracking(true);
+    }
+
+    const onHandleClickBackTracking = () => {
+        setShowDetail(true);
+        setShowPreviewTracking(false);
+    }
 
     const onHandleClickClientePreview = (e) => {
         e.preventDefault();
@@ -243,7 +260,7 @@ function EventoDetail({ match, history }) {
                                         </button>
                                     </th>
                                     <td>
-                                        <button type="button" className="btn btn-secondary btn-user btn-block">
+                                        <button type="button" onClick={onHandleClickTracking} className="btn btn-secondary btn-user btn-block">
                                             Tracking
                                         </button>
                                     </td>
@@ -335,6 +352,20 @@ function EventoDetail({ match, history }) {
                                 </tr>
                             </tbody>
                         </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div className={"row" + (showPreviewTracking?"":" d-none")} >
+                <div className="col-lg-12 col-md-10 mx-auto">
+                    <TrackingPreview ruta_id={data.getSingleRuta._id} cliente={data.getSingleRuta.cliente} />
+                    <div className="row pt-2">
+                        <div className="col-lg-12 col-md-6 mx-auto">
+                            <div className="form-group row">
+                                <div className="col-sm-12 mb-6 mb-sm-0">
+                                    <button className="btn btn-secondary btn-user" onClick={onHandleClickBackTracking} >Regresar</button>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
