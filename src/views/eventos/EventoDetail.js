@@ -17,6 +17,15 @@ import 'react-bootstrap-typeahead/css/Typeahead.css';
 import 'react-datepicker/dist/react-datepicker.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
 
+const ALL_STATUS_RUTA =  gql`
+    query getAllStatusRuta{
+        getStatusRuta{
+            _id
+            nombre
+        }
+    }
+`;
+
 const GET_RUTA = gql`
     query getRuta($id:ID!){
         getSingleRuta(id:$id){
@@ -113,6 +122,14 @@ const GET_RUTA = gql`
             tracking{
                 _id
                 comentarios
+                user{
+                    _id
+                    nombre
+                }
+                status_ruta{
+                    _id
+                    nombre
+                }
             }
         }
     }
@@ -131,6 +148,7 @@ function EventoDetail({ match, history }) {
     const [showPreviewEquipoGps, setShowPreviewEquipoGps] = useState(false);
     const { id } = match.params
     const { data, loading, error } = useQuery(GET_RUTA, {variables:{id}});
+    let { data: statusRuta, loading: loadingStatusRuta } = useQuery(ALL_STATUS_RUTA);
     if(loading) return <h2>Cargando...</h2>
     if(error) return <h2>Hubo un error :(</h2>
 
@@ -358,7 +376,7 @@ function EventoDetail({ match, history }) {
             </div>
             <div className={"row" + (showPreviewTracking?"":" d-none")} >
                 <div className="col-lg-12 col-md-10 mx-auto">
-                    <TrackingPreview ruta_id={data.getSingleRuta._id} cliente={data.getSingleRuta.cliente} />
+                    <TrackingPreview ruta_id={data.getSingleRuta._id} tracking={data.getSingleRuta.tracking} statusRuta={statusRuta} />
                     <div className="row pt-2">
                         <div className="col-lg-12 col-md-6 mx-auto">
                             <div className="form-group row">
