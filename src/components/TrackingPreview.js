@@ -107,7 +107,7 @@ function TrackingPreview({ruta_id, tracking, statusRuta, setNewStatus}) {
                                             <th>{ track.user.nombre }</th>
                                             <td>{ track.comentarios }</td>
                                             <th>{ track.status_ruta?track.status_ruta.nombre:'-' }</th>
-                                            <th>{ moment(track.created).format('DD MMMM YYYY h:mm') }</th>
+                                            <th>{ track.created?moment(track.created).format('DD MMMM YYYY h:mm'):'Sin fecha' }</th>
                                         </tr>
                                         )) ) : (null) }
                                     </tbody>
