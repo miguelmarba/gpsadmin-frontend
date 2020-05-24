@@ -2,7 +2,7 @@ import React, { useState, useEffect} from 'react';
 import gql from 'graphql-tag';
 import { useMutation} from 'react-apollo-hooks';
 import useForm from '../hooks/useFormTracking';
-//import moment from 'moment';
+import moment from 'moment';
 
 const CREATE_TRACK = gql`
     mutation createTracking($data:TrackingInput!){
@@ -107,7 +107,7 @@ function TrackingPreview({ruta_id, tracking, statusRuta, setNewStatus}) {
                                             <th>{ track.user.nombre }</th>
                                             <td>{ track.comentarios }</td>
                                             <th>{ track.status_ruta?track.status_ruta.nombre:'-' }</th>
-                                            {/* <th>{ moment(track.created).format('DD MMMM YYYY h:mm') }</th> */}
+                                            <th>{ moment(track.created).format('DD MMMM YYYY h:mm') }</th>
                                         </tr>
                                         )) ) : (null) }
                                     </tbody>
