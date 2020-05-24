@@ -122,6 +122,7 @@ const GET_RUTA = gql`
             tracking{
                 _id
                 comentarios
+                created
                 user{
                     _id
                     nombre
@@ -165,6 +166,7 @@ function EventoDetail({ match, history }) {
     let { data: statusRuta, loading: loadingStatusRuta } = useQuery(ALL_STATUS_RUTA);
     if(loading) return <h2>Cargando...</h2>
     if(error) return <h2>Hubo un error :(</h2>
+    if(loadingStatusRuta) return <h2>Cargando...</h2>
 
     const onHandleClickTracking = (e) => {
         e.preventDefault();

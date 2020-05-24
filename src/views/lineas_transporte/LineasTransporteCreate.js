@@ -1,12 +1,9 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { Link } from 'react-router-dom';
-import { useMutation, useQuery } from 'react-apollo-hooks';
+import { useMutation } from 'react-apollo-hooks';
 import gql from 'graphql-tag';
 import Layout from '../../common/Layout';
 import useForm from '../../hooks/useFormLineaTransporte';
-import { Typeahead } from 'react-bootstrap-typeahead';
-import DatePicker from 'react-datepicker';
-import moment from 'moment';
 
 import 'react-bootstrap-typeahead/css/Typeahead.css';
 import 'react-datepicker/dist/react-datepicker.css';

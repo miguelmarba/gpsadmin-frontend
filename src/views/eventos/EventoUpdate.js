@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { Link } from 'react-router-dom';
 import { useMutation, useQuery } from 'react-apollo-hooks';
 import gql from 'graphql-tag';
@@ -347,7 +347,7 @@ function EventoUpdate({match, history})  {
         handleInputChange(name, value);
     }
 
-    let { data: statusRuta, loading: loadingStatusRuta } = useQuery(ALL_STATUS_RUTA);
+    let { data: statusRuta } = useQuery(ALL_STATUS_RUTA);
     if(!statusRuta){
         statusRuta = { getStatusRuta: [] };
     }
@@ -355,7 +355,7 @@ function EventoUpdate({match, history})  {
     const [ updateRuta ] = useMutation(UPDATE_RUTA);
 
     const { id } = match.params
-    const { data, loading } = useQuery(GET_RUTA, {variables:{id}});
+    const { data } = useQuery(GET_RUTA, {variables:{id}});
 
     const catchData = async (inputs) => {
         const { data } = await updateRuta({variables:{id:match.params.id, data:{...inputs}}});
