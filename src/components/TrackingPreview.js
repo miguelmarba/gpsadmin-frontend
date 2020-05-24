@@ -1,32 +1,53 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect} from 'react';
 import gql from 'graphql-tag';
-import { useMutation, useQuery } from 'react-apollo-hooks';
+import { useMutation} from 'react-apollo-hooks';
 import useForm from '../hooks/useFormTracking';
 
 const CREATE_TRACK = gql`
     mutation createTracking($data:TrackingInput!){
         createNewTracking(data:$data){
             _id
+            comentarios
+            user{
+                _id
+                nombre
+            }
+            status_ruta{
+                _id
+                nombre
+                color
+            }
         }
     }
 `;
 
-function TrackingPreview({ruta_id, tracking, statusRuta}) {
+function TrackingPreview({ruta_id, tracking, statusRuta, setNewStatus}) {
     const [ sendTracking ] = useMutation(CREATE_TRACK);
+    const [ tracks, setTracks ] = useState(tracking);
     const [ disabledAgregar, setDisabledAgregar ] = useState(false);
+
+    useEffect(() => {
+        setTracks(tracking);
+    }, [tracking]);
     
     const catchData = async (inputs) => {
         setDisabledAgregar(true);
         const { data, errors } = await sendTracking({variables:{data:{...inputs}}});
         setDisabledAgregar(false);
+        handleSetInput('status_ruta', '');
+        delete inputs.comentarios;
         if(errors) {
-            console.log("HAY errores al guardar la caja");
+            console.log("HAY errores al guardar la tracking");
             console.log(errors);
         }
         if (data) {
             if (data.errors) console.log(data.errors);
-            delete inputs.status_ruta;
-            delete inputs.comentarios;
+            if(data.createNewTracking){
+                setTracks(state => [data.createNewTracking, ...state]);
+                if(data.createNewTracking.status_ruta){
+                    setNewStatus(data.createNewTracking.status_ruta);
+                }
+            }
         }
     };
 
@@ -44,9 +65,6 @@ function TrackingPreview({ruta_id, tracking, statusRuta}) {
         handleSubmit
     } = useForm(catchData, objRuta);
 
-    console.log("Resultado inputs");
-    console.log(inputs);
-
     return (
         <div className="row">
             <div className="col-lg-12 col-md-6 mx-auto">
@@ -62,7 +80,7 @@ function TrackingPreview({ruta_id, tracking, statusRuta}) {
                                         <option key={status._id} value={status._id}>{status.nombre}</option>
                                         )) }
                                     </select>
-                                    <input type="text" name="comentarios" onChange={handleInputChange}  value={inputs.comentarios} className="form-control bg-light border-0 small" placeholder="Comentarios" aria-label="Comentarios" aria-describedby="basic-addon2" required={true} />
+                                    <input type="text" name="comentarios" onChange={handleInputChange}  value={inputs.comentarios?inputs.comentarios:''} className="form-control bg-light border-0 small" placeholder="Comentarios" aria-label="Comentarios" aria-describedby="basic-addon2" required={true} />
                                     <div className="input-group-append">
                                         <button className="btn btn-success" type="submit" disabled={disabledAgregar}>
                                             Agregar
@@ -82,13 +100,13 @@ function TrackingPreview({ruta_id, tracking, statusRuta}) {
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        { tracking.map((track) => (
+                                        { tracks ? (tracks.map((track) => (
                                         <tr key={track._id}>
                                             <th>{ track.user.nombre }</th>
                                             <td>{ track.comentarios }</td>
                                             <th>{ track.status_ruta?track.status_ruta.nombre:'-' }</th>
                                         </tr>
-                                        ))}
+                                        )) ) : (null) }
                                     </tbody>
                                 </table>
                             </div>

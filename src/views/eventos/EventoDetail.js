@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { useQuery } from 'react-apollo-hooks';
 import gql from 'graphql-tag';
@@ -129,6 +129,7 @@ const GET_RUTA = gql`
                 status_ruta{
                     _id
                     nombre
+                    color
                 }
             }
         }
@@ -146,8 +147,21 @@ function EventoDetail({ match, history }) {
     const [showPreviewCamion, setShowPreviewCamion] = useState(false);
     const [showPreviewCaja, setShowPreviewCaja] = useState(false);
     const [showPreviewEquipoGps, setShowPreviewEquipoGps] = useState(false);
-    const { id } = match.params
+    const dataRutaTmp = {
+        getSingleRuta: {
+            _id:0
+        } 
+    }
+    const [dataRuta, setDataRuta] = useState(dataRutaTmp);
+    const { id } = match.params;
     const { data, loading, error } = useQuery(GET_RUTA, {variables:{id}});
+    
+    useEffect(() => {
+        if(data) {
+            setDataRuta(data);
+        }
+    }, [data]);
+
     let { data: statusRuta, loading: loadingStatusRuta } = useQuery(ALL_STATUS_RUTA);
     if(loading) return <h2>Cargando...</h2>
     if(error) return <h2>Hubo un error :(</h2>
@@ -251,6 +265,15 @@ function EventoDetail({ match, history }) {
         setShowPreviewEquipoGps(false);
     }
 
+    const onHandleChangeStatusRuta = (status_ruta) => {
+        setDataRuta(state => ({
+            getSingleRuta: {
+                ...state.getSingleRuta,
+                status_ruta: status_ruta
+            }
+        }));
+    }
+
     return (
         <>
         <Layout title="Crear un Nuevo Usuario" >
@@ -265,7 +288,7 @@ function EventoDetail({ match, history }) {
                             <thead>
                                 <tr>
                                     <th>
-                                        <Link className="btn btn-secondary btn-user btn-block" to={"/eventos/update/" + data.getSingleRuta._id} >Modificar</Link>
+                                        <Link className="btn btn-secondary btn-user btn-block" to={"/eventos/update/" + id} >Modificar</Link>
                                     </th>
                                     <td>
                                         <button type="button" className="btn btn-secondary btn-user btn-block">
@@ -289,32 +312,32 @@ function EventoDetail({ match, history }) {
                                     <th>Cliente</th>
                                     <td>
                                         <a onClick={onHandleClickClientePreview} href="#onHandleClickClientePreview">
-                                            {data.getSingleRuta.cliente?data.getSingleRuta.cliente.nombre:''}
+                                            {dataRuta.getSingleRuta.cliente?dataRuta.getSingleRuta.cliente.nombre:''}
                                         </a>
                                     </td>
                                     <th>Fecha salida</th>
-                                    <td>{data.getSingleRuta.fecha_salida?moment(data.getSingleRuta.fecha_salida).format('DD MMMM YYYY h:mm'):'Sin Fecha'}</td>
+                                    <td>{dataRuta.getSingleRuta.fecha_salida?moment(dataRuta.getSingleRuta.fecha_salida).format('DD MMMM YYYY h:mm'):'Sin Fecha'}</td>
                                 </tr>
                                 <tr>
                                     <th>Origen</th>
                                     <td>
                                         <a onClick={onHandleClickOrigenPreview} href="#onHandleClickOrigenPreview">
-                                            {data.getSingleRuta.origen?data.getSingleRuta.origen.nombre:''}
+                                            {dataRuta.getSingleRuta.origen?dataRuta.getSingleRuta.origen.nombre:''}
                                         </a>
                                     </td>
                                     <th>Fecha cita</th>
-                                    <td>{data.getSingleRuta.fecha_cita?moment(data.getSingleRuta.fecha_cita).format('DD MMMM YYYY h:mm'):''}</td>
+                                    <td>{dataRuta.getSingleRuta.fecha_cita?moment(dataRuta.getSingleRuta.fecha_cita).format('DD MMMM YYYY h:mm'):''}</td>
                                 </tr>
                                 <tr>
                                     <th>Destino</th>
                                     <td>
                                         <a onClick={onHandleClickDestinoPreview} href="#onHandleClickOrigenPreview">
-                                            {data.getSingleRuta.destino?data.getSingleRuta.destino.nombre:''}
+                                            {dataRuta.getSingleRuta.destino?dataRuta.getSingleRuta.destino.nombre:''}
                                         </a>
                                     </td>
                                     <th>Status</th>
-                                    <td><p style={{background: data.getSingleRuta.status_ruta?data.getSingleRuta.status_ruta.color?data.getSingleRuta.status_ruta.color:'':''}}>
-                                        {data.getSingleRuta.status_ruta?data.getSingleRuta.status_ruta.nombre:''}
+                                    <td><p style={{background: dataRuta.getSingleRuta.status_ruta?dataRuta.getSingleRuta.status_ruta.color?dataRuta.getSingleRuta.status_ruta.color:'':''}}>
+                                        {dataRuta.getSingleRuta.status_ruta?dataRuta.getSingleRuta.status_ruta.nombre:''}
                                         </p>
                                     </td>
                                 </tr>
@@ -322,51 +345,51 @@ function EventoDetail({ match, history }) {
                                     <th>Línea de Transporte</th>
                                     <td>
                                         <a onClick={onHandleClickLineaTransportePreview} href="#onHandleClickLineaTransportePreview">
-                                            {data.getSingleRuta.linea_transporte?data.getSingleRuta.linea_transporte.nombre:''}
+                                            {dataRuta.getSingleRuta.linea_transporte?dataRuta.getSingleRuta.linea_transporte.nombre:''}
                                         </a>
                                     </td>
                                     <th>Tipo de Servicio</th>
-                                    <td>{data.getSingleRuta.tipo_servicio?data.getSingleRuta.tipo_servicio:''}</td>
+                                    <td>{dataRuta.getSingleRuta.tipo_servicio?dataRuta.getSingleRuta.tipo_servicio:''}</td>
                                 </tr>
                                 <tr>
                                     <th>Operador</th>
                                     <td>
                                         <a onClick={onHandleClickOperadorPreview} href="#onHandleClickOperadorPreview">
-                                            {data.getSingleRuta.operador?data.getSingleRuta.operador.nombre:''}
+                                            {dataRuta.getSingleRuta.operador?dataRuta.getSingleRuta.operador.nombre:''}
                                         </a>
                                     </td>
                                     <th>Tipo de Monitoreo</th>
-                                    <td>{data.getSingleRuta.tipo_monitoreo?data.getSingleRuta.tipo_monitoreo:''}</td>
+                                    <td>{dataRuta.getSingleRuta.tipo_monitoreo?dataRuta.getSingleRuta.tipo_monitoreo:''}</td>
                                 </tr>
                                 <tr>
                                     <th>Camión</th>
                                     <td>
                                         <a onClick={onHandleClickCamionPreview} href="#onHandleClickCamionPreview">
-                                            {data.getSingleRuta.operador?data.getSingleRuta.camion.descripcion:''}
+                                            {dataRuta.getSingleRuta.camion?dataRuta.getSingleRuta.camion.descripcion:''}
                                         </a>
                                     </td>
                                     <th>Fecha llegada</th>
-                                    <td>{data.getSingleRuta.fecha_llegada?data.getSingleRuta.fecha_llegada:''}</td>
+                                    <td>{dataRuta.getSingleRuta.fecha_llegada?dataRuta.getSingleRuta.fecha_llegada:''}</td>
                                 </tr>
                                 <tr>
                                     <th>Caja</th>
                                     <td>
                                         <a onClick={onHandleClickCajaPreview} href="#onHandleClickCamionPreview">
-                                            {data.getSingleRuta.caja?data.getSingleRuta.caja.descripcion:''}
+                                            {dataRuta.getSingleRuta.caja?dataRuta.getSingleRuta.caja.descripcion:''}
                                         </a>
                                     </td>
                                     <th>Folio</th>
-                                    <td>{data.getSingleRuta.folio?data.getSingleRuta.folio:''}</td>
+                                    <td>{dataRuta.getSingleRuta.folio?dataRuta.getSingleRuta.folio:''}</td>
                                 </tr>
                                 <tr>
                                     <th>Equipo GPS</th>
                                     <td>
                                         <a onClick={onHandleClickEquipoGpsPreview} href="#onHandleClickEquipoGpsPreview">
-                                            {data.getSingleRuta.equipo_gps?data.getSingleRuta.equipo_gps.descripcion:''}
+                                            {dataRuta.getSingleRuta.equipo_gps?dataRuta.getSingleRuta.equipo_gps.descripcion:''}
                                         </a>
                                     </td>
                                     <th>Creado por:</th>
-                                    <td>{data.getSingleRuta.user?data.getSingleRuta.user.nombre:''}</td>
+                                    <td>{dataRuta.getSingleRuta.user?dataRuta.getSingleRuta.user.nombre:''}</td>
                                 </tr>
                             </tbody>
                         </table>
@@ -376,7 +399,7 @@ function EventoDetail({ match, history }) {
             </div>
             <div className={"row" + (showPreviewTracking?"":" d-none")} >
                 <div className="col-lg-12 col-md-10 mx-auto">
-                    <TrackingPreview ruta_id={data.getSingleRuta._id} tracking={data.getSingleRuta.tracking} statusRuta={statusRuta} />
+                    <TrackingPreview ruta_id={id} tracking={dataRuta.getSingleRuta.tracking} statusRuta={statusRuta} setNewStatus={onHandleChangeStatusRuta} />
                     <div className="row pt-2">
                         <div className="col-lg-12 col-md-6 mx-auto">
                             <div className="form-group row">
@@ -388,10 +411,10 @@ function EventoDetail({ match, history }) {
                     </div>
                 </div>
             </div>
-            { data.getSingleRuta.cliente ? (
+            { dataRuta.getSingleRuta.cliente ? (
             <div className={"row" + (showPreviewCliente?"":" d-none")} >
                 <div className="col-lg-12 col-md-10 mx-auto">
-                    <ClientePreview cliente={data.getSingleRuta.cliente} />
+                    <ClientePreview cliente={dataRuta.getSingleRuta.cliente} />
                     <div className="row pt-2">
                         <div className="col-lg-12 col-md-6 mx-auto">
                             <div className="form-group row">
@@ -404,10 +427,10 @@ function EventoDetail({ match, history }) {
                 </div>
             </div>
             ) : (null)}
-            { data.getSingleRuta.origen ? (
+            { dataRuta.getSingleRuta.origen ? (
             <div className={"row" + (showPreviewOrigen?"":" d-none")} >
                 <div className="col-lg-12 col-md-10 mx-auto">
-                    <UbicacionPreview ubicacion={data.getSingleRuta.origen} nombre="Origen" />
+                    <UbicacionPreview ubicacion={dataRuta.getSingleRuta.origen} nombre="Origen" />
                     <div className="row pt-2">
                         <div className="col-lg-12 col-md-6 mx-auto">
                             <div className="form-group row">
@@ -420,10 +443,10 @@ function EventoDetail({ match, history }) {
                 </div>
             </div>
             ) : (null)}
-            { data.getSingleRuta.destino ? (
+            { dataRuta.getSingleRuta.destino ? (
             <div className={"row" + (showPreviewDestino?"":" d-none")} >
                 <div className="col-lg-12 col-md-10 mx-auto">
-                    <UbicacionPreview ubicacion={data.getSingleRuta.destino} nombre="Destino" />
+                    <UbicacionPreview ubicacion={dataRuta.getSingleRuta.destino} nombre="Destino" />
                     <div className="row pt-2">
                         <div className="col-lg-12 col-md-6 mx-auto">
                             <div className="form-group row">
@@ -436,10 +459,10 @@ function EventoDetail({ match, history }) {
                 </div>
             </div>
             ) : (null)}
-            { data.getSingleRuta.linea_transporte ? (
+            { dataRuta.getSingleRuta.linea_transporte ? (
             <div className={"row" + (showPreviewLineaTransporte?"":" d-none")} >
                 <div className="col-lg-12 col-md-10 mx-auto">
-                    <LineaTransportePreview linea={data.getSingleRuta.linea_transporte} nombre="Línea de Transporte" />
+                    <LineaTransportePreview linea={dataRuta.getSingleRuta.linea_transporte} nombre="Línea de Transporte" />
                     <div className="row pt-2">
                         <div className="col-lg-12 col-md-6 mx-auto">
                             <div className="form-group row">
@@ -452,10 +475,10 @@ function EventoDetail({ match, history }) {
                 </div>
             </div>
             ) : (null)}
-            { data.getSingleRuta.operador ? (
+            { dataRuta.getSingleRuta.operador ? (
             <div className={"row" + (showPreviewOperador?"":" d-none")} >
                 <div className="col-lg-12 col-md-10 mx-auto">
-                    <OperadorPreview operador={data.getSingleRuta.operador} nombre="Operador" />
+                    <OperadorPreview operador={dataRuta.getSingleRuta.operador} nombre="Operador" />
                     <div className="row pt-2">
                         <div className="col-lg-12 col-md-6 mx-auto">
                             <div className="form-group row">
@@ -468,10 +491,10 @@ function EventoDetail({ match, history }) {
                 </div>
             </div>
             ) : (null)}
-            { data.getSingleRuta.camion ? (
+            { dataRuta.getSingleRuta.camion ? (
             <div className={"row" + (showPreviewCamion?"":" d-none")} >
                 <div className="col-lg-12 col-md-10 mx-auto">
-                    <CamionPreview camion={data.getSingleRuta.camion} nombre="Camión" />
+                    <CamionPreview camion={dataRuta.getSingleRuta.camion} nombre="Camión" />
                     <div className="row pt-2">
                         <div className="col-lg-12 col-md-6 mx-auto">
                             <div className="form-group row">
@@ -484,10 +507,10 @@ function EventoDetail({ match, history }) {
                 </div>
             </div>
             ) : (null)}
-            { data.getSingleRuta.caja ? (
+            { dataRuta.getSingleRuta.caja ? (
             <div className={"row" + (showPreviewCaja?"":" d-none")} >
                 <div className="col-lg-12 col-md-10 mx-auto">
-                    <CajaPreview caja={data.getSingleRuta.caja} nombre="Caja" />
+                    <CajaPreview caja={dataRuta.getSingleRuta.caja} nombre="Caja" />
                     <div className="row pt-2">
                         <div className="col-lg-12 col-md-6 mx-auto">
                             <div className="form-group row">
@@ -500,10 +523,10 @@ function EventoDetail({ match, history }) {
                 </div>
             </div>
             ) : (null)}
-            { data.getSingleRuta.equipo_gps ? (
+            { dataRuta.getSingleRuta.equipo_gps ? (
             <div className={"row" + (showPreviewEquipoGps?"":" d-none")} >
                 <div className="col-lg-12 col-md-10 mx-auto">
-                    <EquipoGpsPreview equipo_gps={data.getSingleRuta.equipo_gps} nombre="Equipo Gps" />
+                    <EquipoGpsPreview equipo_gps={dataRuta.getSingleRuta.equipo_gps} nombre="Equipo Gps" />
                     <div className="row pt-2">
                         <div className="col-lg-12 col-md-6 mx-auto">
                             <div className="form-group row">
