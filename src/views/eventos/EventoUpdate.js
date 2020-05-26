@@ -484,7 +484,7 @@ function EventoUpdate({match, history})  {
                             <div className="col-sm-6">
                                 <div className="form-group">
                                     <p className="form-control form-control-user">
-                                    <select name="status_ruta" className="form-group selectBox" onChange={onHandleChangeSelect} value={inputs.status_ruta}>
+                                    <select name="status_ruta" className="form-group selectBox" onChange={onHandleChangeSelect} value={inputs.status_ruta?inputs.status_ruta:''}>
                                         <option value="0">-Selecciona status de la ruta-</option>
                                         { statusRuta.getStatusRuta.map((status) => (
                                         <option key={status._id} value={status._id}>{status.nombre}</option>
@@ -514,7 +514,7 @@ function EventoUpdate({match, history})  {
                             <div className="col-sm-6">
                                 <div className="form-group">
                                     <p className="form-control form-control-user">
-                                        <select name="tipo_servicio" className="form-group selectBox" onChange={onHandleChangeSelect} value={inputs.tipo_servicio}>
+                                        <select name="tipo_servicio" className="form-group selectBox" onChange={onHandleChangeSelect} value={inputs.tipo_servicio?inputs.tipo_servicio:''}>
                                             <option value="0">-Selecciona el tipo de servicio-</option>
                                             <option value="EXPRESS">Express</option>
                                             <option value="NORMAL" >Normal</option>
@@ -543,7 +543,7 @@ function EventoUpdate({match, history})  {
                             <div className="col-sm-6">
                                 <div className="form-group">
                                     <p className="form-control form-control-user">
-                                        <select name="tipo_monitoreo" className="form-group selectBox" onChange={onHandleChangeSelect} value={inputs.tipo_monitoreo}>
+                                        <select name="tipo_monitoreo" className="form-group selectBox" onChange={onHandleChangeSelect} value={inputs.tipo_monitoreo?inputs.tipo_monitoreo:''}>
                                             <option value="0">-Selecciona el tipo de monitoreo-</option>
                                             <option value="CUSTODIA">Custodia</option>
                                             <option value="DEDICADO" >Dedicado</option>
@@ -570,7 +570,7 @@ function EventoUpdate({match, history})  {
                                     />
                             </div>
                             <div className="col-sm-6">
-                            <input type="text" onChange={handleInputChange}  value={inputs.folio} className="form-control form-control-user" name="folio" placeholder="Folio" required={false} />
+                            <input type="text" onChange={handleInputChange}  value={inputs.folio?inputs.folio:''} className="form-control form-control-user" name="folio" placeholder="Folio" required={false} />
                             </div>
                         </div>
                         <div className="form-group row">

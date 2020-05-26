@@ -8,7 +8,8 @@ function useForm(callback, current={}){
     useEffect(() => {
         if(current.getSingleRuta){
             delete current.getSingleRuta.__typename;
-            //setInputs({...current.getSingleRuta});
+            delete current.getSingleRuta._id;
+            setInputs({...current.getSingleRuta});
             if(current.getSingleRuta.cliente){
                 handleInputSelected('cliente', current.getSingleRuta.cliente._id);
                 delete current.getSingleRuta.cliente.__typename;
