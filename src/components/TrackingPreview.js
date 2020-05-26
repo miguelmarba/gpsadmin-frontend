@@ -100,6 +100,12 @@ function TrackingPreview({ruta_id, tracking, statusRuta, setNewStatus}) {
                                         <tr>
                                             <th colSpan="3"><h2>Tracking</h2></th>
                                         </tr>
+                                        <tr>
+                                            <th>Usuario</th>
+                                            <th>Comentarios</th>
+                                            <th>Status</th>
+                                            <th>Fecha</th>
+                                        </tr>
                                     </thead>
                                     <tbody>
                                         { tracks ? (tracks.map((track) => (

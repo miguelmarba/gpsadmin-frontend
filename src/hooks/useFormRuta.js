@@ -82,16 +82,20 @@ function useForm(callback, current={}){
                 setInputs(fields => ({...fields, [name]: current.getSingleRuta.status_ruta._id}));
             }
             if(!current.getSingleRuta.fecha_salida){
-                inputs.fecha_salida = new Date();
+                const name = 'fecha_salida';
+                setInputs(fields => ({...fields, [name]: new Date()}));
             } else {
                 const d = new Date(current.getSingleRuta.fecha_salida);
-                inputs.fecha_salida = d;
+                const name = 'fecha_salida';
+                setInputs(fields => ({...fields, [name]: d}));
             }
             if(!current.getSingleRuta.fecha_cita){
-                inputs.fecha_cita = new Date();
+                const name = 'fecha_cita';
+                setInputs(fields => ({...fields, [name]: new Date()}));
             } else {
                 const d = new Date(current.getSingleRuta.fecha_cita);
-                inputs.fecha_cita = d;
+                const name = 'fecha_cita';
+                setInputs(fields => ({...fields, [name]: d}));
             }
             if(current.getSingleRuta.tipo_servicio){
                 const name = 'tipo_servicio';

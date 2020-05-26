@@ -322,13 +322,19 @@ function EventoCreate({history})  {
                 console.log(errors);
             }
             if (data) {
-                if (data.errors) console.log(data.errors); 
-                history.push('/');
+                if (data.errors) console.log(data.errors);
+                const id = data.createNewRuta._id; 
+                history.push('/eventos/detail/' + id);
             }
         }
     };
 
     const multiple = false;
+
+    const initialData = {
+        fecha_salida: new Date(),
+        fecha_cita: new Date()
+    };
 
     const {
         inputs,
@@ -338,7 +344,7 @@ function EventoCreate({history})  {
         handleInputSelected,
         options,
         selected
-    } = useForm(catchData);
+    } = useForm(catchData, initialData);
 
     if (loading) return null;
     if (error) return `Error! ${error}`;
