@@ -74,31 +74,31 @@ function TrackingPreview({ruta_id, tracking, statusRuta, setNewStatus}) {
                     <div className="card-body">
                         <div className="row">
                             <div className="col-lg-12 col-md-10 mx-auto">
-                            <form className="d-none d-sm-inline-block form-inline mr-auto ml-md-3 my-2 my-md-0 mw-100 navbar-search" onSubmit={handleSubmit}>
-                                <div className="input-group">
+                            <form className="form-inline" onSubmit={handleSubmit}>
+                                <div className="form-group mb-2">
                                     <select name="status_ruta" className="form-control bg-light border-0 small" onChange={onHandleChangeSelect} value={inputs.status_ruta}>
                                         <option value="">-Selecciona el status-</option>
                                         { statusRuta.getStatusRuta.map((status) => (
                                         <option key={status._id} value={status._id}>{status.nombre}</option>
                                         )) }
                                     </select>
-                                    <input type="text" name="comentarios" onChange={handleInputChange}  value={inputs.comentarios?inputs.comentarios:''} className="form-control bg-light border-0 small" placeholder="Comentarios" aria-label="Comentarios" aria-describedby="basic-addon2" required={true} />
-                                    <div className="input-group-append">
-                                        <button className="btn btn-success" type="submit" disabled={disabledAgregar}>
-                                            Agregar
-                                            {/* <i className="fas fa-search fa-sm"></i> */}
-                                        </button>
-                                    </div>
                                 </div>
+                                <div className="form-group mx-sm-3 mb-2">
+                                    <textarea class="form-control bg-light border-0" name="comentarios" cols="80" rows="1" onChange={handleInputChange}  value={inputs.comentarios?inputs.comentarios:''} required={true} ></textarea>
+                                </div>
+                                <button className="btn btn-success" type="submit" disabled={disabledAgregar}>
+                                    Agregar comentario
+                                        {/* <i className="fas fa-search fa-sm"></i> */}
+                                </button>
                             </form>
                             </div>
                         </div>
                         <div className="row">
-                            <div className="col-lg-12 col-md-10 mx-auto">
+                            <div className="col-lg-12 col-md-10 mx-auto table-responsive">
                                 <table className="table">
                                     <thead>
                                         <tr>
-                                            <th colSpan="3"><h2>Tracking</h2></th>
+                                            <th colSpan="4"><h2>Tracking</h2></th>
                                         </tr>
                                         <tr>
                                             <th>Usuario</th>

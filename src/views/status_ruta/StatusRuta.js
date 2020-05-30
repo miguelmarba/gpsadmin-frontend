@@ -82,18 +82,22 @@ function Cajas({ history }) {
     return (
     <>
     <Layout title="Cajas" >
-        <div className="d-sm-flex align-items-center justify-content-between mb-4">
-            <h1 className="h3 mb-0 text-gray-800">Status Ruta</h1>
-            <Link to="/statusruta/create" className="d-none d-sm-inline-block btn btn-sm btn-success shadow-sm">
-                    <i className="fas fa-plus fa-sm text-white-50"></i> Crear nuevo Status
-            </Link>
+    <div className="row">
+        <div className="col-lg-12 col-md-10 mx-auto">
+          <div className="d-sm-flex align-items-center justify-content-between mb-4">
+              <h1 className="h3 mb-0 text-gray-800">Status Ruta</h1>
+              <Link to="/statusruta/create" className="d-block d-sm-inline-block btn btn-sm btn-success shadow-sm">
+                      <i className="fas fa-plus fa-sm text-white-50"></i> Crear nuevo Status
+              </Link>
+          </div>
+          <div className="ag-theme-balham" style={{ height: '400px', width: '100%' }} >
+              <AgGridReact
+                  columnDefs={columnDefs}
+                  rowData={rowData}>
+              </AgGridReact>
+          </div>
         </div>
-        <div className="ag-theme-balham" style={{ height: '500px', width: '1100px' }} >
-            <AgGridReact
-                columnDefs={columnDefs}
-                rowData={rowData}>
-            </AgGridReact>
-        </div>
+      </div>
     </Layout>
     </>
     );

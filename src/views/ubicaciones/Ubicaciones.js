@@ -78,18 +78,22 @@ function Ubicaciones({ history }) {
     return (
     <>
     <Layout title="Cajas" >
+    <div className="row">
+      <div className="col-lg-12 col-md-10 mx-auto">
         <div className="d-sm-flex align-items-center justify-content-between mb-4">
             <h1 className="h3 mb-0 text-gray-800">Ubicaciones</h1>
-            <Link to="/ubicaciones/create" className="d-none d-sm-inline-block btn btn-sm btn-success shadow-sm">
+            <Link to="/ubicaciones/create" className="d-block d-sm-inline-block btn btn-sm btn-success shadow-sm">
                     <i className="fas fa-plus fa-sm text-white-50"></i> Crear nueva Ubicación
             </Link>
         </div>
-        <div className="ag-theme-balham" style={{ height: '500px', width: '1100px' }} >
+        <div className="ag-theme-balham" style={{ height: '400px', width: '100%' }} >
             <AgGridReact
                 columnDefs={columnDefs}
                 rowData={rowData}>
             </AgGridReact>
         </div>
+      </div>
+    </div>
     </Layout>
     </>
     );

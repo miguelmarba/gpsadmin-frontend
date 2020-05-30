@@ -78,18 +78,22 @@ function Clientes({ history }) {
     return (
     <>
     <Layout title="Clientes" >
-        <div className="d-sm-flex align-items-center justify-content-between mb-4">
-            <h1 className="h3 mb-0 text-gray-800">Clientes</h1>
-            <Link to="/clientes/create" className="d-none d-sm-inline-block btn btn-sm btn-success shadow-sm">
-                    <i className="fas fa-plus fa-sm text-white-50"></i> Crear nuevo cliente
-            </Link>
-        </div>
-        <div className="ag-theme-balham" style={{ height: '500px', width: '1100px' }} >
-            <AgGridReact
+      <div className="row">
+        <div className="col-lg-12 col-md-10 mx-auto">
+          <div className="d-sm-flex align-items-center justify-content-between mb-4">
+              <h1 className="h3 mb-0 text-gray-800">Clientes</h1>
+              <Link to="/clientes/create" className="d-block d-sm-inline-block btn btn-sm btn-success shadow-sm">
+                      <i className="fas fa-plus fa-sm text-white-50"></i> Crear nuevo cliente
+              </Link>
+          </div>
+          <div className="ag-theme-balham" style={{ height: '400px', width: '100%' }}>
+              <AgGridReact
                 columnDefs={columnDefs}
                 rowData={rowData}>
-            </AgGridReact>
+              </AgGridReact>
+          </div>
         </div>
+      </div>
     </Layout>
     </>
     );

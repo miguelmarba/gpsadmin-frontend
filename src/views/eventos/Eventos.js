@@ -44,36 +44,38 @@ function Eventos({ history }) {
               <h6 className="m-0 font-weight-bold text-primary">Rutas activas</h6>
           </div>
           <div className="card-body">
-          <table className="table">
-            <thead>
-              <tr>
-                <th scope="col">Cliente</th>
-                <th scope="col">Origen</th>
-                <th scope="col">Destino</th>
-                <th scope="col">Fecha Salida</th>
-                <th scope="col">Fecha Cita</th>
-                <th scope="col">Acciones</th>
-              </tr>
-            </thead>
-            <tbody>
-              {
-                data.getRutas.map((ruta) => (
-                <tr key={ruta._id} style={{background: ruta.status_ruta?ruta.status_ruta.color?ruta.status_ruta.color:'':''}}>
-                  <td>{ruta.cliente?ruta.cliente.nombre:''}</td>
-                  <td>{ruta.origen?ruta.origen.nombre:''}</td>
-                  <td>{ruta.destino?ruta.destino.nombre:''}</td>
-                  <td>{moment(ruta.fecha_salida).format('DD MMMM YYYY h:mm')}</td>
-                  <td>{moment(ruta.fecha_cita).format('DD MMMM YYYY h:mm')}</td>
-                  <td>
-                  <Link to={"/eventos/detail/" + ruta._id} className="d-none d-sm-inline-block btn btn-sm btn-info shadow-sm">
-                    <i className="fas fa-edit fa-sm text-white-50"></i> Ver
-                  </Link>
-                  </td>
-                </tr>
-              ))
-              }
-            </tbody>
-          </table>
+            <div className="table-responsive">
+              <table className="table">
+                <thead>
+                  <tr>
+                    <th scope="col">Cliente</th>
+                    <th scope="col">Origen</th>
+                    <th scope="col">Destino</th>
+                    <th scope="col">Fecha Salida</th>
+                    <th scope="col">Fecha Cita</th>
+                    <th scope="col">Acciones</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {
+                    data.getRutas.map((ruta) => (
+                    <tr key={ruta._id} style={{background: ruta.status_ruta?ruta.status_ruta.color?ruta.status_ruta.color:'':''}}>
+                      <td>{ruta.cliente?ruta.cliente.nombre:''}</td>
+                      <td>{ruta.origen?ruta.origen.nombre:''}</td>
+                      <td>{ruta.destino?ruta.destino.nombre:''}</td>
+                      <td>{moment(ruta.fecha_salida).format('DD MMMM YYYY h:mm')}</td>
+                      <td>{moment(ruta.fecha_cita).format('DD MMMM YYYY h:mm')}</td>
+                      <td>
+                      <Link to={"/eventos/detail/" + ruta._id} className="d-none d-sm-inline-block btn btn-sm btn-info shadow-sm">
+                        <i className="fas fa-edit fa-sm text-white-50"></i> Ver
+                      </Link>
+                      </td>
+                    </tr>
+                  ))
+                  }
+                </tbody>
+              </table>
+            </div>
           </div>
       </div>
     </Layout>
