@@ -40,8 +40,17 @@ const ALL_STATUS_RUTA =  gql`
     }
 `;
 
+const EXPORT_RUTAS_BY_STATUS =  gql`
+    query getExportRutasByStatus($status:ID){
+      getExcelRutasByStatus(status:$status){
+        _id
+      }
+    }
+`;
+
 function Eventos({ history }) {
     const [ getRutasByStatus ] = useMutation(ALL_RUTAS_BY_STATUS);
+    const [ getExportRutasByStatus ] = useMutation(EXPORT_RUTAS_BY_STATUS);
     const [ status, setStatus ] = useState('');
     const [ cargando, setCargando ] = useState(false);
     let [ rutas, setRutas ] = useState([]);
@@ -90,6 +99,34 @@ function Eventos({ history }) {
       }
     }
 
+    const onHandleExcelRutas = async (status) => {
+      setCargando(true);
+      const { data, loading } = await getExportRutasByStatus({variables:{status}});
+      console.log('Resultado data en onHandleExcelRutas');
+      console.log(data);
+      
+      if(loading){
+        setCargando(true);
+      } else {
+        setCargando(false);
+      }
+      if (data) {
+        if (data.errors) console.log(data.errors);
+        console.log('Exito en onHandleExcelRutas') 
+        
+      } else {
+        console.log('Errores en onHandleExcelRutas');
+      }
+
+    };
+
+    const handleClickExport = (event) => {
+      event.preventDefault();
+      if(status){
+        onHandleExcelRutas(status);
+      }
+    }
+
     return (
     <>
     <Layout title="Clientes" >
@@ -112,6 +149,11 @@ function Eventos({ history }) {
                     <div className="form-group ml-2 mb-2">
                       <button className="btn btn-info" type="button" onClick={handleClickRefresh} disabled={cargando}>
                           <i className="fas fa-sync-alt fa-sm mr-2"></i>Refrescar
+                      </button>
+                    </div>
+                    <div className="form-group ml-2 mb-2">
+                      <button className="btn btn-info" type="button" onClick={handleClickExport} disabled={cargando}>
+                          <i className="fas fa-file-excel fa-sm mr-2"></i>Excel
                       </button>
                     </div>
                 </form>
