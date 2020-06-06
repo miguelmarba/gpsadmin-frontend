@@ -22,7 +22,7 @@ const ALL_LINEAS_TRASPORTE =  gql`
 `;
 
 function LineasTransporte({ history }) {
-   const [ gridApi, setGridApi ] = useState(null);
+    const [ gridApi, setGridApi ] = useState(null);
     const {data, loading, error} = useQuery(ALL_LINEAS_TRASPORTE);
     if(loading) return <h2>Cargando...</h2>
     if(error) return <h2>Hubo un error :(</h2>
@@ -94,7 +94,7 @@ function LineasTransporte({ history }) {
     <Layout title="Lineas Transporte" >
       <div className="row">
         <div className="col-lg-12 col-md-10 mx-auto">
-          <div className="d-sm-flex align-items-center justify-content-between mb-4">
+          <div className="d-sm-flex align-items-center justify-content-between mb-2">
               <h1 className="h3 mb-0 text-gray-800">Líneas de Transporte</h1>
           </div>
           <div className="row">
