@@ -48,7 +48,7 @@ function LineaTransporteCreate({history})  {
                 <div className="col-lg-12 col-md-10 mx-auto">
                     <form className="user" onSubmit={handleSubmit}>
                         <div className="form-group">
-                            <input type="text" onChange={handleInputChange}  value={inputs.nombre} className="form-control form-control-user" name="nombre" placeholder="Nombre Línea de Tranporte" required={true} />
+                            <input type="text" onChange={handleInputChange}  value={inputs.nombre} className="form-control form-control-user border-left-danger" name="nombre" placeholder="Nombre Línea de Tranporte" required={true} />
                         </div>
                         <div className="form-group">
                             <input type="text" onChange={handleInputChange}  value={inputs.contacto} className="form-control form-control-user" name="contacto" placeholder="Nombre del contacto" required={true} />

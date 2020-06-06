@@ -48,7 +48,7 @@ function ClienteCreate({history})  {
                 <div className="col-lg-12 col-md-10 mx-auto">
                     <form className="user" onSubmit={handleSubmit}>
                         <div className="form-group">
-                            <input type="text" onChange={handleInputChange}  value={inputs.nombre} className="form-control form-control-user" name="nombre" placeholder="Nombre Cliente" required={true} />
+                            <input type="text" onChange={handleInputChange}  value={inputs.nombre} className="form-control form-control-user border-left-danger" name="nombre" placeholder="Nombre Cliente" required={true} />
                         </div>
                         <div className="form-group">
                             <input type="text" onChange={handleInputChange}  value={inputs.rfc} className="form-control form-control-user" name="rfc" placeholder="RFC" required={true} />

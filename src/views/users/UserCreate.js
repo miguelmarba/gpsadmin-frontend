@@ -59,7 +59,7 @@ function UserCreate({history})  {
             <div className="col-lg-12 col-md-10 mx-auto">
                 <form className="user" onSubmit={handleSubmit}>
                     <div className="form-group">
-                        <input type="text" onChange={handleInputChange} value={inputs.nombre} className="form-control form-control-user" name="nombre" placeholder="Nombre" required={true} />
+                        <input type="text" onChange={handleInputChange} value={inputs.nombre} className="form-control form-control-user border-left-danger" name="nombre" placeholder="Nombre" required={true} />
                     </div>
                     <div className="form-group row">
                         <div className="col-sm-6 mb-3 mb-sm-0">

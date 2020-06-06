@@ -48,7 +48,7 @@ function CamionCreate({history})  {
                 <div className="col-lg-12 col-md-10 mx-auto">
                     <form className="user" onSubmit={handleSubmit}>
                         <div className="form-group">
-                            <input type="text" onChange={handleInputChange}  value={inputs.descripcion} className="form-control form-control-user" name="descripcion" placeholder="Descripción" required={true} />
+                            <input type="text" onChange={handleInputChange}  value={inputs.descripcion} className="form-control form-control-user border-left-danger" name="descripcion" placeholder="Descripción" required={true} />
                         </div>
                         <div className="form-group">
                             <input type="text" onChange={handleInputChange}  value={inputs.placas} className="form-control form-control-user" name="placas" placeholder="Placas" required={true} />
