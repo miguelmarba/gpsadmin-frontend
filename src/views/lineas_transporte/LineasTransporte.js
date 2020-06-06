@@ -96,14 +96,13 @@ function LineasTransporte({ history }) {
         <div className="col-lg-12 col-md-10 mx-auto">
           <div className="d-sm-flex align-items-center justify-content-between mb-4">
               <h1 className="h3 mb-0 text-gray-800">Líneas de Transporte</h1>
-              
           </div>
           <div className="row">
               <div className="col-xl-6 col-md-6 col-sm-3 mb-2 text-right">
                 <button className="btn btn-sm btn-info shadow-sm" type="button" onClick={handleClickExport}>
                     <i className="fas fa-file-csv fa-sm mr-2"></i>Exportar a CSV
                   </button>
-                </div>
+              </div>
               <div className="col-xl-6 col-md-6 col-sm-3 mb-2 text-right">
                 <Link to="/lineastrasporte/create" className="d-block d-sm-inline-block btn btn-sm btn-success shadow-sm">
                         <i className="fas fa-plus fa-sm text-white-50"></i> Crear nueva línea de Transporte
