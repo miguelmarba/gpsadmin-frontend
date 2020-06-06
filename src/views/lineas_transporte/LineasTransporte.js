@@ -99,9 +99,12 @@ function LineasTransporte({ history }) {
           </div>
           <div className="row">
               <div className="col-xl-6 col-md-6 col-sm-3 mb-2 text-right">
-                <button className="btn btn-sm btn-info shadow-sm" type="button" onClick={handleClickExport}>
-                    <i className="fas fa-file-csv fa-sm mr-2"></i>Exportar a CSV
-                  </button>
+                <button className="btn btn-sm btn-info shadow-sm d-none d-md-block" type="button" onClick={handleClickExport}>
+                  <i className="fas fa-file-csv fa-sm mr-2"></i>Exportar a CSV
+                </button>
+                <button className="btn btn-sm btn-info shadow-sm btn-block d-block d-md-none" type="button" onClick={handleClickExport}>
+                  <i className="fas fa-file-csv fa-sm mr-2"></i>Exportar a CSV
+                </button>
               </div>
               <div className="col-xl-6 col-md-6 col-sm-3 mb-2 text-right">
                 <Link to="/lineastrasporte/create" className="d-block d-sm-inline-block btn btn-sm btn-success shadow-sm">
