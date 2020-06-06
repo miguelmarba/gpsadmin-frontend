@@ -42,9 +42,7 @@ const ALL_STATUS_RUTA =  gql`
 
 const EXPORT_RUTAS_BY_STATUS =  gql`
     query getExportRutasByStatus($status:ID){
-      getExcelRutasByStatus(status:$status){
-        _id
-      }
+      getExcelRutasByStatus(status:$status)
     }
 `;
 
@@ -110,13 +108,17 @@ function Eventos({ history }) {
       } else {
         setCargando(false);
       }
-      if (data) {
+      if (data.getExcelRutasByStatus) {
         if (data.errors) console.log(data.errors);
-        console.log('Exito en onHandleExcelRutas') 
-        
+        console.log('Exito en onHandleExcelRutas'); 
+        const file_name = data.getExcelRutasByStatus.file_name;
+        const file_str = data.getExcelRutasByStatus.file;
+        console.log(file_name); 
+        console.log(file_str); 
       } else {
         console.log('Errores en onHandleExcelRutas');
       }
+      
 
     };
 
@@ -152,7 +154,7 @@ function Eventos({ history }) {
                       </button>
                     </div>
                     <div className="form-group ml-2 mb-2">
-                      <button className="btn btn-info" type="button" onClick={handleClickExport} disabled={cargando}>
+                      <button className="btn btn-success" type="button" onClick={handleClickExport} disabled={cargando}>
                           <i className="fas fa-file-excel fa-sm mr-2"></i>Excel
                       </button>
                     </div>
