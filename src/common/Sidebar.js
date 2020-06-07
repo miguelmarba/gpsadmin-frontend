@@ -2,15 +2,24 @@ import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { Collapse } from 'reactstrap';
 
-function Sidebar(){
+function Sidebar({isMenuOpen, toggleMenu}){
     const [isOpen, setIsOpen] = useState(false);
     const [isOpenRep, setIsOpenRep] = useState(false);
 
-    const toggle = () => setIsOpen(!isOpen);
-    const toggleRep = () => setIsOpenRep(!isOpenRep);
+    console.log('Resultado Sidebar isMenuOpen:');
+    console.log(isMenuOpen);
+
+    const toggle = (e) => {
+        e.preventDefault();
+        setIsOpen(!isOpen);
+    };
+    const toggleRep = (e) => {
+        e.preventDefault();
+        setIsOpenRep(!isOpenRep);
+    };
     return (
         <>
-            <ul className="navbar-nav bg-gradient-primary sidebar sidebar-dark accordion" id="accordionSidebar">
+            <ul className={"navbar-nav bg-gradient-primary sidebar sidebar-dark accordion" + (isMenuOpen?" d-none":"")} id="accordionSidebar">
                 {/* Sidebar - Brand */}
                 <Link className="sidebar-brand d-flex align-items-center justify-content-center" to="/">
                     <div className="sidebar-brand-icon rotate-n-15">

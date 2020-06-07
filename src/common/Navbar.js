@@ -8,16 +8,13 @@ function NavBar(){
     const [isUserOpen, setIsUserOpen] = useState(false);
 
     const toggleUser = (e) => {
-        console.log('Diste click en menu User');
-        console.log(isUserOpen);
         e.preventDefault();
         setIsUserOpen(!isUserOpen);
-    }
+    };
     
     return (
         <>
             <ul className="navbar-nav ml-auto">
-
                 {/*  Nav Item - Search Dropdown (Visible Only XS) */}
                 <li className="nav-item dropdown no-arrow d-sm-none">
                 <a className="nav-link dropdown-toggle" href="#dropdown" id="searchDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
