@@ -150,10 +150,10 @@ function NavBar(){
                     </a>
                 {/*  Dropdown - User Information */}
                     <Collapse isOpen={isUserOpen} className="dropdown-menu dropdown-menu-right shadow animated--grow-in">
-                        <Link className="dropdown-item" to="/eventos">
+                        <Link className="dropdown-item" to="/profile">
                             <i className="fas fa-user fa-sm fa-fw mr-2 text-gray-400"></i>Perfil
                         </Link>
-                        <Link className="dropdown-item" to="/eventos">
+                        <Link className="dropdown-item" to="/profile">
                             <i className="fas fa-cogs fa-sm fa-fw mr-2 text-gray-400"></i>Configuración
                         </Link>
                         <div className="dropdown-divider"></div>
