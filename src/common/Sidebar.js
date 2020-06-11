@@ -6,9 +6,6 @@ function Sidebar({isMenuOpen, toggleMenu}){
     const [isOpen, setIsOpen] = useState(false);
     const [isOpenRep, setIsOpenRep] = useState(false);
 
-    console.log('Resultado Sidebar isMenuOpen:');
-    console.log(isMenuOpen);
-
     const toggle = (e) => {
         e.preventDefault();
         setIsOpen(!isOpen);

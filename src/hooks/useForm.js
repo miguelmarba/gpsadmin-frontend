@@ -8,6 +8,11 @@ function useForm(callback, current={}){
             delete current.getSingleUser.__typename;
             setInputs({...current.getSingleUser});
         }
+        if(current.getSingleUserByEmail){
+            delete current.getSingleUserByEmail.__typename;
+            delete current.getSingleUserByEmail._id;
+            setInputs({...current.getSingleUserByEmail});
+        }
     },[current]);
     
     const handleInputChange = event => {

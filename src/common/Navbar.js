@@ -153,7 +153,7 @@ function NavBar(){
                         <Link className="dropdown-item" to="/profile">
                             <i className="fas fa-user fa-sm fa-fw mr-2 text-gray-400"></i>Perfil
                         </Link>
-                        <Link className="dropdown-item" to="/profile">
+                        <Link className="dropdown-item" to="/settings">
                             <i className="fas fa-cogs fa-sm fa-fw mr-2 text-gray-400"></i>Configuración
                         </Link>
                         <div className="dropdown-divider"></div>

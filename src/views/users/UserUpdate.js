@@ -27,7 +27,7 @@ const UPDATE_USER = gql`
 function UserUpdate({ match, history })  {
     const [ updateUser ] = useMutation(UPDATE_USER);
 
-    const { id } = match.params
+    const { id } = match.params;
     const { data, loading } = useQuery(GET_USER, {variables:{id}});
 
     const catchData = async (inputs) => {

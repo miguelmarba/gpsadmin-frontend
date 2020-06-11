@@ -33,6 +33,10 @@ function Login({ history }) {
         }
     }
 
+    const handleKeyUp = () =>{
+        setError(false);
+    };
+
     const {
         inputs,
         handleInputChange,
@@ -49,18 +53,20 @@ function Login({ history }) {
                             <h1 className="h4 text-gray-900 mb-4">Bienvenido a Sigueme!</h1>
                         </div>
                         <form className="user" onSubmit={handleSubmit}>
-                            <p className="text-danger">{error}</p>
                             <div className="form-group">
-                                <input type="email" className="form-control form-control-user" name="email" value={inputs.email || ''} onChange={handleInputChange} required={true} aria-describedby="emailHelp" placeholder="Nombre de usuario..." />
+                                <input type="email" className="form-control form-control-user" name="email" value={inputs.email || ''} onKeyUp={handleKeyUp}  onChange={handleInputChange} required={true} aria-describedby="emailHelp" placeholder="Nombre de usuario..." />
                             </div>
                             <div className="form-group">
-                                <input type="password" className="form-control form-control-user" name="password" value={inputs.password || ''} onChange={handleInputChange} required={true} placeholder="Contraseña" />
+                                <input type="password" className="form-control form-control-user" name="password" value={inputs.password || ''} onKeyUp={handleKeyUp}  onChange={handleInputChange} required={true} placeholder="Contraseña" />
                             </div>
                             <div className="form-group">
                                 <div className="custom-control custom-checkbox small">
                                     <input type="checkbox" className="custom-control-input" id="customCheck" />
                                     <label className="custom-control-label" htmlFor="customCheck">Recordarme</label>
                                 </div>
+                            </div>
+                            <div className={"alert alert-danger" + (error?'':' d-none')} role="alert">
+                                <p className="text-danger">{error}</p>
                             </div>
                             <button type="submit" className="btn btn-primary btn-user btn-block" >
                                 Iniciar sesión

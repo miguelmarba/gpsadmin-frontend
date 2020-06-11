@@ -17,6 +17,8 @@ const GET_PROFILE =  gql`
 
 function Profile(){
     const { data, loading, error } = useQuery(GET_PROFILE);
+    if(loading) return <h2>Cargando....</h2>
+
     return (
         <>
         <Layout title="Perfil">

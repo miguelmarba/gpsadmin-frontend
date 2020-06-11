@@ -35,6 +35,7 @@ import EventoUpdate from './views/eventos/EventoUpdate';
 import Rutas from './views/eventos/Eventos';
 import RutasDetail from './views/eventos/EventoDetail';
 import Profile from './views/users/Profile';
+import Settings from './views/users/Settings';
 
 function Logout(){
     sessionStorage.removeItem('idToken');
@@ -79,6 +80,7 @@ function Routes(){
             <Route exact path="/eventos" component={ Rutas } />
             <Route exact path="/eventos/detail/:id" component={ RutasDetail } />
             <Route exact path="/profile" component={ Profile } />
+            <Route exact path="/settings" component={ Settings } />
         </>
     );
 }
