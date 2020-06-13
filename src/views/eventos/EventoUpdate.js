@@ -6,6 +6,7 @@ import Layout from '../../common/Layout';
 import useForm from '../../hooks/useFormRuta';
 import { Typeahead } from 'react-bootstrap-typeahead';
 import DatePicker from 'react-datepicker';
+import authHOC from '../../utils/authHOC';
 
 import 'react-bootstrap-typeahead/css/Typeahead.css';
 import 'react-datepicker/dist/react-datepicker.css';
@@ -625,4 +626,4 @@ function EventoUpdate({match, history})  {
     );
 }
 
-export default EventoUpdate;
+export default authHOC(EventoUpdate);

@@ -1,6 +1,5 @@
 export default function () {
     const token = sessionStorage.getItem('idToken');
-
     if(token) {
         const baseUri = token.split('.')[1];
         const base64 = baseUri.replace('-','+').replace('_','/');

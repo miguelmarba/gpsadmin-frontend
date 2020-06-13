@@ -5,6 +5,7 @@ import gql from 'graphql-tag';
 import Layout from '../../common/Layout';
 import useForm from '../../hooks/useFormStatusRuta';
 import { SketchPicker} from 'react-color';
+import authHOC from '../../utils/authHOC';
 
 const GET_STATUS_RUTA = gql`
     query getStatusRuta($id:ID!){
@@ -26,7 +27,6 @@ const UPDATE_STATUS_RUTA = gql`
 
 function StatusRutaUpdate({ match, history })  {
     const [ updateStatusRuta ] = useMutation(UPDATE_STATUS_RUTA);
-
     const { id } = match.params
     const { data, loading } = useQuery(GET_STATUS_RUTA, {variables:{id}});
 
@@ -88,4 +88,4 @@ function StatusRutaUpdate({ match, history })  {
     );
 };
 
-export default StatusRutaUpdate;
+export default authHOC(StatusRutaUpdate);

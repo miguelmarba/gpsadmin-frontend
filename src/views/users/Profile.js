@@ -2,6 +2,7 @@ import React from 'react';
 import { useQuery } from 'react-apollo-hooks';
 import Layout from '../../common/Layout';
 import gql from 'graphql-tag';
+import authHOC from '../../utils/authHOC';
 
 const GET_PROFILE =  gql`
     query getMe{
@@ -15,8 +16,8 @@ const GET_PROFILE =  gql`
     }
 `;
 
-function Profile(){
-    const { data, loading, error } = useQuery(GET_PROFILE);
+function Profile({history}){
+    const { data, loading } = useQuery(GET_PROFILE);
     if(loading) return <h2>Cargando....</h2>
 
     return (
@@ -72,4 +73,4 @@ function Profile(){
     );
 };
 
-export default Profile;
+export default authHOC(Profile);

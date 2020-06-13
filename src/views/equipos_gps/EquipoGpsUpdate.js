@@ -4,6 +4,7 @@ import { useQuery, useMutation } from 'react-apollo-hooks';
 import gql from 'graphql-tag';
 import Layout from '../../common/Layout';
 import useForm from '../../hooks/useFormEquipoGps';
+import authHOC from '../../utils/authHOC';
 
 const GET_EQUIPO_GPS = gql`
     query getEquipoGps($id:ID!){
@@ -26,7 +27,6 @@ const UPDATE_EQUIPO_GPS = gql`
 
 function EquipoGpsUpdate({ match, history })  {
     const [ updateCaja ] = useMutation(UPDATE_EQUIPO_GPS);
-
     const { id } = match.params
     const { data, loading } = useQuery(GET_EQUIPO_GPS, {variables:{id}});
 
@@ -85,4 +85,4 @@ function EquipoGpsUpdate({ match, history })  {
     );
 };
 
-export default EquipoGpsUpdate;
+export default authHOC(EquipoGpsUpdate);

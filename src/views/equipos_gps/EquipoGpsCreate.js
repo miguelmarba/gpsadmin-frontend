@@ -4,6 +4,7 @@ import { useMutation } from 'react-apollo-hooks';
 import gql from 'graphql-tag';
 import Layout from '../../common/Layout';
 import useForm from '../../hooks/useFormEquipoGps';
+import authHOC from '../../utils/authHOC';
 
 import 'react-bootstrap-typeahead/css/Typeahead.css';
 import 'react-datepicker/dist/react-datepicker.css';
@@ -18,8 +19,7 @@ const CREATE_EQUIPO_GPS = gql`
 `;
 
 function EquipoGpsCreate({history})  {
-    const [ sendEquiposGps ] = useMutation(CREATE_EQUIPO_GPS);;
-
+    const [ sendEquiposGps ] = useMutation(CREATE_EQUIPO_GPS);
     const catchData = async (inputs) => {
         const { data, errors } = await sendEquiposGps({variables:{data:{...inputs}}});
         if(errors) {
@@ -77,4 +77,4 @@ function EquipoGpsCreate({history})  {
     );
 }
 
-export default EquipoGpsCreate;
+export default authHOC(EquipoGpsCreate);

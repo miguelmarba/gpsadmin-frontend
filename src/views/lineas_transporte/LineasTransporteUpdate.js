@@ -4,6 +4,7 @@ import { useQuery, useMutation } from 'react-apollo-hooks';
 import gql from 'graphql-tag';
 import Layout from '../../common/Layout';
 import useForm from '../../hooks/useFormLineaTransporte';
+import authHOC from '../../utils/authHOC';
 
 const GET_LINEA_TRANSPORTE = gql`
     query getLineaTransporte($id:ID!){
@@ -31,7 +32,6 @@ const UPDATE_LINEA_TRANSPORTE = gql`
 
 function LineaTransporteUpdate({ match, history })  {
     const [ updateLineaTransporte ] = useMutation(UPDATE_LINEA_TRANSPORTE);
-
     const { id } = match.params
     const { data, loading } = useQuery(GET_LINEA_TRANSPORTE, {variables:{id}});
 
@@ -105,4 +105,4 @@ function LineaTransporteUpdate({ match, history })  {
     );
 };
 
-export default LineaTransporteUpdate;
+export default authHOC(LineaTransporteUpdate);

@@ -12,6 +12,7 @@ import OperadorPreview from '../../components/OperadorPreview';
 import CamionPreview from '../../components/CamionPreview';
 import CajaPreview from '../../components/CajaPreview';
 import EquipoGpsPreview from '../../components/EquipoGpsPreview';
+import authHOC from '../../utils/authHOC';
 
 import 'react-bootstrap-typeahead/css/Typeahead.css';
 import 'react-datepicker/dist/react-datepicker.css';
@@ -546,4 +547,4 @@ function EventoDetail({ match, history }) {
     );
 }
 
-export default EventoDetail;
+export default authHOC(EventoDetail);

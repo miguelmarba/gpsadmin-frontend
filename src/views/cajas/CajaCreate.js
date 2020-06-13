@@ -4,6 +4,7 @@ import { useMutation } from 'react-apollo-hooks';
 import gql from 'graphql-tag';
 import Layout from '../../common/Layout';
 import useForm from '../../hooks/useFormCaja';
+import authHOC from '../../utils/authHOC';
 
 import 'react-bootstrap-typeahead/css/Typeahead.css';
 import 'react-datepicker/dist/react-datepicker.css';
@@ -18,8 +19,7 @@ const CREATE_CAJA = gql`
 `;
 
 function CajaCreate({history})  {
-    const [ sendCaja ] = useMutation(CREATE_CAJA);;
-
+    const [ sendCaja ] = useMutation(CREATE_CAJA);
     const catchData = async (inputs) => {
         const { data, errors } = await sendCaja({variables:{data:{...inputs}}});
         if(errors) {
@@ -74,4 +74,4 @@ function CajaCreate({history})  {
     );
 }
 
-export default CajaCreate;
+export default authHOC(CajaCreate);

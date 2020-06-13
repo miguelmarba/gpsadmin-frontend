@@ -4,6 +4,7 @@ import { useQuery, useMutation } from 'react-apollo-hooks';
 import gql from 'graphql-tag';
 import Layout from '../../common/Layout';
 import useForm from '../../hooks/useFormUbicacion';
+import authHOC from '../../utils/authHOC';
 
 const GET_UBICACION = gql`
     query getUbicacion($id:ID!){
@@ -32,7 +33,6 @@ const UPDATE_UBICACION = gql`
 
 function UbicacionUpdate({ match, history })  {
     const [ updateUbicacion ] = useMutation(UPDATE_UBICACION);
-
     const { id } = match.params
     const { data, loading } = useQuery(GET_UBICACION, {variables:{id}});
 
@@ -109,4 +109,4 @@ function UbicacionUpdate({ match, history })  {
     );
 };
 
-export default UbicacionUpdate;
+export default authHOC(UbicacionUpdate);

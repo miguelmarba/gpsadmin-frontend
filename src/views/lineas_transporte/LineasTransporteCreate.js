@@ -4,6 +4,7 @@ import { useMutation } from 'react-apollo-hooks';
 import gql from 'graphql-tag';
 import Layout from '../../common/Layout';
 import useForm from '../../hooks/useFormLineaTransporte';
+import authHOC from '../../utils/authHOC';
 
 import 'react-bootstrap-typeahead/css/Typeahead.css';
 import 'react-datepicker/dist/react-datepicker.css';
@@ -18,8 +19,7 @@ const CREATE_LINEA_TRANSPORTE = gql`
 `;
 
 function LineaTransporteCreate({history})  {
-    const [ sendLineaTransporte ] = useMutation(CREATE_LINEA_TRANSPORTE);;
-
+    const [ sendLineaTransporte ] = useMutation(CREATE_LINEA_TRANSPORTE);
     const catchData = async (inputs) => {
         const { data, errors } = await sendLineaTransporte({variables:{data:{...inputs}}});
         if(errors) {
@@ -92,4 +92,4 @@ function LineaTransporteCreate({history})  {
     );
 }
 
-export default LineaTransporteCreate;
+export default authHOC(LineaTransporteCreate);

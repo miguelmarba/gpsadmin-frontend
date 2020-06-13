@@ -4,6 +4,7 @@ import { useMutation } from 'react-apollo-hooks';
 import gql from 'graphql-tag';
 import Layout from '../../common/Layout';
 import useForm from '../../hooks/useFormCamion';
+import authHOC from '../../utils/authHOC';
 
 import 'react-bootstrap-typeahead/css/Typeahead.css';
 import 'react-datepicker/dist/react-datepicker.css';
@@ -18,8 +19,7 @@ const CREATE_CAMION = gql`
 `;
 
 function CamionCreate({history})  {
-    const [ sendCamion ] = useMutation(CREATE_CAMION);;
-
+    const [ sendCamion ] = useMutation(CREATE_CAMION);
     const catchData = async (inputs) => {
         const { data, errors } = await sendCamion({variables:{data:{...inputs}}});
         if(errors) {
@@ -80,4 +80,4 @@ function CamionCreate({history})  {
     );
 }
 
-export default CamionCreate;
+export default authHOC(CamionCreate);

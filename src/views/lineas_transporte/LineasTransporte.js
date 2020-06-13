@@ -3,6 +3,7 @@ import gql from 'graphql-tag';
 import { Link } from 'react-router-dom';
 import Layout from '../../common/Layout';
 import { useQuery } from 'react-apollo-hooks';
+import authHOC from '../../utils/authHOC';
 
 import { AgGridReact } from 'ag-grid-react';
 import 'ag-grid-community/dist/styles/ag-grid.css';
@@ -127,4 +128,4 @@ function LineasTransporte({ history }) {
     );
 }
 
-export default LineasTransporte;
+export default authHOC(LineasTransporte);

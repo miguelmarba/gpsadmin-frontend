@@ -5,6 +5,8 @@ import gql from 'graphql-tag';
 import useForm from '../../hooks/useForm';
 import Layout from '../../common/Layout';
 import authHOC from '../../utils/authHOC';
+import DatePicker from 'react-datepicker';
+import 'react-datepicker/dist/react-datepicker.css';
 
 const CREATE_USER = gql`
     mutation createUser($data:UserInput!){
@@ -43,10 +45,15 @@ function UserCreate({history})  {
         }
     };
 
+    const handleInputFechaNacimiento = (date) =>{
+        handleInput('birth_date', date);
+    };
+
     const {
         inputs,
         handleInputChange,
-        handleSubmit
+        handleSubmit,
+        handleInput
     } = useForm(catchData);
 
     return (
@@ -59,21 +66,37 @@ function UserCreate({history})  {
             <div className="col-lg-12 col-md-10 mx-auto">
                 <form className="user" onSubmit={handleSubmit}>
                     <div className="form-group">
-                        <input type="text" onChange={handleInputChange} value={inputs.nombre} className="form-control form-control-user border-left-danger" name="nombre" placeholder="Nombre" required={true} />
+                        <input type="text" onChange={handleInputChange} value={inputs.nombre?inputs.nombre:''} className="form-control form-control-user border-left-danger" name="nombre" placeholder="Nombre" required={true} />
                     </div>
                     <div className="form-group row">
                         <div className="col-sm-6 mb-3 mb-sm-0">
-                            <input type="text" onChange={handleInputChange} value={inputs.apellido_paterno} className="form-control form-control-user" name="apellido_paterno" placeholder="Apellido Paterno" required={true} />
+                            <input type="text" onChange={handleInputChange} value={inputs.apellido_paterno?inputs.apellido_paterno:''} className="form-control form-control-user" name="apellido_paterno" placeholder="Apellido Paterno" required={true} />
                         </div>
                         <div className="col-sm-6">
                             <input type="text" onChange={handleInputChange} value={inputs.apellido_materno} className="form-control form-control-user" name="apellido_materno" placeholder="Apellido Materno" />
                         </div>
                     </div>
-                    <div className="form-group">
-                        <input type="email" onChange={handleInputChange}  value={inputs.email} className="form-control form-control-user" name="email" placeholder="Correo electrónico" required={true} />
+                    <div className="form-group row">
+                        <div className="col-sm-6 mb-3 mb-sm-0">
+                        <input type="email" onChange={handleInputChange}  value={inputs.email?inputs.email:''} className="form-control form-control-user" name="email" placeholder="Correo electrónico" required={true} />
+                        </div>
+                        <div className="col-sm-6">
+                            <DatePicker
+                                className={"form-control form-control-user"}
+                                selected={inputs.birth_date?inputs.birth_date:new Date()}
+                                onChange={handleInputFechaNacimiento}
+                                name="birth_date"
+                                flaceholderText="Fecha de nacimiento"
+                                dateFormat="d/MM/yyyy"
+                                maxDate={new Date()}
+                                showYearDropdown
+                                yearDropdownItemNumber={15}
+                                scrollableYearDropdown
+                                />
+                        </div>
                     </div>
                     <div className="form-group">
-                        <input type="text" onChange={handleInputChange}  value={inputs.telefono} className="form-control form-control-user" name="telefono" placeholder="Telefono" required={true} />
+                        <input type="text" onChange={handleInputChange}  value={inputs.telefono?inputs.telefono:''} className="form-control form-control-user" name="telefono" placeholder="Telefono" required={true} />
                     </div>
                     <div className="form-group row">
                         <div className="col-sm-6 mb-3 mb-sm-0">

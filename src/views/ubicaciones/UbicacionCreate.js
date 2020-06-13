@@ -4,6 +4,7 @@ import { useMutation } from 'react-apollo-hooks';
 import gql from 'graphql-tag';
 import Layout from '../../common/Layout';
 import useForm from '../../hooks/useFormCaja';
+import authHOC from '../../utils/authHOC';
 
 import 'react-bootstrap-typeahead/css/Typeahead.css';
 import 'react-datepicker/dist/react-datepicker.css';
@@ -18,8 +19,7 @@ const CREATE_UBICACION = gql`
 `;
 
 function UbicacionCreate({history})  {
-    const [ sendUbicacion ] = useMutation(CREATE_UBICACION);;
-
+    const [ sendUbicacion ] = useMutation(CREATE_UBICACION);
     const catchData = async (inputs) => {
         const { data, errors } = await sendUbicacion({variables:{data:{...inputs}}});
         if(errors) {
@@ -95,4 +95,4 @@ function UbicacionCreate({history})  {
     );
 }
 
-export default UbicacionCreate;
+export default authHOC(UbicacionCreate);

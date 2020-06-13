@@ -4,6 +4,7 @@ import { useMutation } from 'react-apollo-hooks';
 import gql from 'graphql-tag';
 import Layout from '../../common/Layout';
 import useForm from '../../hooks/useFormCliente';
+import authHOC from '../../utils/authHOC';
 
 import 'react-bootstrap-typeahead/css/Typeahead.css';
 import 'react-datepicker/dist/react-datepicker.css';
@@ -18,8 +19,7 @@ const CREATE_CLIENTE = gql`
 `;
 
 function ClienteCreate({history})  {
-    const [ sendCliente ] = useMutation(CREATE_CLIENTE);;
-
+    const [ sendCliente ] = useMutation(CREATE_CLIENTE);
     const catchData = async (inputs) => {
         const { data, errors } = await sendCliente({variables:{data:{...inputs}}});
         if(errors) {
@@ -94,4 +94,4 @@ function ClienteCreate({history})  {
     );
 }
 
-export default ClienteCreate;
+export default authHOC(ClienteCreate);

@@ -26,10 +26,15 @@ function useForm(callback, current={}){
         callback(inputs);
     };
 
+    const handleInput  = (name, value) => {
+        setInputs(fields => ({...fields, [name]: value}));
+    };
+
     return {
         inputs,
         handleInputChange,
-        handleSubmit
+        handleSubmit,
+        handleInput
     }
 };
 

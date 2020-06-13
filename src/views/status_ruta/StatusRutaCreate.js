@@ -5,6 +5,7 @@ import gql from 'graphql-tag';
 import Layout from '../../common/Layout';
 import useForm from '../../hooks/useFormStatusRuta';
 import { SketchPicker} from 'react-color';
+import authHOC from '../../utils/authHOC';
 
 import 'react-bootstrap-typeahead/css/Typeahead.css';
 import 'react-datepicker/dist/react-datepicker.css';
@@ -20,7 +21,6 @@ const CREATE_STATUS_RUTA = gql`
 
 function CajaCreate({history})  {
     const [ sendStatusRuta ] = useMutation(CREATE_STATUS_RUTA);
-
     const catchData = async (inputs) => {
         const { data, errors } = await sendStatusRuta({variables:{data:{...inputs}}});
         if(errors) {
@@ -79,4 +79,4 @@ function CajaCreate({history})  {
     );
 }
 
-export default CajaCreate;
+export default authHOC(CajaCreate);

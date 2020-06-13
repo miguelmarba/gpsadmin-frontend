@@ -4,6 +4,7 @@ import { Link } from 'react-router-dom';
 import Layout from '../../common/Layout';
 import { useQuery, useMutation } from 'react-apollo-hooks';
 import moment from 'moment';
+import authHOC from '../../utils/authHOC';
 
 const ALL_RUTAS_BY_STATUS =  gql`
     query getAllRutasByStatus($status:ID){
@@ -207,4 +208,4 @@ function Eventos({ history }) {
     );
 }
 
-export default Eventos;
+export default authHOC(Eventos);

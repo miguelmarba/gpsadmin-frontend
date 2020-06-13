@@ -5,7 +5,10 @@ import gql from 'graphql-tag';
 import Layout from '../../common/Layout';
 import useForm from '../../hooks/useForm';
 import authenticate from '../../utils/authenticate';
+import authHOC from '../../utils/authHOC';
+import DatePicker from 'react-datepicker';
 
+import 'react-datepicker/dist/react-datepicker.css';
 
 const GET_PROFILE =  gql`
     query getUserByEmail($email:EmailAddress!){
@@ -30,10 +33,7 @@ const UPDATE_USER = gql`
 
 function Settings({ match, history })  {
     const [ userId, setUserId ] = useState(0);
-    const {isAuthenticated, payload} = authenticate();
-    if(!isAuthenticated){
-        history.push('/');
-    }
+    const {payload} = authenticate();
 
     const { data, loading, error } = useQuery(GET_PROFILE, {variables:{email: payload.email}});
     const [ updateUser ] = useMutation(UPDATE_USER);
@@ -44,6 +44,10 @@ function Settings({ match, history })  {
             setUserId(data.getSingleUserByEmail._id);
         }
     }, [data]);
+
+    const handleInputFechaNacimiento = (date) =>{
+        handleInput('birth_date', date);
+    };
 
     const catchData = async (inputs) => {
         if(inputs.password === inputs.confirm_password){
@@ -64,7 +68,8 @@ function Settings({ match, history })  {
     const {
         inputs,
         handleInputChange,
-        handleSubmit
+        handleSubmit,
+        handleInput
     } = useForm(catchData, data);
 
     if(loading) return <h2>Cargando....</h2>
@@ -89,8 +94,24 @@ function Settings({ match, history })  {
                             <input type="text" onChange={handleInputChange} value={inputs.apellido_materno?inputs.apellido_materno:''} className="form-control form-control-user" name="apellido_materno" placeholder="Apellido Materno" />
                         </div>
                     </div>
-                    <div className="form-group">
-                        <input type="email" onChange={handleInputChange}  value={inputs.email?inputs.email:''} className="form-control form-control-user" name="email" placeholder="Correo electrónico" required={true} />
+                    <div className="form-group row">
+                        <div className="col-sm-6 mb-3 mb-sm-0">
+                            <input type="email" onChange={handleInputChange}  value={inputs.email?inputs.email:''} className="form-control form-control-user" name="email" placeholder="Correo electrónico" required={true} />
+                        </div>
+                        <div className="col-sm-6">
+                            <DatePicker
+                                className={"form-control form-control-user"}
+                                selected={inputs.birth_date?inputs.birth_date:new Date()}
+                                onChange={handleInputFechaNacimiento}
+                                name="birth_date"
+                                flaceholderText="Fecha de nacimiento"
+                                dateFormat="d/MM/yyyy"
+                                maxDate={new Date()}
+                                showYearDropdown
+                                yearDropdownItemNumber={15}
+                                scrollableYearDropdown
+                                />
+                        </div>
                     </div>
                     <div className="form-group">
                         <input type="text" onChange={handleInputChange}  value={inputs.telefono?inputs.telefono:''} className="form-control form-control-user" name="telefono" placeholder="Telefono" required={true} />
@@ -122,4 +143,4 @@ function Settings({ match, history })  {
     );
 };
 
-export default Settings;
+export default authHOC(Settings);

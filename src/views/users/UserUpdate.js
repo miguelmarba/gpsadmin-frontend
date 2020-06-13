@@ -4,6 +4,7 @@ import { useQuery, useMutation } from 'react-apollo-hooks';
 import gql from 'graphql-tag';
 import Layout from '../../common/Layout';
 import useForm from '../../hooks/useForm';
+import authHOC from '../../utils/authHOC';
 
 const GET_USER = gql`
     query getUser($id:ID!){
@@ -26,7 +27,6 @@ const UPDATE_USER = gql`
 
 function UserUpdate({ match, history })  {
     const [ updateUser ] = useMutation(UPDATE_USER);
-
     const { id } = match.params;
     const { data, loading } = useQuery(GET_USER, {variables:{id}});
 
@@ -95,4 +95,4 @@ function UserUpdate({ match, history })  {
     );
 };
 
-export default UserUpdate;
+export default authHOC(UserUpdate);

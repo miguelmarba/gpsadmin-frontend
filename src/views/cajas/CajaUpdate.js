@@ -4,6 +4,7 @@ import { useQuery, useMutation } from 'react-apollo-hooks';
 import gql from 'graphql-tag';
 import Layout from '../../common/Layout';
 import useForm from '../../hooks/useFormCaja';
+import authHOC from '../../utils/authHOC';
 
 const GET_CAJA = gql`
     query getCaja($id:ID!){
@@ -25,7 +26,6 @@ const UPDATE_CAJA = gql`
 
 function CajaUpdate({ match, history })  {
     const [ updateCaja ] = useMutation(UPDATE_CAJA);
-
     const { id } = match.params
     const { data, loading } = useQuery(GET_CAJA, {variables:{id}});
 
@@ -81,4 +81,4 @@ function CajaUpdate({ match, history })  {
     );
 };
 
-export default CajaUpdate;
+export default authHOC(CajaUpdate);

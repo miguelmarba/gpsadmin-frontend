@@ -3,8 +3,11 @@ import { Link } from 'react-router-dom';
 import Layout from '../common/Layout';
 import authenticate from '../utils/authenticate';
 
-function Home() {
+function Home({history}) {
     const {isAuthenticated, payload} = authenticate();
+    if(!isAuthenticated){
+        history.push('/login');
+    }
     return (
     <>
     <Layout title="Home" >

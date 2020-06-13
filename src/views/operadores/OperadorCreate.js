@@ -4,6 +4,7 @@ import { useMutation } from 'react-apollo-hooks';
 import gql from 'graphql-tag';
 import Layout from '../../common/Layout';
 import useForm from '../../hooks/useFormOperador';
+import authHOC from '../../utils/authHOC';
 
 import 'react-bootstrap-typeahead/css/Typeahead.css';
 import 'react-datepicker/dist/react-datepicker.css';
@@ -18,8 +19,7 @@ const CREATE_OPERADOR = gql`
 `;
 
 function OperadorCreate({history})  {
-    const [ sendOperador ] = useMutation(CREATE_OPERADOR);;
-
+    const [ sendOperador ] = useMutation(CREATE_OPERADOR);
     const catchData = async (inputs) => {
         const { data, errors } = await sendOperador({variables:{data:{...inputs}}});
         if(errors) {
@@ -83,4 +83,4 @@ function OperadorCreate({history})  {
     );
 }
 
-export default OperadorCreate;
+export default authHOC(OperadorCreate);

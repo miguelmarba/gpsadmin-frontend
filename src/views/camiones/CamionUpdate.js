@@ -4,6 +4,7 @@ import { useQuery, useMutation } from 'react-apollo-hooks';
 import gql from 'graphql-tag';
 import Layout from '../../common/Layout';
 import useForm from '../../hooks/useFormCamion';
+import authHOC from '../../utils/authHOC';
 
 const GET_CAMION = gql`
     query getCamion($id:ID!){
@@ -28,7 +29,6 @@ const UPDATE_CAMION = gql`
 
 function CamionUpdate({ match, history })  {
     const [ updateCamion ] = useMutation(UPDATE_CAMION);
-
     const { id } = match.params
     const { data, loading } = useQuery(GET_CAMION, {variables:{id}});
 
@@ -90,4 +90,4 @@ function CamionUpdate({ match, history })  {
     );
 };
 
-export default CamionUpdate;
+export default authHOC(CamionUpdate);
