@@ -13,6 +13,8 @@ const GET_USER = gql`
             apellido_paterno
             apellido_materno
             email
+            telefono
+            rol
         }
     }
 `;
@@ -40,10 +42,16 @@ function UserUpdate({ match, history })  {
         }
     };
 
+    const onHandleChangeSelect = (event) => {
+        const {name, value} = event.target;
+        handleInput(name, value);
+    }
+
     const {
         inputs,
         handleInputChange,
-        handleSubmit
+        handleSubmit,
+        handleInput
     } = useForm(catchData, data);
 
     console.log("Valores de inputs:");
@@ -75,7 +83,17 @@ function UserUpdate({ match, history })  {
                         <input type="email" onChange={handleInputChange}  value={inputs.email} className="form-control form-control-user" name="email" placeholder="Correo electrónico" required={true} />
                     </div>
                     <div className="form-group">
-                        <input type="text" onChange={handleInputChange}  value={inputs.telefono} className="form-control form-control-user" name="telefono" placeholder="Telefono" required={true} />
+                        <input type="text" onChange={handleInputChange}  value={inputs.telefono?inputs.telefono:''} className="form-control form-control-user" name="telefono" placeholder="Telefono" required={true} />
+                    </div>
+                    <div className="form-group">
+                        <p className="form-control form-control-user">
+                            <select name="rol" className="form-group selectBox" onChange={onHandleChangeSelect} value={inputs.rol?inputs.rol:''}>
+                                <option value="O">-Selecciona el status-</option>
+                                <option value="ADMINISTRADOR">Administrador</option>
+                                <option value="MONITORISTA">Monitorista</option>
+                                <option value="CUSTODIO">Custodio</option>
+                            </select>
+                        </p>
                     </div>
                     <div className="form-group row">
                         <div className="col-sm-6 mb-3 mb-sm-0">

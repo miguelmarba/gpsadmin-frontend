@@ -1,8 +1,10 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { Collapse } from 'reactstrap';
+import authenticate from '../utils/authenticate';
 
 function Sidebar({isMenuOpen, toggleMenu}){
+    const {payload} = authenticate();
     const [isOpen, setIsOpen] = useState(false);
     const [isOpenRep, setIsOpenRep] = useState(false);
 
@@ -55,7 +57,7 @@ function Sidebar({isMenuOpen, toggleMenu}){
                             <Link className="collapse-item" to="/camiones">Camiones</Link>
                             <Link className="collapse-item" to="/statusruta">Status Ruta</Link>
                             <Link className="collapse-item" to="/ubicaciones">Ubicaciones</Link>
-                            <Link className="collapse-item" to="/users">Usuarios</Link>
+                            {payload.rol === 'ADMINISTRADOR' && <Link className="collapse-item" to="/users">Usuarios</Link>}
                         </div>
                     </Collapse>
                 </li>

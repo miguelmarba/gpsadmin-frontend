@@ -12,6 +12,7 @@ const GET_PROFILE =  gql`
             apellido_paterno
             apellido_materno
             telefono
+            rol
         }
     }
 `;
@@ -59,6 +60,16 @@ function Profile({history}){
                                         <th>Teléfono</th>
                                         <td>
                                             <p>{ data ? data.me.telefono: ''}</p>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <th>Rol</th>
+                                        <td>
+                                            <p>{ data ? data.me.rol: ''}</p>
+                                        </td>
+                                        <th></th>
+                                        <td>
+                                            <p></p>
                                         </td>
                                     </tr>
                                 </tbody>
