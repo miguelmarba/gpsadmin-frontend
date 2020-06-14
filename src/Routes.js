@@ -1,5 +1,6 @@
 import React from 'react';
 import { Route, Redirect } from 'react-router-dom';
+import PrivateRoute from './utils/privateRoute';
 
 import Home from './views/Home';
 import Login from './views/Login';
@@ -47,40 +48,40 @@ function Routes(){
         <>
             <Route exact path="/" component={ Home } />
             <Route exact path="/login" component={ Login } />
-            <Route exact path="/users" component={ Users } />
-            <Route exact path="/users/create" component={ UserCreate } />
-            <Route exact path="/users/update/:id" component={ UserUpdate } />
+            <PrivateRoute roles={['ADMINISTRADOR']} exact path="/users" component={ Users } />
+            <PrivateRoute roles={['ADMINISTRADOR']} exact path="/users/create" component={ UserCreate } />
+            <PrivateRoute roles={['ADMINISTRADOR']} exact path="/users/update/:id" component={ UserUpdate } />
             <Route exact path="/logout" component={Logout} />
-            <Route exact path="/eventos/create" component={ EventoCreate } />
-            <Route exact path="/clientes" component={ Clientes } />
-            <Route exact path="/clientes/create" component={ ClienteCreate } />
-            <Route exact path="/clientes/update/:id" component={ ClienteUpdate } />
-            <Route exact path="/lineastrasporte" component={ LineasTransporte } />
-            <Route exact path="/lineastrasporte/create" component={ LineasTransporteCreate } />
-            <Route exact path="/lineastrasporte/update/:id" component={ LineasTransporteUpdate } />
-            <Route exact path="/operadores" component={ Operadores } />
-            <Route exact path="/operadores/create" component={ OperadorCreate } />
-            <Route exact path="/operadores/update/:id" component={ OperadorUpdate } />
-            <Route exact path="/cajas" component={ Cajas } />
-            <Route exact path="/cajas/create" component={ CajaCreate } />
-            <Route exact path="/cajas/update/:id" component={ CajaUpdate } />
-            <Route exact path="/camiones" component={ Camiones } />
-            <Route exact path="/camiones/create" component={ CamionCreate } />
-            <Route exact path="/camiones/update/:id" component={ CamionUpdate } />
-            <Route exact path="/statusruta" component={ StatusRuta } />
-            <Route exact path="/statusruta/create" component={ StatusRutaCreate } />
-            <Route exact path="/statusruta/update/:id" component={ StatusRutaUpdate } />
-            <Route exact path="/ubicaciones" component={ Ubicaciones } />
-            <Route exact path="/ubicaciones/create" component={ UbicacionCreate } />
-            <Route exact path="/ubicaciones/update/:id" component={ UbicacionUpdate } />
-            <Route exact path="/equiposgps" component={ EquiposGps } />
-            <Route exact path="/equiposgps/create" component={ EquipoGpsCreate } />
-            <Route exact path="/equiposgps/update/:id" component={ EquipoGpsUpdate } />
-            <Route exact path="/eventos/update/:id" component={ EventoUpdate } />
-            <Route exact path="/eventos" component={ Rutas } />
-            <Route exact path="/eventos/detail/:id" component={ RutasDetail } />
-            <Route exact path="/profile" component={ Profile } />
-            <Route exact path="/settings" component={ Settings } />
+            <PrivateRoute roles={['ADMINISTRADOR', 'MONITORISTA', 'CUSTODIO']} exact path="/eventos/create" component={ EventoCreate } />
+            <PrivateRoute roles={['ADMINISTRADOR', 'MONITORISTA', 'CUSTODIO']} exact path="/clientes" component={ Clientes } />
+            <PrivateRoute roles={['ADMINISTRADOR', 'MONITORISTA', 'CUSTODIO']} exact path="/clientes/create" component={ ClienteCreate } />
+            <PrivateRoute roles={['ADMINISTRADOR', 'MONITORISTA', 'CUSTODIO']} exact path="/clientes/update/:id" component={ ClienteUpdate } />
+            <PrivateRoute roles={['ADMINISTRADOR', 'MONITORISTA', 'CUSTODIO']} exact path="/lineastrasporte" component={ LineasTransporte } />
+            <PrivateRoute roles={['ADMINISTRADOR', 'MONITORISTA', 'CUSTODIO']} exact path="/lineastrasporte/create" component={ LineasTransporteCreate } />
+            <PrivateRoute roles={['ADMINISTRADOR', 'MONITORISTA', 'CUSTODIO']} exact path="/lineastrasporte/update/:id" component={ LineasTransporteUpdate } />
+            <PrivateRoute roles={['ADMINISTRADOR', 'MONITORISTA', 'CUSTODIO']} exact path="/operadores" component={ Operadores } />
+            <PrivateRoute roles={['ADMINISTRADOR', 'MONITORISTA', 'CUSTODIO']} exact path="/operadores/create" component={ OperadorCreate } />
+            <PrivateRoute roles={['ADMINISTRADOR', 'MONITORISTA', 'CUSTODIO']} exact path="/operadores/update/:id" component={ OperadorUpdate } />
+            <PrivateRoute roles={['ADMINISTRADOR', 'MONITORISTA', 'CUSTODIO']} exact path="/cajas" component={ Cajas } />
+            <PrivateRoute roles={['ADMINISTRADOR', 'MONITORISTA', 'CUSTODIO']} exact path="/cajas/create" component={ CajaCreate } />
+            <PrivateRoute roles={['ADMINISTRADOR', 'MONITORISTA', 'CUSTODIO']} exact path="/cajas/update/:id" component={ CajaUpdate } />
+            <PrivateRoute roles={['ADMINISTRADOR', 'MONITORISTA', 'CUSTODIO']} exact path="/camiones" component={ Camiones } />
+            <PrivateRoute roles={['ADMINISTRADOR', 'MONITORISTA', 'CUSTODIO']} exact path="/camiones/create" component={ CamionCreate } />
+            <PrivateRoute roles={['ADMINISTRADOR', 'MONITORISTA', 'CUSTODIO']} exact path="/camiones/update/:id" component={ CamionUpdate } />
+            <PrivateRoute roles={['ADMINISTRADOR']} exact path="/statusruta" component={ StatusRuta } />
+            <PrivateRoute roles={['ADMINISTRADOR']} exact path="/statusruta/create" component={ StatusRutaCreate } />
+            <PrivateRoute roles={['ADMINISTRADOR']} exact path="/statusruta/update/:id" component={ StatusRutaUpdate } />
+            <PrivateRoute roles={['ADMINISTRADOR', 'MONITORISTA', 'CUSTODIO']} exact path="/ubicaciones" component={ Ubicaciones } />
+            <PrivateRoute roles={['ADMINISTRADOR', 'MONITORISTA', 'CUSTODIO']} exact path="/ubicaciones/create" component={ UbicacionCreate } />
+            <PrivateRoute roles={['ADMINISTRADOR', 'MONITORISTA', 'CUSTODIO']} exact path="/ubicaciones/update/:id" component={ UbicacionUpdate } />
+            <PrivateRoute roles={['ADMINISTRADOR', 'MONITORISTA', 'CUSTODIO']} exact path="/equiposgps" component={ EquiposGps } />
+            <PrivateRoute roles={['ADMINISTRADOR', 'MONITORISTA', 'CUSTODIO']} exact path="/equiposgps/create" component={ EquipoGpsCreate } />
+            <PrivateRoute roles={['ADMINISTRADOR', 'MONITORISTA', 'CUSTODIO']} exact path="/equiposgps/update/:id" component={ EquipoGpsUpdate } />
+            <PrivateRoute roles={['ADMINISTRADOR', 'MONITORISTA', 'CUSTODIO']} exact path="/eventos/update/:id" component={ EventoUpdate } />
+            <PrivateRoute roles={['ADMINISTRADOR', 'MONITORISTA', 'CUSTODIO']} exact path="/eventos" component={ Rutas } />
+            <PrivateRoute roles={['ADMINISTRADOR', 'MONITORISTA', 'CUSTODIO']} exact path="/eventos/detail/:id" component={ RutasDetail } />
+            <PrivateRoute roles={['ADMINISTRADOR', 'MONITORISTA', 'CUSTODIO']} exact path="/profile" component={ Profile } />
+            <PrivateRoute roles={['ADMINISTRADOR', 'MONITORISTA', 'CUSTODIO']} exact path="/settings" component={ Settings } />
         </>
     );
 }

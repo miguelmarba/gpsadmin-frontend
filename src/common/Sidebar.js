@@ -49,14 +49,14 @@ function Sidebar({isMenuOpen, toggleMenu}){
                     <Collapse isOpen={isOpen} className="collapse">
                         <div className="bg-white py-2 collapse-inner rounded">
                             <h6 className="collapse-header">Custom Components:</h6>
-                            <Link className="collapse-item" to="/clientes">Clientes</Link>
-                            <Link className="collapse-item" to="/lineastrasporte">Lineas de Transporte</Link>
-                            <Link className="collapse-item" to="/operadores">Operadores</Link>
-                            <Link className="collapse-item" to="/equiposgps">Equpos Gps</Link>
-                            <Link className="collapse-item" to="/cajas">Cajas</Link>
-                            <Link className="collapse-item" to="/camiones">Camiones</Link>
-                            <Link className="collapse-item" to="/statusruta">Status Ruta</Link>
-                            <Link className="collapse-item" to="/ubicaciones">Ubicaciones</Link>
+                            {(payload.rol === 'ADMINISTRADOR' || payload.rol === 'MONITORISTA' || payload.rol === 'CUSTODIO') && <Link className="collapse-item" to="/clientes">Clientes</Link>}
+                            {(payload.rol === 'ADMINISTRADOR' || payload.rol === 'MONITORISTA' || payload.rol === 'CUSTODIO') && <Link className="collapse-item" to="/lineastrasporte">Lineas de Transporte</Link>}
+                            {(payload.rol === 'ADMINISTRADOR' || payload.rol === 'MONITORISTA' || payload.rol === 'CUSTODIO') && <Link className="collapse-item" to="/operadores">Operadores</Link>}
+                            {(payload.rol === 'ADMINISTRADOR' || payload.rol === 'MONITORISTA' || payload.rol === 'CUSTODIO') && <Link className="collapse-item" to="/equiposgps">Equpos Gps</Link>}
+                            {(payload.rol === 'ADMINISTRADOR' || payload.rol === 'MONITORISTA' || payload.rol === 'CUSTODIO') && <Link className="collapse-item" to="/cajas">Cajas</Link>}
+                            {(payload.rol === 'ADMINISTRADOR' || payload.rol === 'MONITORISTA' || payload.rol === 'CUSTODIO') && <Link className="collapse-item" to="/camiones">Camiones</Link>}
+                            {payload.rol === 'ADMINISTRADOR' && <Link className="collapse-item" to="/statusruta">Status Ruta</Link>}
+                            {(payload.rol === 'ADMINISTRADOR' || payload.rol === 'MONITORISTA' || payload.rol === 'CUSTODIO') && <Link className="collapse-item" to="/ubicaciones">Ubicaciones</Link>}
                             {payload.rol === 'ADMINISTRADOR' && <Link className="collapse-item" to="/users">Usuarios</Link>}
                         </div>
                     </Collapse>
@@ -71,7 +71,7 @@ function Sidebar({isMenuOpen, toggleMenu}){
                     <Collapse isOpen={isOpenRep} className="collapse">
                         <div className="bg-white py-2 collapse-inner rounded">
                             <h6 className="collapse-header">Custom Utilities:</h6>
-                            <Link className="collapse-item" to="/eventos">Rutas en proceso</Link>
+                            {(payload.rol === 'ADMINISTRADOR' || payload.rol === 'MONITORISTA') && <Link className="collapse-item" to="/eventos">Rutas en proceso</Link>}
                             <Link className="collapse-item" to="/">Rutas mas recientes</Link>
                             <Link className="collapse-item" to="/">Rutas cerradas</Link>
                             <Link className="collapse-item" to="/">Incidencias</Link>
