@@ -37,6 +37,7 @@ import Rutas from './views/eventos/Eventos';
 import RutasDetail from './views/eventos/EventoDetail';
 import Profile from './views/users/Profile';
 import Settings from './views/users/Settings';
+import EventosDate from './views/eventos/EventosDate';
 
 function Logout(){
     sessionStorage.removeItem('idToken');
@@ -82,6 +83,7 @@ function Routes(){
             <PrivateRoute roles={['ADMINISTRADOR', 'MONITORISTA', 'CUSTODIO']} exact path="/eventos/detail/:id" component={ RutasDetail } />
             <PrivateRoute roles={['ADMINISTRADOR', 'MONITORISTA', 'CUSTODIO']} exact path="/profile" component={ Profile } />
             <PrivateRoute roles={['ADMINISTRADOR', 'MONITORISTA', 'CUSTODIO']} exact path="/settings" component={ Settings } />
+            <PrivateRoute roles={['ADMINISTRADOR', 'MONITORISTA', 'CUSTODIO']} exact path="/eventosbydates" component={ EventosDate } />
         </>
     );
 }

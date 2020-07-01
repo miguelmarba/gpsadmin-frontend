@@ -72,7 +72,7 @@ function Sidebar({isMenuOpen, toggleMenu}){
                         <div className="bg-white py-2 collapse-inner rounded">
                             <h6 className="collapse-header">Custom Utilities:</h6>
                             {(payload.rol === 'ADMINISTRADOR' || payload.rol === 'MONITORISTA') && <Link className="collapse-item" to="/eventos">Rutas en proceso</Link>}
-                            <Link className="collapse-item" to="/">Rutas mas recientes</Link>
+                            <Link className="collapse-item" to="/eventosbydates">Rutas por fecha</Link>
                             <Link className="collapse-item" to="/">Rutas cerradas</Link>
                             <Link className="collapse-item" to="/">Incidencias</Link>
                         </div>

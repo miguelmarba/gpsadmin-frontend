@@ -84,7 +84,7 @@ function TrackingPreview({ruta_id, tracking, statusRuta, setNewStatus}) {
                                     </select>
                                 </div>
                                 <div className="form-group mx-sm-3 mb-2">
-                                    <textarea class="form-control bg-light border-0" name="comentarios" cols="80" rows="1" onChange={handleInputChange}  value={inputs.comentarios?inputs.comentarios:''} required={true} ></textarea>
+                                    <textarea className="form-control bg-light border-0" name="comentarios" cols="80" rows="1" onChange={handleInputChange}  value={inputs.comentarios?inputs.comentarios:''} required={true} ></textarea>
                                 </div>
                                 <button className="btn btn-success" type="submit" disabled={disabledAgregar}>
                                     Agregar comentario
