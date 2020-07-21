@@ -24,7 +24,7 @@ function Sidebar({isMenuOpen, toggleMenu}){
                     <div className="sidebar-brand-icon rotate-n-15">
                     <i className="fas fa-truck-moving"></i>
                     </div>
-                    <div className="sidebar-brand-text mx-3">GPS Admin <sup>^</sup></div>
+                    <div className="sidebar-brand-text mx-3">TeSigo<sup>^</sup></div>
                 </Link>
                 {/* Divider */}
                 <hr className="sidebar-divider my-0"></hr>
@@ -43,12 +43,12 @@ function Sidebar({isMenuOpen, toggleMenu}){
                 {/* Nav Item - Pages Collapse Menu */}
                 <li className="nav-item">
                     <a className="nav-link collapsed" onClick={toggle} href="#Componentsclear">
-                        <i className="fas fa-fw fa-cog"></i>
-                        <span>Components</span>
+                        <i className="fas fa-fw fa-table"></i>
+                        <span>Catálogos</span>
                     </a>
                     <Collapse isOpen={isOpen} className="collapse">
                         <div className="bg-white py-2 collapse-inner rounded">
-                            <h6 className="collapse-header">Custom Components:</h6>
+                            <h6 className="collapse-header">Ajuste parámetros:</h6>
                             {(payload.rol === 'ADMINISTRADOR' || payload.rol === 'MONITORISTA' || payload.rol === 'CUSTODIO') && <Link className="collapse-item" to="/clientes">Clientes</Link>}
                             {(payload.rol === 'ADMINISTRADOR' || payload.rol === 'MONITORISTA' || payload.rol === 'CUSTODIO') && <Link className="collapse-item" to="/lineastrasporte">Lineas de Transporte</Link>}
                             {(payload.rol === 'ADMINISTRADOR' || payload.rol === 'MONITORISTA' || payload.rol === 'CUSTODIO') && <Link className="collapse-item" to="/operadores">Operadores</Link>}
@@ -65,12 +65,12 @@ function Sidebar({isMenuOpen, toggleMenu}){
                 {/* Nav Item - Utilities Collapse Menu */}
                 <li className="nav-item">
                     <a className="nav-link collapsed" onClick={toggleRep} href="#collapseUtilities">
-                        <i className="fas fa-fw fa-wrench"></i>
+                        <i className="fas fa-fw fa-chart-area"></i>
                         <span>Informes</span>
                     </a>
                     <Collapse isOpen={isOpenRep} className="collapse">
                         <div className="bg-white py-2 collapse-inner rounded">
-                            <h6 className="collapse-header">Custom Utilities:</h6>
+                            <h6 className="collapse-header">Reportes Útiles:</h6>
                             {(payload.rol === 'ADMINISTRADOR' || payload.rol === 'MONITORISTA') && <Link className="collapse-item" to="/eventos">Rutas en proceso</Link>}
                             <Link className="collapse-item" to="/eventosbydates">Rutas por fecha</Link>
                             <Link className="collapse-item" to="/">Rutas cerradas</Link>
@@ -83,12 +83,12 @@ function Sidebar({isMenuOpen, toggleMenu}){
                 <hr className="sidebar-divider"></hr>
 
                 {/* Heading */}
-                <div className="sidebar-heading">
+                {/* <div className="sidebar-heading">
                     Addons
-                </div>
+                </div> */}
 
                 {/* Nav Item - Pages Collapse Menu */}
-                <li className="nav-item">
+                {/* <li className="nav-item">
                     <a className="nav-link collapsed" href="#collapsePages" data-toggle="collapse" data-target="#collapsePages" aria-expanded="true" aria-controls="collapsePages">
                     <i className="fas fa-fw fa-folder"></i>
                     <span>Pages</span>
@@ -105,29 +105,29 @@ function Sidebar({isMenuOpen, toggleMenu}){
                         <Link className="collapse-item" to="/">Blank Page</Link>
                     </div>
                     </div>
-                </li>
+                </li> */}
 
                 {/* Nav Item - Charts */}
-                <li className="nav-item">
+                {/* <li className="nav-item">
                     <Link className="nav-link" to="/">
                     <i className="fas fa-fw fa-chart-area"></i>
                     <span>Charts</span></Link>
-                </li>
+                </li> */}
 
                 {/* Nav Item - Tables */}
-                <li className="nav-item">
+                {/* <li className="nav-item">
                     <Link className="nav-link" to="/">
                     <i className="fas fa-fw fa-table"></i>
                     <span>Tables</span></Link>
-                </li>
+                </li> */}
 
                 {/* Divider */}
-                <hr className="sidebar-divider d-none d-md-block"></hr>
+                {/* <hr className="sidebar-divider d-none d-md-block"></hr> */}
 
                 {/* Sidebar Toggler (Sidebar) */}
-                <div className="text-center d-none d-md-inline">
+                {/* <div className="text-center d-none d-md-inline">
                     <button className="rounded-circle border-0" id="sidebarToggle"></button>
-                </div>
+                </div> */}
             </ul>
         </>
     );

@@ -50,7 +50,7 @@ function Login({ history }) {
             <div className="col-lg-6">
                     <div className="p-5">
                         <div className="text-center">
-                            <h1 className="h4 text-gray-900 mb-4">Bienvenido a Sigueme!</h1>
+                            <h1 className="h4 text-gray-900 mb-4">Bienvenido a TeSigo!</h1>
                         </div>
                         <form className="user" onSubmit={handleSubmit}>
                             <div className="form-group">
@@ -76,9 +76,9 @@ function Login({ history }) {
                         <div className="text-center">
                             <a className="small" href="forgot-password.html">Olvidé mi contraseña</a>
                         </div>
-                        <div className="text-center">
+                        {/* <div className="text-center">
                             <a className="small" href="register.html">Crear una Cuenta!</a>
-                        </div>
+                        </div> */}
                     </div>
             </div>
         </div>
