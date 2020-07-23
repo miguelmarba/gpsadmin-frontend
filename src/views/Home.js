@@ -2,12 +2,48 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import Layout from '../common/Layout';
 import authenticate from '../utils/authenticate';
+import gql from 'graphql-tag';
+import { useQuery } from 'react-apollo-hooks';
+import moment from 'moment';
+
+const ALL_RUTAS_LAST_SEEN =  gql`
+    query getAllRutasLastSeen{
+      getRutasLastSeenByUser{
+        _id
+        ruta{
+          _id
+          cliente{
+            _id
+            nombre
+          },
+          destino{
+            _id
+            nombre
+          },
+          status_ruta{
+            _id
+            nombre
+          }
+        }
+        user{
+          _id
+          nombre
+          apellido_paterno
+            apellido_materno
+            email
+        }
+        fecha_consulta
+      }
+    }
+`;
 
 function Home({history}) {
     const {isAuthenticated, payload} = authenticate();
     if(!isAuthenticated){
         history.push('/login');
     }
+    let { data: listRutas} = useQuery(ALL_RUTAS_LAST_SEEN);
+    
     return (
     <>
     <Layout title="Home" >
@@ -97,11 +133,15 @@ function Home({history}) {
                     </div>
                     <div className="card-body">
                         <table className="table table-bordered">
-                            <tr>
+                            <tbody>
+                            { listRutas ? (listRutas.getRutasLastSeenByUser.map((row) => (
+                            <tr key={row._id}>
                                 <td>
-                                    Cliente LOS ANGELES DEL NORTE <Link to="/clientes">Ver</Link>
+                                    <b>Cliente</b>: {row.ruta.cliente.nombre} <b>Destino</b>: {row.ruta.destino.nombre} <b>Status</b>: {row.ruta.status_ruta.nombre} <b>Usuario</b>: {row.user.nombre} <b>Fecha consulta</b>: { row.fecha_consulta?moment(row.fecha_consulta).format('DD MMMM YYYY h:mm'):'Sin fecha' }<Link to={"/eventos/detail/" + row.ruta._id}>Ver</Link>
                                 </td>
                             </tr>
+                            )) ):(null) }
+                            </tbody>
                         </table>
                     </div>
                 </div>

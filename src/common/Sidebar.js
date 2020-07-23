@@ -52,7 +52,7 @@ function Sidebar({isMenuOpen, toggleMenu}){
                             {(payload.rol === 'ADMINISTRADOR' || payload.rol === 'MONITORISTA' || payload.rol === 'CUSTODIO') && <Link className="collapse-item" to="/clientes">Clientes</Link>}
                             {(payload.rol === 'ADMINISTRADOR' || payload.rol === 'MONITORISTA' || payload.rol === 'CUSTODIO') && <Link className="collapse-item" to="/lineastrasporte">Lineas de Transporte</Link>}
                             {(payload.rol === 'ADMINISTRADOR' || payload.rol === 'MONITORISTA' || payload.rol === 'CUSTODIO') && <Link className="collapse-item" to="/operadores">Operadores</Link>}
-                            {(payload.rol === 'ADMINISTRADOR' || payload.rol === 'MONITORISTA' || payload.rol === 'CUSTODIO') && <Link className="collapse-item" to="/equiposgps">Equpos Gps</Link>}
+                            {(payload.rol === 'ADMINISTRADOR' || payload.rol === 'MONITORISTA' || payload.rol === 'CUSTODIO') && <Link className="collapse-item" to="/equiposgps">Equipos Gps</Link>}
                             {(payload.rol === 'ADMINISTRADOR' || payload.rol === 'MONITORISTA' || payload.rol === 'CUSTODIO') && <Link className="collapse-item" to="/cajas">Cajas</Link>}
                             {(payload.rol === 'ADMINISTRADOR' || payload.rol === 'MONITORISTA' || payload.rol === 'CUSTODIO') && <Link className="collapse-item" to="/camiones">Camiones</Link>}
                             {payload.rol === 'ADMINISTRADOR' && <Link className="collapse-item" to="/statusruta">Status Ruta</Link>}

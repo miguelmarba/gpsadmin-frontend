@@ -14,18 +14,22 @@ const ALL_RUTAS_BY_STATUS =  gql`
         fecha_cita
         fecha_llegada
         cliente{
+          _id
           nombre
           cp
           celular
           rfc
         }
         origen{
+          _id
           nombre
         }
         destino{
+          _id
           nombre
         }
         status_ruta{
+          _id
           color
         }
       }
