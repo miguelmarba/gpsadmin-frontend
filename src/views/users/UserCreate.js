@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { Link } from 'react-router-dom';
 import { useMutation } from 'react-apollo-hooks';
 import gql from 'graphql-tag';
@@ -18,20 +18,20 @@ const CREATE_USER = gql`
 
 function UserCreate({history})  {
     const [ sendUser ] = useMutation(CREATE_USER);
-    const [cover, setCover] = useState('');
-    const [coverPreview, setCoverPreview] = useState('');
+    // const [cover, setCover] = useState('');
+    // const [coverPreview, setCoverPreview] = useState('');
     
-    const catchCover = event =>{
-        const reader = new FileReader();
-        const file = event.target.files[0];
+    // const catchCover = event =>{
+    //     const reader = new FileReader();
+    //     const file = event.target.files[0];
 
-        reader.onloadend = () => {
-            setCover(file);
-            setCoverPreview(reader.result);
-        };
+    //     reader.onloadend = () => {
+    //         setCover(file);
+    //         setCoverPreview(reader.result);
+    //     };
 
-        reader.readAsDataURL(file);
-    };
+    //     reader.readAsDataURL(file);
+    // };
 
     const catchData = async (inputs) => {
         const { data, errors } = await sendUser({variables:{data:{...inputs}}});

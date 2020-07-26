@@ -35,7 +35,7 @@ function Settings({ match, history })  {
     const [ userId, setUserId ] = useState(0);
     const {payload} = authenticate();
 
-    const { data, loading, error } = useQuery(GET_PROFILE, {variables:{email: payload.email}});
+    const { data, loading } = useQuery(GET_PROFILE, {variables:{email: payload.email}});
     const [ updateUser ] = useMutation(UPDATE_USER);
     const [ passEqual, setPassEqual ] = useState(true);
     
