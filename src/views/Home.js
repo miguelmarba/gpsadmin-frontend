@@ -137,7 +137,7 @@ function Home({history}) {
                             { listRutas ? (listRutas.getRutasLastSeenByUser.map((row) => (
                             <tr key={row._id}>
                                 <td>
-                                    <b>Cliente</b>: {row.ruta.cliente.nombre} <b>Destino</b>: {row.ruta.destino.nombre} <b>Status</b>: {row.ruta.status_ruta.nombre} <b>Usuario</b>: {row.user.nombre} <b>Fecha consulta</b>: { row.fecha_consulta?moment(row.fecha_consulta).format('DD MMMM YYYY h:mm'):'Sin fecha' }<Link to={"/eventos/detail/" + row.ruta._id}>Ver</Link>
+                                    <b>Cliente</b>: {row.ruta.cliente?row.ruta.cliente.nombre:''} <b>Destino</b>: {row.ruta.destino?row.ruta.destino.nombre:'No definido'} <b>Status</b>: {row.ruta.status_ruta?row.ruta.status_ruta.nombre:''} <b>Usuario</b>: {row.user.nombre} <b>Fecha consulta</b>: { row.fecha_consulta?moment(row.fecha_consulta).format('DD MMMM YYYY h:mm'):'Sin fecha' }<Link to={"/eventos/detail/" + row.ruta._id}>Ver</Link>
                                 </td>
                             </tr>
                             )) ):(null) }
