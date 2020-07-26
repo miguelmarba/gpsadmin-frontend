@@ -47,6 +47,7 @@ function Sidebar({isMenuOpen, toggleMenu}){
                         <span>Catálogos</span>
                     </a>
                     <Collapse isOpen={isOpen} className="collapse">
+                    {payload ?
                         <div className="bg-white py-2 collapse-inner rounded">
                             <h6 className="collapse-header">Ajuste parámetros:</h6>
                             {(payload.rol === 'ADMINISTRADOR' || payload.rol === 'MONITORISTA' || payload.rol === 'CUSTODIO') && <Link className="collapse-item" to="/clientes">Clientes</Link>}
@@ -59,6 +60,7 @@ function Sidebar({isMenuOpen, toggleMenu}){
                             {(payload.rol === 'ADMINISTRADOR' || payload.rol === 'MONITORISTA' || payload.rol === 'CUSTODIO') && <Link className="collapse-item" to="/ubicaciones">Ubicaciones</Link>}
                             {payload.rol === 'ADMINISTRADOR' && <Link className="collapse-item" to="/users">Usuarios</Link>}
                         </div>
+                    :null}
                     </Collapse>
                 </li>
 
