@@ -71,6 +71,7 @@ function Sidebar({isMenuOpen, toggleMenu}){
                         <span>Informes</span>
                     </a>
                     <Collapse isOpen={isOpenRep} className="collapse">
+                    {payload ?
                         <div className="bg-white py-2 collapse-inner rounded">
                             <h6 className="collapse-header">Reportes Útiles:</h6>
                             {(payload.rol === 'ADMINISTRADOR' || payload.rol === 'MONITORISTA') && <Link className="collapse-item" to="/eventos">Rutas en proceso</Link>}
@@ -78,6 +79,7 @@ function Sidebar({isMenuOpen, toggleMenu}){
                             <Link className="collapse-item" to="/">Rutas cerradas</Link>
                             <Link className="collapse-item" to="/">Incidencias</Link>
                         </div>
+                    :null}
                     </Collapse>
                 </li>
 
