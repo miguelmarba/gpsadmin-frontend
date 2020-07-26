@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from 'react';
-import { useMutation } from 'react-apollo-hooks';
 import { Link } from 'react-router-dom';
 import { useQuery } from 'react-apollo-hooks';
 import gql from 'graphql-tag';
@@ -139,13 +138,13 @@ const GET_RUTA = gql`
     }
 `;
 
-const CREATE_RUTA_LAST_SEEN = gql`
-    mutation createRutaLastSeen($data:RutaLastSeenInput!){
-        createNewRutaLastSeen(data:$data){
-            _id
-        }
-    }
-`;
+// const CREATE_RUTA_LAST_SEEN = gql`
+//     mutation createRutaLastSeen($data:RutaLastSeenInput!){
+//         createNewRutaLastSeen(data:$data){
+//             _id
+//         }
+//     }
+// `;
 
 function EventoDetail({ match, history }) {
     const [showDetail, setShowDetail] = useState(true);
@@ -158,7 +157,7 @@ function EventoDetail({ match, history }) {
     const [showPreviewCamion, setShowPreviewCamion] = useState(false);
     const [showPreviewCaja, setShowPreviewCaja] = useState(false);
     const [showPreviewEquipoGps, setShowPreviewEquipoGps] = useState(false);
-    const [createRutaLastSeen] = useMutation(CREATE_RUTA_LAST_SEEN);
+    // const [createRutaLastSeen] = useMutation(CREATE_RUTA_LAST_SEEN);
     const dataRutaTmp = {
         getSingleRuta: {
             _id:0
@@ -168,19 +167,19 @@ function EventoDetail({ match, history }) {
     const { id } = match.params;
     const { data, loading, error } = useQuery(GET_RUTA, {variables:{id}});
 
-    const saveLastSeen = async (id) => {
-        const inputs = { ruta: id};
-        const { errors } = await createRutaLastSeen({variables:{data:{...inputs}}});
-        if(errors) {
-            console.log("HAY errores al guardar la saveLastSeen");
-            console.log(errors);
-        }
-    };
+    // const saveLastSeen = async (id) => {
+    //     const inputs = { ruta: id};
+    //     const { errors } = await createRutaLastSeen({variables:{data:{...inputs}}});
+    //     if(errors) {
+    //         console.log("HAY errores al guardar la saveLastSeen");
+    //         console.log(errors);
+    //     }
+    // };
     
     useEffect(() => {
         if(data) {
             setDataRuta(data);
-            saveLastSeen(id);
+            // saveLastSeen(data.getSingleRuta._id);
         }
     }, [data]);
 
