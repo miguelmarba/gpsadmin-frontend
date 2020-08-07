@@ -5,6 +5,7 @@ import authenticate from '../utils/authenticate';
 import gql from 'graphql-tag';
 import { useQuery } from 'react-apollo-hooks';
 import moment from 'moment';
+import authHOC from '../utils/authHOC';
 
 const ALL_RUTAS_LAST_SEEN =  gql`
     query getAllRutasLastSeen{
@@ -39,9 +40,9 @@ const ALL_RUTAS_LAST_SEEN =  gql`
 
 function Home({history}) {
     const {isAuthenticated, payload} = authenticate();
-    if(!isAuthenticated){
-        history.push('/login');
-    }
+    // if(!isAuthenticated){
+    //     history.push('/login');
+    // }
     let { data: listRutas} = useQuery(ALL_RUTAS_LAST_SEEN);
     
     return (
@@ -152,4 +153,4 @@ function Home({history}) {
     );
 }
 
-export default Home;
+export default authHOC(Home);

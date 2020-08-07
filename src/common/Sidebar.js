@@ -30,7 +30,7 @@ function Sidebar({isMenuOpen, toggleMenu}){
                 <hr className="sidebar-divider my-0"></hr>
                 {/* Nav Item - Dashboard  */}
                 <li className="nav-item active">
-                    <Link className="nav-link" to="/">
+                    <Link className="nav-link" to="/home">
                     <i className="fas fa-fw fa-tachometer-alt"></i>
                     <span>Inicio</span></Link>
                 </li>

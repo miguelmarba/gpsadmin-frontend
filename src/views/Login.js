@@ -19,10 +19,17 @@ function Login({ history }) {
     const catchData = async (inputs) => {
         try{
             const {data, errors} = await sendLogin({variables: {...inputs}});
+            console.log("== Resultado data sendLogin:");
+            console.log(data);
             if(data){
                 const { login } = data;
+                console.log("== Resultado login:");
+                console.log(login);
+                console.log("== Resultado login.token:");
+                console.log(login.token);
                 sessionStorage.setItem('idToken', login.token);
-                history.push('/');
+                history.push('/home');
+                console.log("== Llegas aqui porque no haces push");
             }
             if(errors){
                 console.log("Hay errores al iniciar session");
@@ -54,7 +61,7 @@ function Login({ history }) {
                         </div>
                         <form className="user" onSubmit={handleSubmit}>
                             <div className="form-group">
-                                <input type="email" className="form-control form-control-user" name="email" value={inputs.email || ''} onKeyUp={handleKeyUp}  onChange={handleInputChange} required={true} aria-describedby="emailHelp" placeholder="Nombre de usuario..." />
+                                <input type="email" className="form-control form-control-user" name="email" value={inputs.email || ''} onKeyUp={handleKeyUp}  onChange={handleInputChange} required={true} aria-describedby="emailHelp" placeholder="Correo electrónico" />
                             </div>
                             <div className="form-group">
                                 <input type="password" className="form-control form-control-user" name="password" value={inputs.password || ''} onKeyUp={handleKeyUp}  onChange={handleInputChange} required={true} placeholder="Contraseña" />
