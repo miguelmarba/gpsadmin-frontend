@@ -19,17 +19,11 @@ function Login({ history }) {
     const catchData = async (inputs) => {
         try{
             const {data, errors} = await sendLogin({variables: {...inputs}});
-            console.log("== Resultado data sendLogin:");
-            console.log(data);
             if(data){
                 const { login } = data;
-                console.log("== Resultado login:");
-                console.log(login);
-                console.log("== Resultado login.token:");
-                console.log(login.token);
                 sessionStorage.setItem('idToken', login.token);
-                history.push('/home');
-                console.log("== Llegas aqui porque no haces push");
+                // history.push('/home');
+                window.location.href = "/";
             }
             if(errors){
                 console.log("Hay errores al iniciar session");

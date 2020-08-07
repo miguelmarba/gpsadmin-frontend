@@ -40,9 +40,6 @@ const ALL_RUTAS_LAST_SEEN =  gql`
 
 function Home({history}) {
     const {isAuthenticated, payload} = authenticate();
-    // if(!isAuthenticated){
-    //     history.push('/login');
-    // }
     let { data: listRutas} = useQuery(ALL_RUTAS_LAST_SEEN);
     
     return (

@@ -47,7 +47,7 @@ function Logout(){
 function Routes(){
     return (
         <>
-            <Route exact path="/home" component={ Home } />
+            <Route exact path="/" component={ Home } />
             <Route exact path="/login" component={ Login } />
             <PrivateRoute roles={['ADMINISTRADOR']} exact path="/users" component={ Users } />
             <PrivateRoute roles={['ADMINISTRADOR']} exact path="/users/create" component={ UserCreate } />
