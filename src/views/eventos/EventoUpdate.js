@@ -343,6 +343,10 @@ function EventoUpdate({match, history})  {
         handleInputChange('fecha_cita', date);
     };
 
+    const handleInputFechaLlegada = (date) =>{
+        handleInputChange('fecha_llegada', date);
+    };
+
     const onHandleChangeSelect = (event) => {
         const {name, value} = event.target;
         handleInputChange(name, value);
@@ -361,8 +365,8 @@ function EventoUpdate({match, history})  {
     const catchData = async (inputs) => {
         const { data } = await updateRuta({variables:{id:match.params.id, data:{...inputs}}});
         if (data) {
-            if (data.errors) console.log(data.errors); 
-            history.push('/eventos/detail/' + id);
+            if (data.errors) console.log(data.errors);
+            window.location.href = '/eventos/detail/' + id;
         }
     };
     const multiple = false;
@@ -596,7 +600,7 @@ function EventoUpdate({match, history})  {
                                 <DatePicker
                                     className={"form-control form-control-user"}
                                     selected={inputs.fecha_llegada?inputs.fecha_llegada:new Date()}
-                                    onChange={handleInputFechaSalida}
+                                    onChange={handleInputFechaLlegada}
                                     name="fecha_llegada"
                                     flaceholderText="Fecha de llegada"
                                     showTimeSelect

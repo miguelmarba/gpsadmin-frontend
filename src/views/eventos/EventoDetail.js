@@ -381,7 +381,7 @@ function EventoDetail({ match, history }) {
                                         </a>
                                     </td>
                                     <th>Tipo de Monitoreo</th>
-                                    <td>{dataRuta.getSingleRuta.tipo_monitoreo?dataRuta.getSingleRuta.tipo_monitoreo:''}</td>
+                                    <td>{dataRuta.getSingleRuta.tipo_monitoreo?(dataRuta.getSingleRuta.tipo_monitoreo === 'O'?'Otro':dataRuta.getSingleRuta.tipo_monitoreo):''}</td>
                                 </tr>
                                 <tr>
                                     <th>Camión</th>
@@ -391,7 +391,7 @@ function EventoDetail({ match, history }) {
                                         </a>
                                     </td>
                                     <th>Fecha llegada</th>
-                                    <td>{dataRuta.getSingleRuta.fecha_llegada?dataRuta.getSingleRuta.fecha_llegada:''}</td>
+                                    <td>{dataRuta.getSingleRuta.fecha_llegada?moment(dataRuta.getSingleRuta.fecha_llegada).format('DD MMMM YYYY h:mm'):'Sin Fecha'}</td>
                                 </tr>
                                 <tr>
                                     <th>Caja</th>
