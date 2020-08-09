@@ -41,7 +41,7 @@ function UserCreate({history})  {
         }
         if (data) {
             if (data.errors) console.log(data.errors); 
-            history.push('/users');
+            window.location.href = "/users";
         }
     };
 

@@ -28,7 +28,7 @@ function OperadorCreate({history})  {
         }
         if (data) {
             if (data.errors) console.log(data.errors); 
-            history.push('/operadores');
+            window.location.href = "/operadores";
         }
     };
 
@@ -48,22 +48,22 @@ function OperadorCreate({history})  {
                 <div className="col-lg-12 col-md-10 mx-auto">
                     <form className="user" onSubmit={handleSubmit}>
                         <div className="form-group">
-                            <input type="text" onChange={handleInputChange}  value={inputs.nombre} className="form-control form-control-user border-left-danger" name="nombre" placeholder="Nombre" required={true} />
+                            <input type="text" onChange={handleInputChange}  value={inputs.nombre?inputs.nombre:''} className="form-control form-control-user border-left-danger" name="nombre" placeholder="Nombre" required={true} />
                         </div>
                         <div className="form-group">
-                            <input type="text" onChange={handleInputChange}  value={inputs.apellido_paterno} className="form-control form-control-user" name="apellido_paterno" placeholder="Apellido paterno" required={true} />
+                            <input type="text" onChange={handleInputChange}  value={inputs.apellido_paterno?inputs.apellido_paterno:''} className="form-control form-control-user" name="apellido_paterno" placeholder="Apellido paterno" required={true} />
                         </div>
                         <div className="form-group">
-                            <input type="text" onChange={handleInputChange}  value={inputs.apellido_materno} className="form-control form-control-user" name="apellido_materno" placeholder="Apellido materno" required={true} />
+                            <input type="text" onChange={handleInputChange}  value={inputs.apellido_materno?inputs.apellido_materno:''} className="form-control form-control-user" name="apellido_materno" placeholder="Apellido materno" required={true} />
                         </div>
                         <div className="form-group">
-                            <input type="text" onChange={handleInputChange}  value={inputs.email} className="form-control form-control-user" name="email" placeholder="Correo electrónico" required={false} />
+                            <input type="text" onChange={handleInputChange}  value={inputs.email?inputs.email:''} className="form-control form-control-user" name="email" placeholder="Correo electrónico" required={false} />
                         </div>
                         <div className="form-group">
-                            <input type="text" onChange={handleInputChange}  value={inputs.telefono} className="form-control form-control-user" name="telefono" placeholder="Teléfono" required={false} />
+                            <input type="text" onChange={handleInputChange}  value={inputs.telefono?inputs.telefono:''} className="form-control form-control-user" name="telefono" placeholder="Teléfono" required={false} />
                         </div>
                         <div className="form-group">
-                            <input type="text" onChange={handleInputChange}  value={inputs.celular} className="form-control form-control-user" name="celular" placeholder="Celular" required={false} />
+                            <input type="text" onChange={handleInputChange}  value={inputs.celular?inputs.celular:''} className="form-control form-control-user" name="celular" placeholder="Celular" required={false} />
                         </div>
                         <div className="form-group row">
                             <div className="col-sm-6 mb-3 mb-sm-0">

@@ -29,7 +29,7 @@ function CajaCreate({history})  {
         }
         if (data) {
             if (data.errors) console.log(data.errors); 
-            history.push('/statusruta');
+            window.location.href = "/statusruta";
         }
     };
 

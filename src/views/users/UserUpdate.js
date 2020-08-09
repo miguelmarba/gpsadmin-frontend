@@ -37,8 +37,8 @@ function UserUpdate({ match, history })  {
         console.log(inputs);
         const { data } = await updateUser({variables:{id:match.params.id, data:{...inputs}}});
         if (data) {
-            if (data.errors) console.log(data.errors); 
-            history.push('/users');
+            if (data.errors) console.log(data.errors);
+            window.location.href = "/users";
         }
     };
 
@@ -54,9 +54,6 @@ function UserUpdate({ match, history })  {
         handleInput
     } = useForm(catchData, data);
 
-    console.log("Valores de inputs:");
-    console.log(inputs);
-
     if(loading) return <h2>Cargando....</h2>
 
     return (
@@ -69,18 +66,18 @@ function UserUpdate({ match, history })  {
             <div className="col-lg-12 col-md-10 mx-auto">
                 <form className="user" onSubmit={handleSubmit}>
                     <div className="form-group">
-                        <input type="text" onChange={handleInputChange} value={inputs.nombre} className="form-control form-control-user" name="nombre" placeholder="Nombre" required={true} />
+                        <input type="text" onChange={handleInputChange} value={inputs.nombre?inputs.nombre:''} className="form-control form-control-user" name="nombre" placeholder="Nombre" required={true} />
                     </div>
                     <div className="form-group row">
                         <div className="col-sm-6 mb-3 mb-sm-0">
-                            <input type="text" onChange={handleInputChange} value={inputs.apellido_paterno} className="form-control form-control-user" name="apellido_paterno" placeholder="Apellido Paterno" required={true} />
+                            <input type="text" onChange={handleInputChange} value={inputs.apellido_paterno?inputs.apellido_paterno:''} className="form-control form-control-user" name="apellido_paterno" placeholder="Apellido Paterno" required={true} />
                         </div>
                         <div className="col-sm-6">
-                            <input type="text" onChange={handleInputChange} value={inputs.apellido_materno} className="form-control form-control-user" name="apellido_materno" placeholder="Apellido Materno" />
+                            <input type="text" onChange={handleInputChange} value={inputs.apellido_materno?inputs.apellido_materno:''} className="form-control form-control-user" name="apellido_materno" placeholder="Apellido Materno" />
                         </div>
                     </div>
                     <div className="form-group">
-                        <input type="email" onChange={handleInputChange}  value={inputs.email} className="form-control form-control-user" name="email" placeholder="Correo electrónico" required={true} />
+                        <input type="email" onChange={handleInputChange}  value={inputs.email?inputs.email:''} className="form-control form-control-user" name="email" placeholder="Correo electrónico" required={true} />
                     </div>
                     <div className="form-group">
                         <input type="text" onChange={handleInputChange}  value={inputs.telefono?inputs.telefono:''} className="form-control form-control-user" name="telefono" placeholder="Telefono" required={true} />

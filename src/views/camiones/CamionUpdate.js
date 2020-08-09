@@ -36,7 +36,7 @@ function CamionUpdate({ match, history })  {
         const { data } = await updateCamion({variables:{id:match.params.id, data:{...inputs}}});
         if (data) {
             if (data.errors) console.log(data.errors); 
-            history.push('/camiones');
+            window.location.href = "/camiones";
         }
     };
 
@@ -58,19 +58,19 @@ function CamionUpdate({ match, history })  {
             <div className="col-lg-12 col-md-10 mx-auto">
                 <form className="user" onSubmit={handleSubmit}>
                     <div className="form-group">
-                            <input type="text" onChange={handleInputChange}  value={inputs.descripcion} className="form-control form-control-user" name="descripcion" placeholder="Descripción" required={true} />
+                            <input type="text" onChange={handleInputChange}  value={inputs.descripcion?inputs.descripcion:''} className="form-control form-control-user" name="descripcion" placeholder="Descripción" required={true} />
                         </div>
                         <div className="form-group">
-                            <input type="text" onChange={handleInputChange}  value={inputs.placas} className="form-control form-control-user" name="placas" placeholder="Placas" required={true} />
+                            <input type="text" onChange={handleInputChange}  value={inputs.placas?inputs.placas:''} className="form-control form-control-user" name="placas" placeholder="Placas" required={true} />
                         </div>
                         <div className="form-group">
-                            <input type="text" onChange={handleInputChange}  value={inputs.modelo} className="form-control form-control-user" name="modelo" placeholder="Modelo" required={false} />
+                            <input type="text" onChange={handleInputChange}  value={inputs.modelo?inputs.modelo:''} className="form-control form-control-user" name="modelo" placeholder="Modelo" required={false} />
                         </div>
                         <div className="form-group">
-                            <input type="text" onChange={handleInputChange}  value={inputs.color} className="form-control form-control-user" name="color" placeholder="color" required={false} />
+                            <input type="text" onChange={handleInputChange}  value={inputs.color?inputs.color:''} className="form-control form-control-user" name="color" placeholder="color" required={false} />
                         </div>
                         <div className="form-group">
-                            <input type="text" onChange={handleInputChange}  value={inputs.cuenta_espejo} className="form-control form-control-user" name="cuenta_espejo" placeholder="Cuenta Espejo" required={false} />
+                            <input type="text" onChange={handleInputChange}  value={inputs.cuenta_espejo?inputs.cuenta_espejo:''} className="form-control form-control-user" name="cuenta_espejo" placeholder="Cuenta Espejo" required={false} />
                         </div>
                     <div className="form-group row">
                         <div className="col-sm-6 mb-3 mb-sm-0">

@@ -39,8 +39,8 @@ function UbicacionUpdate({ match, history })  {
     const catchData = async (inputs) => {
         const { data } = await updateUbicacion({variables:{id:match.params.id, data:{...inputs}}});
         if (data) {
-            if (data.errors) console.log(data.errors); 
-            history.push('/ubicaciones');
+            if (data.errors) console.log(data.errors);
+            window.location.href = "/ubicaciones";
         }
     };
 
@@ -62,34 +62,34 @@ function UbicacionUpdate({ match, history })  {
             <div className="col-lg-12 col-md-10 mx-auto">
                 <form className="user" onSubmit={handleSubmit}>
                     <div className="form-group">
-                            <input type="text" onChange={handleInputChange}  value={inputs.nombre} className="form-control form-control-user" name="nombre" placeholder="Nombre" required={true} />
+                            <input type="text" onChange={handleInputChange}  value={inputs.nombre?inputs.nombre:''} className="form-control form-control-user" name="nombre" placeholder="Nombre" required={true} />
                         </div>
                         <div className="form-group">
-                            <input type="text" onChange={handleInputChange}  value={inputs.cp} className="form-control form-control-user" name="cp" placeholder="C.P." required={true} />
+                            <input type="text" onChange={handleInputChange}  value={inputs.cp?inputs.cp:''} className="form-control form-control-user" name="cp" placeholder="C.P." required={true} />
                         </div>
                         <div className="form-group">
-                            <input type="text" onChange={handleInputChange}  value={inputs.calle} className="form-control form-control-user" name="calle" placeholder="Calle" required={false} />
+                            <input type="text" onChange={handleInputChange}  value={inputs.calle?inputs.calle:''} className="form-control form-control-user" name="calle" placeholder="Calle" required={false} />
                         </div>
                         <div className="form-group">
-                            <input type="text" onChange={handleInputChange}  value={inputs.numero_exterior} className="form-control form-control-user" name="numero_exterior" placeholder="Número Exterior" required={false} />
+                            <input type="text" onChange={handleInputChange}  value={inputs.numero_exterior?inputs.numero_exterior:''} className="form-control form-control-user" name="numero_exterior" placeholder="Número Exterior" required={false} />
                         </div>
                         <div className="form-group">
-                            <input type="text" onChange={handleInputChange}  value={inputs.numero_interior} className="form-control form-control-user" name="numero_interior" placeholder="Número Interior" required={false} />
+                            <input type="text" onChange={handleInputChange}  value={inputs.numero_interior?inputs.numero_interior:''} className="form-control form-control-user" name="numero_interior" placeholder="Número Interior" required={false} />
                         </div>
                         <div className="form-group">
-                            <input type="text" onChange={handleInputChange}  value={inputs.estado} className="form-control form-control-user" name="estado" placeholder="Estado" required={false} />
+                            <input type="text" onChange={handleInputChange}  value={inputs.estado?inputs.estado:''} className="form-control form-control-user" name="estado" placeholder="Estado" required={false} />
                         </div>
                         <div className="form-group">
-                            <input type="text" onChange={handleInputChange}  value={inputs.municipio} className="form-control form-control-user" name="municipio" placeholder="Municipio" required={false} />
+                            <input type="text" onChange={handleInputChange}  value={inputs.municipio?inputs.municipio:''} className="form-control form-control-user" name="municipio" placeholder="Municipio" required={false} />
                         </div>
                         <div className="form-group">
-                            <input type="text" onChange={handleInputChange}  value={inputs.pais} className="form-control form-control-user" name="pais" placeholder="Pais" required={false} />
+                            <input type="text" onChange={handleInputChange}  value={inputs.pais?inputs.pais:''} className="form-control form-control-user" name="pais" placeholder="Pais" required={false} />
                         </div>
                         <div className="form-group">
-                            <input type="text" onChange={handleInputChange}  value={inputs.georeferenciax} className="form-control form-control-user" name="georeferenciax" placeholder="Georeferencia X" required={false} />
+                            <input type="text" onChange={handleInputChange}  value={inputs.georeferenciax?inputs.georeferenciax:''} className="form-control form-control-user" name="georeferenciax" placeholder="Georeferencia X" required={false} />
                         </div>
                         <div className="form-group">
-                            <input type="text" onChange={handleInputChange}  value={inputs.georeferenciay} className="form-control form-control-user" name="georeferenciay" placeholder="Georeferencia Y" required={false} />
+                            <input type="text" onChange={handleInputChange}  value={inputs.georeferenciay?inputs.georeferenciay:''} className="form-control form-control-user" name="georeferenciay" placeholder="Georeferencia Y" required={false} />
                         </div>
                     <div className="form-group row">
                         <div className="col-sm-6 mb-3 mb-sm-0">

@@ -27,8 +27,8 @@ function CajaCreate({history})  {
             console.log(errors);
         }
         if (data) {
-            if (data.errors) console.log(data.errors); 
-            history.push('/cajas');
+            if (data.errors) console.log(data.errors);
+            window.location.href = "/cajas";
         }
     };
 
@@ -48,13 +48,13 @@ function CajaCreate({history})  {
                 <div className="col-lg-12 col-md-10 mx-auto">
                     <form className="user" onSubmit={handleSubmit}>
                         <div className="form-group">
-                            <input type="text" onChange={handleInputChange}  value={inputs.descripcion} className="form-control form-control-user border-left-danger" name="descripcion" placeholder="Descripción" required={true} />
+                            <input type="text" onChange={handleInputChange}  value={inputs.descripcion?inputs.descripcion:''} className="form-control form-control-user border-left-danger" name="descripcion" placeholder="Descripción" required={true} />
                         </div>
                         <div className="form-group">
-                            <input type="text" onChange={handleInputChange}  value={inputs.placas} className="form-control form-control-user" name="placas" placeholder="Placas" required={true} />
+                            <input type="text" onChange={handleInputChange}  value={inputs.placas?inputs.placas:''} className="form-control form-control-user" name="placas" placeholder="Placas" required={true} />
                         </div>
                         <div className="form-group">
-                            <input type="text" onChange={handleInputChange}  value={inputs.placas_americanas} className="form-control form-control-user" name="placas_americanas" placeholder="Placas Americanas" required={false} />
+                            <input type="text" onChange={handleInputChange}  value={inputs.placas_americanas?inputs.placas_americanas:''} className="form-control form-control-user" name="placas_americanas" placeholder="Placas Americanas" required={false} />
                         </div>
                         <div className="form-group row">
                             <div className="col-sm-6 mb-3 mb-sm-0">

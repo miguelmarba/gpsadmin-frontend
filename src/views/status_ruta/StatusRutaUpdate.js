@@ -34,7 +34,7 @@ function StatusRutaUpdate({ match, history })  {
         const { data } = await updateStatusRuta({variables:{id:match.params.id, data:{...inputs}}});
         if (data) {
             if (data.errors) console.log(data.errors); 
-            history.push('/statusruta');
+            window.location.href = "/statusruta";
         }
     };
 
@@ -44,8 +44,6 @@ function StatusRutaUpdate({ match, history })  {
         handleSubmit,
         handleChangeSketchPicker
     } = useForm(catchData, data);
-    console.log("Resultado inputs");
-    console.log(inputs);
 
     if(loading) return <h2>Cargando....</h2>
 
