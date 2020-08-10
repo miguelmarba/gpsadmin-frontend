@@ -54,7 +54,7 @@ function UbicacionUpdate({ match, history })  {
 
     return (
     <>
-    <Layout title="Ubicación Caja" >
+    <Layout title="Ubicación" >
         <div className="d-sm-flex align-items-center justify-content-between mb-4">
             <h1 className="h3 mb-0 text-gray-800">Actualizar Datos Ubicación</h1>
         </div>

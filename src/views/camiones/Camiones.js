@@ -71,7 +71,7 @@ function Camiones({ history }) {
             link.href = '#';
             link.addEventListener('click', (e) => {
                 e.preventDefault();
-                //history.push('/users/delete/' + params.data._id);
+                history.push('/camiones/delete/' + params.data._id);
             });
             return link;
           }

@@ -66,7 +66,7 @@ function EquiposGps({ history }) {
             link.href = '#';
             link.addEventListener('click', (e) => {
                 e.preventDefault();
-                //history.push('/users/delete/' + params.data._id);
+                history.push('/equiposgps/delete/' + params.data._id);
             });
             return link;
           }
