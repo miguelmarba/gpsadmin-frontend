@@ -4,7 +4,6 @@ import { useQuery, useMutation } from 'react-apollo-hooks';
 import gql from 'graphql-tag';
 import Layout from '../../common/Layout';
 import useForm from '../../hooks/useFormStatusRuta';
-import { SketchPicker} from 'react-color';
 import authHOC from '../../utils/authHOC';
 
 const GET_STATUS_RUTA = gql`
@@ -38,9 +37,7 @@ function StatusRutaUpdate({ match, history })  {
 
     const {
         inputs,
-        handleInputChange,
-        handleSubmit,
-        handleChangeSketchPicker
+        handleSubmit
     } = useForm(catchData, data);
 
     if(loading) return <h2>Cargando....</h2>

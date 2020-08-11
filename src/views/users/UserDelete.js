@@ -42,9 +42,7 @@ function UserUpdate({ match, history })  {
 
     const {
         inputs,
-        handleInputChange,
-        handleSubmit,
-        handleInput
+        handleSubmit
     } = useForm(catchData, data);
 
     if(loading) return <h2>Cargando....</h2>

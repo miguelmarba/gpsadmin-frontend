@@ -40,7 +40,6 @@ function CamionUpdate({ match, history })  {
 
     const {
         inputs,
-        handleInputChange,
         handleSubmit
     } = useForm(catchData, data);
 

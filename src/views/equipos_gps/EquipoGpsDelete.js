@@ -38,7 +38,6 @@ function EquipoGpsUpdate({ match, history })  {
 
     const {
         inputs,
-        handleInputChange,
         handleSubmit
     } = useForm(catchData, data);
 
