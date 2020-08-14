@@ -6,6 +6,11 @@ import { useQuery, useMutation } from 'react-apollo-hooks';
 import moment from 'moment';
 import authHOC from '../../utils/authHOC';
 
+import ReactExport from "react-export-excel";
+const ExcelFile = ReactExport.ExcelFile;
+const ExcelSheet = ReactExport.ExcelFile.ExcelSheet;
+const ExcelColumn = ReactExport.ExcelFile.ExcelColumn;
+
 const ALL_RUTAS_BY_STATUS =  gql`
     query getAllRutasByStatus($status:ID){
       getSearchRutasByStatus(status:$status){
@@ -30,8 +35,35 @@ const ALL_RUTAS_BY_STATUS =  gql`
         }
         status_ruta{
           _id
+          nombre
           color
         }
+        linea_transporte{
+          _id
+          nombre
+        }
+        operador{
+          _id
+          nombre
+            apellido_paterno
+            apellido_materno
+        }
+        camion{
+          _id
+          descripcion
+        }
+        caja{
+          _id
+          descripcion
+        }
+        equipo_gps{
+          _id
+          descripcion
+        }
+        tipo_servicio
+        tipo_monitoreo
+        folio
+        numero_sello_caja
       }
     }
 `;
@@ -45,18 +77,19 @@ const ALL_STATUS_RUTA =  gql`
     }
 `;
 
-const EXPORT_RUTAS_BY_STATUS =  gql`
-    query getExportRutasByStatus($status:ID){
-      getExcelRutasByStatus(status:$status)
-    }
-`;
+// const EXPORT_RUTAS_BY_STATUS =  gql`
+//     query getExportRutasByStatus($status:ID){
+//       getExcelRutasByStatus(status:$status)
+//     }
+// `;
 
 function Eventos({ history }) {
     const [ getRutasByStatus ] = useMutation(ALL_RUTAS_BY_STATUS);
-    const [ getExportRutasByStatus ] = useMutation(EXPORT_RUTAS_BY_STATUS);
+    // const [ getExportRutasByStatus ] = useMutation(EXPORT_RUTAS_BY_STATUS);
     const [ status, setStatus ] = useState('');
     const [ cargando, setCargando ] = useState(false);
     let [ rutas, setRutas ] = useState([]);
+    let [ rutas_exportar, setRutasExportar ] = useState([]);
     //const {data, loading, error} = useQuery(ALL_RUTAS);
     let { data: statusRuta } = useQuery(ALL_STATUS_RUTA);
     
@@ -81,6 +114,40 @@ function Eventos({ history }) {
         if (data.errors) console.log(data.errors); 
         if(data.getSearchRutasByStatus){
           setRutas(data.getSearchRutasByStatus);
+          setRutasExportar([]);
+          let rutas_armados = [];
+
+          data.getSearchRutasByStatus.forEach(function (ruta) {
+            console.log("== Rsultado de forEach");
+            console.log(ruta);
+            const una_ruta = {
+              nombre_cliente: ruta.cliente?ruta.cliente.nombre:'',
+              ruta_origen: ruta.origen?ruta.origen.nombre:'',
+              ruta_destino: ruta.destino?ruta.destino.nombre:'',
+              fecha_salida: ruta.fecha_salida?moment(ruta.fecha_salida).format('DD MMMM YYYY h:mm'):'',
+              fecha_cita: ruta.fecha_cita?moment(ruta.fecha_cita).format('DD MMMM YYYY h:mm'):'',
+              fecha_llegada: ruta.fecha_llegada?moment(ruta.fecha_llegada).format('DD MMMM YYYY h:mm'):'',
+              status_ruta: ruta.status_ruta?ruta.status_ruta.nombre:'',
+              linea_transporte: ruta.linea_transporte?ruta.linea_transporte.nombre:'',
+              operador: ruta.operador?ruta.operador.nombre + " " + ruta.operador.apellido_paterno  + " " + ruta.operador.apellido_materno:'',
+              camion: ruta.camion?ruta.camion.descripcion:'',
+              caja: ruta.caja?ruta.caja.descripcion:'',
+              equipo_gps: ruta.equipo_gps?ruta.equipo_gps.descripcion:'',
+              tipo_servicio: ruta.tipo_servicio?ruta.tipo_servicio:'',
+              tipo_monitoreo: ruta.tipo_monitoreo?ruta.tipo_monitoreo:'',
+              folio: ruta.folio?ruta.folio:'',
+              numero_sello_caja: ruta.numero_sello_caja?ruta.numero_sello_caja:''
+            };
+            console.log("== Rsultado de una_ruta");
+            console.log(una_ruta);
+            rutas_armados.push(una_ruta);
+          });
+          console.log("== Rsultado de rutas_armados");
+          console.log(rutas_armados);
+          setRutasExportar(rutas_armados);
+          console.log("== Rsultado de rutas_exportar");
+          console.log(rutas_exportar);
+          
         }
       } else {
         setRutas([]);
@@ -102,37 +169,37 @@ function Eventos({ history }) {
       }
     }
 
-    const onHandleExcelRutas = async (status) => {
-      setCargando(true);
-      const { data, loading } = await getExportRutasByStatus({variables:{status}});
-      console.log('Resultado data en onHandleExcelRutas');
-      console.log(data);
+    // const onHandleExcelRutas = async (status) => {
+    //   setCargando(true);
+    //   const { data, loading } = await getExportRutasByStatus({variables:{status}});
+    //   console.log('Resultado data en onHandleExcelRutas');
+    //   console.log(data);
       
-      if(loading){
-        setCargando(true);
-      } else {
-        setCargando(false);
-      }
-      if (data.getExcelRutasByStatus) {
-        if (data.errors) console.log(data.errors);
-        console.log('Exito en onHandleExcelRutas'); 
-        const file_name = data.getExcelRutasByStatus.file_name;
-        const file_str = data.getExcelRutasByStatus.file;
-        console.log(file_name); 
-        console.log(file_str); 
-      } else {
-        console.log('Errores en onHandleExcelRutas');
-      }
+    //   if(loading){
+    //     setCargando(true);
+    //   } else {
+    //     setCargando(false);
+    //   }
+    //   if (data.getExcelRutasByStatus) {
+    //     if (data.errors) console.log(data.errors);
+    //     console.log('Exito en onHandleExcelRutas'); 
+    //     const file_name = data.getExcelRutasByStatus.file_name;
+    //     const file_str = data.getExcelRutasByStatus.file;
+    //     console.log(file_name); 
+    //     console.log(file_str); 
+    //   } else {
+    //     console.log('Errores en onHandleExcelRutas');
+    //   }
       
 
-    };
+    // };
 
-    const handleClickExport = (event) => {
-      event.preventDefault();
-      if(status){
-        onHandleExcelRutas(status);
-      }
-    }
+    // const handleClickExport = (event) => {
+    //   event.preventDefault();
+    //   if(status){
+    //     onHandleExcelRutas(status);
+    //   }
+    // }
 
     return (
     <>
@@ -159,9 +226,28 @@ function Eventos({ history }) {
                       </button>
                     </div>
                     <div className="form-group ml-2 mb-2">
-                      <button className="btn btn-success" type="button" onClick={handleClickExport} disabled={cargando}>
+                      {/* <button className="btn btn-success" type="button" onClick={handleClickExport} disabled={cargando}>
                           <i className="fas fa-file-excel fa-sm mr-2"></i>Excel
-                      </button>
+                      </button> */}
+                      <ExcelFile filename="reporte_rutas_por_status" element={<button className={"btn btn-success " + (rutas_exportar.length > 1?"":"d-none")}>Exportar a Excel</button>}>
+                        <ExcelSheet data={rutas_exportar} name="Rutas por Estatus">
+                            <ExcelColumn label="Nombre Cliente" value="nombre_cliente"/>
+                            <ExcelColumn label="Ruta Origen" value="ruta_origen"/>
+                            <ExcelColumn label="Ruta Destino" value="ruta_destino"/>
+                            <ExcelColumn label="Fecha Salida" value="fecha_salida"/>
+                            <ExcelColumn label="Fecha Cita" value="fecha_cita"/>
+                            <ExcelColumn label="Fecha Llegada" value="fecha_llegada"/>
+                            <ExcelColumn label="Líneas de Transporte" value="linea_transporte"/>
+                            <ExcelColumn label="Operador" value="operador"/>
+                            <ExcelColumn label="Camión" value="camion"/>
+                            <ExcelColumn label="Caja" value="caja"/>
+                            <ExcelColumn label="Equipo_gps" value="equipo_gps"/>
+                            <ExcelColumn label="Tipo de Servicio" value="tipo_servicio"/>
+                            <ExcelColumn label="Tipo de Monitoreo" value="tipo_monitoreo"/>
+                            <ExcelColumn label="Folio" value="folio"/>
+                            <ExcelColumn label="Número Sello Caja" value="numero_sello_caja"/>
+                        </ExcelSheet>
+                      </ExcelFile>
                     </div>
                 </form>
               </div>
