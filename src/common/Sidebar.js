@@ -77,7 +77,7 @@ function Sidebar({isMenuOpen, toggleMenu}){
                             {(payload.rol === 'ADMINISTRADOR' || payload.rol === 'MONITORISTA') && <Link className="collapse-item" to="/eventos">Rutas en proceso</Link>}
                             <Link className="collapse-item" to="/eventosbydates">Rutas por fecha</Link>
                             <Link className="collapse-item" to="/">Rutas cerradas</Link>
-                            <Link className="collapse-item" to="/">Incidencias</Link>
+                            <Link className="collapse-item" to="/grafics">Gráficos</Link>
                         </div>
                     :null}
                     </Collapse>

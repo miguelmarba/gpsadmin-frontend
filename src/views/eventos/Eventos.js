@@ -118,8 +118,6 @@ function Eventos({ history }) {
           let rutas_armados = [];
 
           data.getSearchRutasByStatus.forEach(function (ruta) {
-            console.log("== Rsultado de forEach");
-            console.log(ruta);
             const una_ruta = {
               nombre_cliente: ruta.cliente?ruta.cliente.nombre:'',
               ruta_origen: ruta.origen?ruta.origen.nombre:'',
@@ -138,16 +136,9 @@ function Eventos({ history }) {
               folio: ruta.folio?ruta.folio:'',
               numero_sello_caja: ruta.numero_sello_caja?ruta.numero_sello_caja:''
             };
-            console.log("== Rsultado de una_ruta");
-            console.log(una_ruta);
             rutas_armados.push(una_ruta);
           });
-          console.log("== Rsultado de rutas_armados");
-          console.log(rutas_armados);
           setRutasExportar(rutas_armados);
-          console.log("== Rsultado de rutas_exportar");
-          console.log(rutas_exportar);
-          
         }
       } else {
         setRutas([]);
