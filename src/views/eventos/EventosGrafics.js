@@ -67,16 +67,16 @@ function Eventos({ history }) {
     // if(loading) return <h2>Cargando...</h2>
     // if(error) return <h2>Hubo un error :(</h2>
 
-    const onHandleSearchRutas = async () => {
+    const onHandleSearchRutas = async (status_ruta) => {
         const begin = moment(dateIni).format('YYYY-MM-DD');
         const end = moment(dateEnd).format('YYYY-MM-DD');
         console.log("==Params onHandleSearchRutas:");
-        console.log(status);
+        console.log(status_ruta);
         console.log(begin);
         console.log(end);
         // setRutas([]);
         setCargando(true);
-        const { data, loading } = await getRutasByDates({variables:{status, begin, end}});
+        const { data, loading } = await getRutasByDates({variables:{status_ruta, begin, end}});
         
         if(loading){
             setCargando(true);
@@ -149,14 +149,14 @@ function Eventos({ history }) {
         const {value} = event.target;
         setStatus(value);
         if(value){
-          onHandleSearchRutas();
+          onHandleSearchRutas(value);
         }
     }
 
     const handleClickRefresh = (event) => {
       event.preventDefault();
     //   if(status){
-        onHandleSearchRutas();
+        onHandleSearchRutas(status);
     //   }
     }
 
@@ -179,14 +179,10 @@ function Eventos({ history }) {
     ];
 
     const handleInputFechaInicio = (date) =>{
-        console.log('Fecha handleInputFechaInicio');
-        console.log(date);
         setDateIni(date);
     };
 
     const handleInputFechaFin = (date) =>{
-        console.log('Fecha handleInputFechaFin');
-        console.log(date);
         setDateEnd(date);
     };
 
