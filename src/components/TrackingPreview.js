@@ -37,6 +37,7 @@ function TrackingPreview({ruta_id, tracking, statusRuta, setNewStatus}) {
         const { data, errors } = await sendTracking({variables:{data:{...inputs}}});
         setDisabledAgregar(false);
         handleSetInput('status_ruta', '');
+        handleSetInput('comentarios', '');
         delete inputs.comentarios;
         if(errors) {
             console.log("HAY errores al guardar la tracking");
